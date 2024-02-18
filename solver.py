@@ -7,7 +7,7 @@ import random
 from factoriocalc import config, itm, mch, produce
 from factoriocalc.presets import MP_LATE_GAME
 
-from layout import ConstructionSite
+import layout
 
 WIDTH = 96 # blueprint width
 HEIGHT = 96 # blueprint height
@@ -93,10 +93,11 @@ def main():
     machines = randomly_placed_machines(factory)
     spring(machines)
     machines_to_int(machines)
-    site = ConstructionSite(WIDTH, HEIGHT)
+    site = layout.ConstructionSite(WIDTH, HEIGHT)
     place_on_site(site, machines)
     connect_points(site)
     print(site)
+    print(layout.site_as_blueprint_string(site, label='test of blueprint code'))
 
 if __name__ == '__main__':
     main()

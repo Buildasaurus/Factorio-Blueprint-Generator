@@ -69,11 +69,77 @@ class ConstructionSite:
         '''Return all entities added in a form ready for Blueprint generation'''
         return [
             dict(
-                name=e.kind,
-                position=dict(x=e.pos[0], y=e.pos[1]),
-                direction=e.direction,
+                name=e['kind'],
+                position=dict(x=e['pos'][0], y=e['pos'][1]),
+                direction=e['direction'],
                 entity_number=i+1
             )
             for i, e in enumerate(self.entities)
         ]
 
+def factorio_version_string_as_int():
+    '''return a 64 bit integer, corresponding to a version string'''
+    factorio_major_version = 0
+    factorio_minor_version = 17
+    factorio_patch_version = 13
+    factorio_dev_version = 0xffef
+    return (factorio_major_version << 48
+            | factorio_minor_version << 32
+            | factorio_patch_version << 16
+            | factorio_dev_version)
+
+def empty_blueprint_dict():
+    '''Return a dict that has all the mandatory objects in a blueprint'''
+    # As defined at https://wiki.factorio.com/Blueprint_string_format
+    return {'blueprint': {
+        'icons': [
+            dict(
+                signal = dict(
+                    type='item', name='assembling-machine-1'
+                ),
+                index=int(1)
+            )
+        ],
+        'entities': [
+            # dict(
+            #   name=machine type
+            #   position = dict(x:0, y:0)
+            #   direction=int
+            #   entity_number = int
+            #   recipe= str
+            # )
+        ],
+        'item': 'blueprint', # name (type) of this entity
+        'version': factorio_version_string_as_int(),
+        'label': 'Uninitialized Blueprint'
+    }}
+
+def site_as_blueprint_string(site, label='Unnamed ConstructionSite', icons=None, description=None):
+    '''Given a ConstructionSite, return a valid blueprint string'''
+    bp_dict = empty_blueprint_dict()
+    blueprint = bp_dict['blueprint']
+    blueprint['entities'] = site.get_entity_list()
+    blueprint['label'] = label
+    if icons is not None:
+        blueprint['icons'] = icons
+    if description is not None:
+        blueprint['description'] = description
+    return export_blueprint_dict(bp_dict)
+    
+def export_blueprint_dict(bp_dict):
+    '''Encodes a blueprint as an exchange string
+    :param blueprint:  a dict representing the blueprint, containing elements defined by 
+    https://wiki.factorio.com/Blueprint_string_format
+    '''
+
+    # This code is copied from factoriolib.dictToExchangeString
+    import base64
+    import json
+    import zlib
+    jsonString = json.dumps(bp_dict)
+    jsonBytes = jsonString.encode("utf-8")
+    compressedJson = zlib.compress(jsonBytes, 9)
+    VERSION = "0"
+    encodedString = VERSION + base64.b64encode(compressedJson).decode("utf-8")
+
+    return encodedString
