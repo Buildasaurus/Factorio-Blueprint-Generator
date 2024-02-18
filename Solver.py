@@ -57,13 +57,26 @@ def machines_to_int(machines):
         machine.to_int()
 
 def generate_bit_map(machines):
-    'Assumes taht machiens given have integers as coordinates.'
+    'Assumes that machines given have integers as coordinates.'
     arr = [[0 for i in range(WIDTH)] for i in range(HEIGHT)]
     for machine in machines:
-        print('What is the size of the machine??')
-        arr[machines.position[1]][machines.position[0]] = 1
+        # FIXME What is the size of the machine??
+        # assume 3x3
+        for row_ofs in range(-1,2):
+            for col_ofs in range(-1,2):
+                row = machine.position[1] + row_ofs
+                col = machine.position[0] + col_ofs
+                if arr[row][col] != 0:
+                    raise ValueError(f'Machine overlap at ({col},{row})')
+                arr[row][col] = 1
+    return arr
 
-
+def print_bitmap(bitmap):
+    '''Print a bitmap with (0,0) in upper left corner'''
+    for row in bitmap:
+        for cell in row:
+            print(cell, end='')
+        print()
 
 def connect_points(map):
     'Generates a list of coordinates, to walk from one coordinate to the other'
@@ -86,3 +99,4 @@ if __name__ == '__main__':
     spring(machines)
     machines_to_int(machines)
     bit_map = generate_bit_map(machines)
+    print_bitmap(bit_map)
