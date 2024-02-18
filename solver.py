@@ -3,8 +3,11 @@ A class to generate blueprints from a certain input, to a certain output, on a c
 amount of space in factorio.
 """
 import random
+
 from factoriocalc import config, itm, mch, produce
 from factoriocalc.presets import MP_LATE_GAME
+
+from layout import ConstructionSite
 
 WIDTH = 96 # blueprint width
 HEIGHT = 96 # blueprint height
@@ -58,29 +61,18 @@ def machines_to_int(machines):
     for machine in machines:
         machine.to_int()
 
-def generate_bit_map(machines):
-    'Assumes that machines given have integers as coordinates.'
-    arr = [[0 for i in range(WIDTH)] for i in range(HEIGHT)]
-    for machine in machines:
-        # FIXME What is the size of the machine??
-        # assume 3x3
-        for row_ofs in range(-1, 2):
-            for col_ofs in range(-1, 2):
-                row = machine.position[1] + row_ofs
-                col = machine.position[0] + col_ofs
-                if arr[row][col] != 0:
-                    raise ValueError(f'Machine overlap at ({col},{row})')
-                arr[row][col] = 1
-    return arr
+def place_on_site(site, machines):
+    '''
+    Place machines on the construction site
+    
+    :param site:  A ConstructionSite that is sufficiently large
+    :param machines:  A list of LocatedMachine
+    '''
+    for lm in machines:
+        machine = lm.machine
+        site.add_machine(machine.name, lm.position, 0, machine.recipe)
 
-def print_bitmap(bitmap):
-    '''Print a bitmap with (0,0) in upper left corner'''
-    for row in bitmap:
-        for cell in row:
-            print(cell, end='')
-        print()
-
-def connect_points(map):
+def connect_points(site):
     'Generates a list of coordinates, to walk from one coordinate to the other'
     pass # do A star
 
@@ -101,8 +93,10 @@ def main():
     machines = randomly_placed_machines(factory)
     spring(machines)
     machines_to_int(machines)
-    bit_map = generate_bit_map(machines)
-    print_bitmap(bit_map)
+    site = ConstructionSite(WIDTH, HEIGHT)
+    place_on_site(site, machines)
+    connect_points(site)
+    print(site)
 
 if __name__ == '__main__':
     main()
