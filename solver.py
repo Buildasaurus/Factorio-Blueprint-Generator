@@ -3,8 +3,8 @@ A class to generate blueprints from a certain input, to a certain output, on a c
 amount of space in factorio.
 """
 import random
-from factoriocalc import *
-from factoriocalc.presets import *
+from factoriocalc import config, itm, mch, produce
+from factoriocalc.presets import MP_LATE_GAME
 
 WIDTH = 96 # blueprint width
 HEIGHT = 96 # blueprint height
@@ -28,19 +28,21 @@ class LocatedMachine:
         'Converts the LocatedMachine to a nicely formatted string'
         return  str(self.machine) + " at " + str(self.position)
 
-factory = None
+def randomly_placed_machines(factory):
+    '''
+    Gives machines needed by the factory a random location.
 
-def randomly_placed_machines():
-    '''Generates randomly placed machines from the factory variable.
-        Returns a list of LocatedMachines.'''
+    :returns: a list of LocatedMachines.
+    '''
     boxed_machines = factory.inner.machine.machines
-    located_machines = []
 
+    located_machines = []
     for machine in boxed_machines:
-        for i in range(machine.num):
+        for _ in range(machine.num):
             located_machine = LocatedMachine(machine.machine)
             located_machines.append(located_machine)
 
+    # FIXME remove this debug code
     for located_machine in located_machines:
         print(located_machine)
 
@@ -62,8 +64,8 @@ def generate_bit_map(machines):
     for machine in machines:
         # FIXME What is the size of the machine??
         # assume 3x3
-        for row_ofs in range(-1,2):
-            for col_ofs in range(-1,2):
+        for row_ofs in range(-1, 2):
+            for col_ofs in range(-1, 2):
                 row = machine.position[1] + row_ofs
                 col = machine.position[0] + col_ofs
                 if arr[row][col] != 0:
@@ -82,7 +84,8 @@ def connect_points(map):
     'Generates a list of coordinates, to walk from one coordinate to the other'
     pass # do A star
 
-if __name__ == '__main__':
+def main():
+    '''Test code executed if run from command line'''
     # Input for the blueprint
     input_items = [itm.iron_plate, itm.copper_plate]
 
@@ -94,9 +97,12 @@ if __name__ == '__main__':
     #machines for construciton - assemblytypes & smelting type
     config.machinePrefs.set(MP_LATE_GAME)
     config.machinePrefs.set([mch.AssemblingMachine2()])
-    factory = produce([desired_output @ throughput], using = input_items, roundUp=True).factory
-    machines = randomly_placed_machines()
+    factory = produce([desired_output @ throughput], using=input_items, roundUp=True).factory
+    machines = randomly_placed_machines(factory)
     spring(machines)
     machines_to_int(machines)
     bit_map = generate_bit_map(machines)
     print_bitmap(bit_map)
+
+if __name__ == '__main__':
+    main()
