@@ -15,6 +15,7 @@ HEIGHT = 96 # blueprint height
 class LocatedMachine:
     'A data class to store a machine and its position'
     def __init__(self, machine, position=None):
+        self.connections = []
         self.machine = machine
         if position is None:
             self.position = [random.random()*WIDTH, random.random()*HEIGHT]
@@ -30,6 +31,12 @@ class LocatedMachine:
     def __str__(self) -> str:
         'Converts the LocatedMachine to a nicely formatted string'
         return  str(self.machine) + " at " + str(self.position)
+
+    def connect(self, otherMachine):
+        self.connections.append(otherMachine)
+
+    def getConnections(self):
+        return self.connections
 
 def randomly_placed_machines(factory):
     '''
@@ -53,8 +60,24 @@ def randomly_placed_machines(factory):
 
 
 def spring(machines):
-    'Does the spring algorithm on the given machines, and returns them after'
+    '''
+    Does the spring algorithm on the given machines, and returns them after
+    Will treat input as a list of floats
+    '''
+
+    for machine in machines:
+        for input in machine.machine.inputs:
+            machine.connect(find_machine_of_type(machines, input))
+
+    # FIXME write code to do the springing
+
     return machines
+
+def find_machine_of_type(machines, machine_type):
+    print("looking for machine that produces " + str(machine_type))
+
+    # FIXME Write code to find machine of the given type
+
 
 def machines_to_int(machines):
     'Assumes that the machiens are not overlapping in any way'
@@ -64,7 +87,7 @@ def machines_to_int(machines):
 def place_on_site(site, machines):
     '''
     Place machines on the construction site
-    
+
     :param site:  A ConstructionSite that is sufficiently large
     :param machines:  A list of LocatedMachine
     '''
