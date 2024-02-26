@@ -4,7 +4,8 @@ amount of space in factorio.
 """
 import random
 
-from factoriocalc import config, itm, mch, produce
+from typing import List
+from factoriocalc import Machine, config, itm, mch, produce
 from factoriocalc.presets import MP_LATE_GAME
 
 import layout
@@ -14,7 +15,7 @@ HEIGHT = 96 # blueprint height
 
 class LocatedMachine:
     'A data class to store a machine and its position'
-    def __init__(self, machine, position=None):
+    def __init__(self, machine: Machine, position=None):
         self.connections = []
         self.machine = machine
         if position is None:
@@ -32,7 +33,7 @@ class LocatedMachine:
         'Converts the LocatedMachine to a nicely formatted string'
         return  str(self.machine) + " at " + str(self.position)
 
-    def connect(self, otherMachine):
+    def connect(self, otherMachine: Machine):
         self.connections.append(otherMachine)
 
     def getConnections(self):
@@ -59,12 +60,11 @@ def randomly_placed_machines(factory):
     return located_machines
 
 
-def spring(machines):
+def spring(machines: List[Machine]):
     '''
     Does the spring algorithm on the given machines, and returns them after
     Will treat input as a list of floats
     '''
-
     for machine in machines:
         for input in machine.machine.inputs:
             machine.connect(find_machine_of_type(machines, input))
@@ -73,18 +73,18 @@ def spring(machines):
 
     return machines
 
-def find_machine_of_type(machines, machine_type):
+def find_machine_of_type(machines: List[Machine], machine_type: dict[any, None]):
     print("looking for machine that produces " + str(machine_type))
 
     # FIXME Write code to find machine of the given type
 
 
-def machines_to_int(machines):
+def machines_to_int(machines: List[Machine]):
     'Assumes that the machiens are not overlapping in any way'
     for machine in machines:
         machine.to_int()
 
-def place_on_site(site, machines):
+def place_on_site(site, machines: List[Machine]):
     '''
     Place machines on the construction site
 
