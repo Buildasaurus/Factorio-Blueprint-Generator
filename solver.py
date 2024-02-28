@@ -76,7 +76,23 @@ def spring(machines: List[Machine]):
 def find_machine_of_type(machines: List[Machine], machine_type: dict[any, None]):
     print("looking for machine that produces " + str(machine_type))
 
-    # FIXME Write code to find machine of the given type
+    import factoriocalc.core
+    def machine_produces(machine: Machine, output: factoriocalc.core.Item):
+        assert isinstance(machine, Machine)
+        assert isinstance(output, factoriocalc.core.Item)
+        if machine.recipe is None:
+            return False # No recipe means no output
+        for recipe_output in machine.recipe.outputs:
+            if recipe_output.item == output:
+                return True
+        return False
+    
+    machine_list = [m for m in machines if machine_produces(m, machine_type)]
+    if len(machine_list) < 1:
+        raise IndexError(f'No machine in list produces {machine_type}')
+    if len(machine_list) > 1:
+        raise ValueError(f'More than one machine in list produces {machine_type}')
+    return machine_list[0]
 
 
 def machines_to_int(machines: List[Machine]):
