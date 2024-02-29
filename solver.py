@@ -58,7 +58,7 @@ def randomly_placed_machines(factory):
     return located_machines
 
 
-def spring(machines: List[Machine]):
+def spring(machines: List[LocatedMachine]):
     '''
     Does the spring algorithm on the given machines, and returns them after
     Will treat input as a list of floats
@@ -71,7 +71,7 @@ def spring(machines: List[Machine]):
 
     return machines
 
-def find_machine_of_type(machines: List[Machine], machine_type: dict[any, None]):
+def find_machine_of_type(machines: List[LocatedMachine], machine_type: dict[any, None]):
     print("looking for machine that produces " + str(machine_type))
 
     import factoriocalc.core
@@ -85,7 +85,7 @@ def find_machine_of_type(machines: List[Machine], machine_type: dict[any, None])
                 return True
         return False
     
-    machine_list = [m for m in machines if machine_produces(m, machine_type)]
+    machine_list = [m for m in machines if machine_produces(m.machine, machine_type)]
     if len(machine_list) < 1:
         raise IndexError(f'No machine in list produces {machine_type}')
     if len(machine_list) > 1:
@@ -93,12 +93,12 @@ def find_machine_of_type(machines: List[Machine], machine_type: dict[any, None])
     return machine_list[0]
 
 
-def machines_to_int(machines: List[Machine]):
+def machines_to_int(machines: List[LocatedMachine]):
     'Assumes that the machiens are not overlapping in any way'
     for machine in machines:
         machine.to_int()
 
-def place_on_site(site, machines: List[Machine]):
+def place_on_site(site, machines: List[LocatedMachine]):
     '''
     Place machines on the construction site
 
