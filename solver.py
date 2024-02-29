@@ -86,11 +86,13 @@ def find_machine_of_type(machines: List[LocatedMachine], machine_type: dict[any,
             return False # No recipe means no output
         for recipe_output in machine.recipe.outputs:
             if recipe_output.item == output:
+                print(f' machine {machine} produces {recipe_output}')
                 return True
         return False
     
     machine_list = [m for m in machines if machine_produces(m.machine, machine_type)]
     if len(machine_list) < 1:
+        print(f' no machine produces {machine_type}')
         return None
     if len(machine_list) > 1:
         raise ValueError(f'More than one machine in list produces {machine_type}')
