@@ -77,6 +77,32 @@ class ConstructionSite:
             for i, e in enumerate(self.entities)
         ]
 
+ENTITY_SIZE = {
+    'transport-belt': (1,1),
+    'small-electric-pole': (1,1),
+    'medium-electric-pole': (1,1),
+    'inserter': (1,1),
+    'gun-turret': (2,2),
+    'aai-strongbox': (2,2),
+    'electric-mining-drill': (3,3),
+    'assembling-machine-1': (3,3),
+    'assembling-machine-2': (3,3),
+    'assembling-machine-3': (3,3),
+    'se-electric-boiler': (3,2),
+}
+
+def factoriocalc_entity_size(machine_name):
+    import factoriocalc
+    machine_class = factoriocalc.mchByName.get(machine_name)
+    if machine_class is None:
+        return None
+    machine_instance = machine_class()
+    return machine_instance.width, machine_instance.height
+
+def entity_size(entity_name):
+    size = factoriocalc_entity_size(entity_name)
+    return ENTITY_SIZE.get(entity_name) if size is None else size
+
 def factorio_version_string_as_int():
     '''return a 64 bit integer, corresponding to a version string'''
     factorio_major_version = 0

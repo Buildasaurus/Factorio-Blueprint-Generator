@@ -3,9 +3,11 @@ A class to generate blueprints from a certain input, to a certain output, on a c
 amount of space in factorio.
 """
 import random
-
 from typing import List
+
 from factoriocalc import Machine, Item
+
+import layout
 
 WIDTH = 96 # blueprint width
 HEIGHT = 96 # blueprint height
@@ -16,7 +18,9 @@ class LocatedMachine:
         self.connections = []
         self.machine = machine
         if position is None:
-            self.position = [random.random()*WIDTH, random.random()*HEIGHT]
+            my_size = layout.entity_size(machine.name)
+            corner_range = [WIDTH - my_size[0], HEIGHT - my_size[1]]
+            self.position = [random.random() * corner_range[i] for i in range(2)]
         else:
             self.position = position
 
