@@ -5,10 +5,7 @@ amount of space in factorio.
 import random
 
 from typing import List
-from factoriocalc import Machine, config, itm, mch, produce
-from factoriocalc.presets import MP_LATE_GAME
-
-import layout
+from factoriocalc import Machine
 
 WIDTH = 96 # blueprint width
 HEIGHT = 96 # blueprint height
@@ -115,28 +112,8 @@ def connect_points(site):
     'Generates a list of coordinates, to walk from one coordinate to the other'
     pass # do A star
 
-def main():
-    '''Test code executed if run from command line'''
-    # Input for the blueprint
-    input_items = [itm.iron_plate, itm.copper_plate]
-
-    # Output for the blueprint
-    desired_output = itm.electronic_circuit
-
-    throughput = 1 # items pr second
-
-    #machines for construciton - assemblytypes & smelting type
-    config.machinePrefs.set(MP_LATE_GAME)
-    config.machinePrefs.set([mch.AssemblingMachine2()])
-    factory = produce([desired_output @ throughput], using=input_items, roundUp=True).factory
-    machines = randomly_placed_machines(factory)
-    spring(machines)
-    machines_to_int(machines)
-    site = layout.ConstructionSite(WIDTH, HEIGHT)
-    place_on_site(site, machines)
-    connect_points(site)
-    print(site)
-    print(layout.site_as_blueprint_string(site, label='test of blueprint code'))
-
 if __name__ == '__main__':
-    main()
+    '''Test code executed if run from command line'''
+    import test.solver
+    import unittest
+    unittest.main(defaultTest='test.solver', verbosity=2)

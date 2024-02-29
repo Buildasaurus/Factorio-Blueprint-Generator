@@ -12,3 +12,6 @@ clone Factorio-Bklueprint-Genrator
 python -m venv .fbg
 .fbg\Scripts\activate.bat
 pip install -r requirements.txt
+
+# Run test
+python -m unittest
