@@ -75,8 +75,8 @@ def find_machine_of_type(machines: List[Machine], machine_type: dict[any, None])
 
     import factoriocalc.core
     def machine_produces(machine: Machine, output: factoriocalc.core.Item):
-        assert isinstance(machine, Machine)
-        assert isinstance(output, factoriocalc.core.Item)
+        assert isinstance(machine, Machine), f' {type(machine)} is not a Machine'
+        assert isinstance(output, factoriocalc.core.Item), f' {type(output)} is not an Item'
         if machine.recipe is None:
             return False # No recipe means no output
         for recipe_output in machine.recipe.outputs:
