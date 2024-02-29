@@ -5,7 +5,7 @@ amount of space in factorio.
 import random
 
 from typing import List
-from factoriocalc import Machine
+from factoriocalc import Machine, Item
 
 WIDTH = 96 # blueprint width
 HEIGHT = 96 # blueprint height
@@ -78,10 +78,9 @@ def spring(machines: List[LocatedMachine]):
 def find_machine_of_type(machines: List[LocatedMachine], machine_type: dict[any, None]):
     print("looking for machine that produces " + str(machine_type))
 
-    import factoriocalc.core
-    def machine_produces(machine: Machine, output: factoriocalc.core.Item):
+    def machine_produces(machine: Machine, output: Item):
         assert isinstance(machine, Machine), f' {type(machine)} is not a Machine'
-        assert isinstance(output, factoriocalc.core.Item), f' {type(output)} is not an Item'
+        assert isinstance(output, Item), f' {type(output)} is not an Item'
         if machine.recipe is None:
             return False # No recipe means no output
         for recipe_output in machine.recipe.outputs:
