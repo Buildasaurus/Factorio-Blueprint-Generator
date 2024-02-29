@@ -65,7 +65,11 @@ def spring(machines: List[LocatedMachine]):
     '''
     for machine in machines:
         for input in machine.machine.inputs:
-            machine.connect(find_machine_of_type(machines, input))
+            source_machine = find_machine_of_type(machines, input)
+            if source_machine is None:
+                pass # TODO External input should be fixed at the edge of the construction site
+            else:
+                machine.connect(source_machine)
 
     # FIXME write code to do the springing
 
@@ -87,7 +91,7 @@ def find_machine_of_type(machines: List[LocatedMachine], machine_type: dict[any,
     
     machine_list = [m for m in machines if machine_produces(m.machine, machine_type)]
     if len(machine_list) < 1:
-        raise IndexError(f'No machine in list produces {machine_type}')
+        return None
     if len(machine_list) > 1:
         raise ValueError(f'More than one machine in list produces {machine_type}')
     return machine_list[0]
