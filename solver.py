@@ -30,7 +30,8 @@ class LocatedMachine:
         'Converts the LocatedMachine to a nicely formatted string'
         return  str(self.machine) + " at " + str(self.position)
 
-    def connect(self, otherMachine: Machine):
+    def connect(self, otherMachine: 'LocatedMachine'):
+        assert isinstance(otherMachine, LocatedMachine)
         self.connections.append(otherMachine)
 
     def getConnections(self):
