@@ -118,6 +118,42 @@ def place_on_site(site, machines: List[LocatedMachine]):
         machine = lm.machine
         site.add_entity(machine.name, lm.position, 0, machine.recipe)
 
+    for target in machines:
+        for source in target.connections:
+            dist = [target.position[i] - source.position[i] for i in range(2)]
+            abs_dist = [abs(dist[i]) for i in range(2)]
+            max_dist = max(abs_dist)
+            # FIXME: Assume both machines are size 3x3
+            if max_dist < 3:
+                raise ValueError(f'Machines overlap')
+            if max_dist == 3:
+                raise NotImplementedError('Machines touch')
+            if min(abs_dist) in [1,2]:
+                raise NotImplementedError('Path algorithm cannot handle small offsets')
+            assert max_dist > 3
+            # Layout belt
+            belt_count = sum(abs_dist) - 3 - 2*1
+            if belt_count < 1:
+                raise NotImplementedError('Machines can connect with single inserter')
+            pos = [source.position[i] + 1 for i in range(2)]
+            tgtpos = [target.position[i] + 1 for i in range(2)]
+            step = 0
+            while pos != tgtpos:
+                step += 1
+                if pos[0] != tgtpos[0]:
+                    pos[0] += 1 if tgtpos[0] > pos[0] else -1
+                else:
+                    pos[1] += 1 if tgtpos[1] > pos[1] else -1
+                if step < 2 or step > 3 + belt_count:
+                    continue
+                step_dir = 0 # TODO compute step_dir
+                if step == 2:
+                    site.add_entity('inserter', pos, step_dir, None)
+                elif step == 3 + belt_count:
+                    site.add_entity('inserter', pos, step_dir, None)
+                else:
+                    site.add_entity('transport-belt', pos, step_dir, None)
+
 def connect_points(site):
     'Generates a list of coordinates, to walk from one coordinate to the other'
     pass # do A star
