@@ -40,11 +40,11 @@ class ConstructionSite:
             result.append('\n')
         return ''.join(result)
 
-    def add_machine(self, kind, pos, direction, recipe=None):
-        '''Add a machine to the construction site
-        :param kind:  Machine name
-        :param pos:  An (x,y) tuple where the machine shold be added
-        :param direction:  Machine direction
+    def add_entity(self, kind, pos, direction, recipe=None):
+        '''Add an entity to the construction site
+        :param kind:  Entity type name
+        :param pos:   An (x,y) tuple where the entity would be added
+        :param direction:  Entity direction
         :param recipe:  What recipe should the machine produce
         '''
         x, y = pos

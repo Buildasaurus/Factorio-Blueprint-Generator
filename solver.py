@@ -111,7 +111,7 @@ def place_on_site(site, machines: List[LocatedMachine]):
     '''
     for lm in machines:
         machine = lm.machine
-        site.add_machine(machine.name, lm.position, 0, machine.recipe)
+        site.add_entity(machine.name, lm.position, 0, machine.recipe)
 
 def connect_points(site):
     'Generates a list of coordinates, to walk from one coordinate to the other'
