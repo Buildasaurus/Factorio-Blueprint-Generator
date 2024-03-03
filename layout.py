@@ -61,7 +61,7 @@ class ConstructionSite:
             self.reserve(pos[0] + ofs[0], pos[1] + ofs[1])
 
         # Remember machine information
-        entity = dict(kind=kind, pos=pos, direction=direction)
+        entity = dict(kind=kind, pos=pos[:], direction=direction)
         if recipe:
             entity['recipe'] = recipe
         self.entities.append(entity)
