@@ -14,6 +14,9 @@ import math
 WIDTH = 96  # blueprint width
 HEIGHT = 96  # blueprint height
 
+#
+#  classes
+#
 
 class LocatedMachine:
     "A data class to store a machine and its position"
@@ -21,12 +24,13 @@ class LocatedMachine:
     def __init__(self, machine: Machine, position=None):
         self.connections = []
         self.machine = machine
-        if position is None:
-            my_size = layout.entity_size(machine.name)
-            corner_range = [WIDTH - my_size[0], HEIGHT - my_size[1]]
-            self.position = [random.random() * corner_range[i] for i in range(2)]
-        else:
-            self.position = position
+        self.position = position
+
+    def set_random_position(self, site_size):
+        '''Place the machine on a random position inside the provided dimension'''
+        my_size = layout.entity_size(self.machine.name)
+        corner_range = [site_size[i] - my_size[i] for i in range(2)]
+        self.position = [random.random() * corner_range[i] for i in range(2)]
 
     def to_int(self):
         """Converts the stored position to integers.
@@ -65,7 +69,7 @@ class LocatedMachine:
         return abs(self.position[0] - other_machine.position[0]) < 4 and  abs(self.position[1] - other_machine.position[1]) < 4
 
 
-def randomly_placed_machines(factory):
+def randomly_placed_machines(factory, site_size):
     """
     Gives machines needed by the factory a random location.
 
@@ -77,6 +81,7 @@ def randomly_placed_machines(factory):
     for machine in boxed_machines:
         for _ in range(machine.num):
             located_machine = LocatedMachine(machine.machine)
+            located_machine.set_random_position(site_size)
             located_machines.append(located_machine)
 
     # FIXME remove this debug code

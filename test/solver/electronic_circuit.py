@@ -34,6 +34,9 @@ log.info('unittest of solver module')
 #  Test
 #
 
+WIDTH = 96 # blueprint width
+HEIGHT = 96 # blueprint height
+
 class TestElectronicCircuit(unittest.TestCase):
     def test_problem_to_layout(self):
         # Input for the blueprint
@@ -48,12 +51,10 @@ class TestElectronicCircuit(unittest.TestCase):
         fc.config.machinePrefs.set(fcc.MP_LATE_GAME)
         fc.config.machinePrefs.set([fc.mch.AssemblingMachine2()])
         factory = fc.produce([desired_output @ throughput], using=input_items, roundUp=True).factory
-        machines = solver.randomly_placed_machines(factory)
+        site = layout.ConstructionSite(WIDTH, HEIGHT)
+        machines = solver.randomly_placed_machines(factory, site.size())
         solver.spring(machines)
         solver.machines_to_int(machines)
-        site = layout.ConstructionSite(solver.WIDTH, solver.HEIGHT)
-        for machine in machines:
-            print(machine)
         solver.place_on_site(site, machines)
         solver.connect_points(site)
         print(site)

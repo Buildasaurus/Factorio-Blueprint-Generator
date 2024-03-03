@@ -21,6 +21,10 @@ class ConstructionSite:
         self.dim_y = y_size
         self.entities = []
 
+    def size(self):
+        '''Return an (width, height) tuple'''
+        return (self.dim_x, self.dim_y)
+
     def is_reserved(self, x, y) -> bool:
         '''Test if a given grid cell is free or not'''
         pos = (int(x), int(y))
