@@ -66,10 +66,13 @@ class ConstructionSite:
 
     def get_entity_list(self):
         '''Return all entities added in a form ready for Blueprint generation'''
+
+        center_pos = {i: center_position(e['kind'], e['direction'], e['pos'])
+                      for i, e in enumerate(self.entities)}
         return [
             dict(
                 name=e['kind'],
-                position=dict(x=e['pos'][0], y=e['pos'][1]),
+                position=dict(x=center_pos[i][0], y=center_pos[i][1]),
                 direction=e['direction'],
                 entity_number=i+1
             )
@@ -101,6 +104,15 @@ def factoriocalc_entity_size(machine_name):
 def entity_size(entity_name):
     size = factoriocalc_entity_size(entity_name)
     return ENTITY_SIZE.get(entity_name) if size is None else size
+
+def center_position(entity_name, direc: Direction, top_left_pos):
+    '''Factorio blueprint position are at the center of the entity, which has 1/2 grid resolution'''
+    size = entity_size(entity_name)
+    if direc in [2, 6]:
+        # Switch x and y size
+        y, x = size
+        size = [x,y]
+    return [top_left_pos[i] + size[i]/2 for i in range(2)]
 
 def iter_entity_area(entity_name):
     '''Compute all possible offset for the named entity.
