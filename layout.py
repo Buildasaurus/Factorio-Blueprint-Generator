@@ -49,6 +49,8 @@ class ConstructionSite:
         :param recipe:  What recipe should the machine produce
         '''
         x, y = pos
+        if not (x.is_integer() and y.is_integer()):
+            raise ValueError(f'Position must be integer only. Was {pos}')
 
         # Only allow recipe on machines we know can have one
         if recipe is not None and kind not in MACHINES_WITH_RECIPE:
