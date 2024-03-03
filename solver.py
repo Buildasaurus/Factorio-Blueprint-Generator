@@ -25,10 +25,10 @@ class LocatedMachine:
             self.position = position
 
     def to_int(self):
-        'Converts the stored position to integers. Rounds off.'
-        self.position[0] = round(self.position[0])
-        self.position[1] = round(self.position[1])
-
+        '''Converts the stored position to integers.
+        Truncates towards zero to avoid placement outside site.'''
+        self.position[0] = int(self.position[0])
+        self.position[1] = int(self.position[1])
 
     def __str__(self) -> str:
         'Converts the LocatedMachine to a nicely formatted string'
