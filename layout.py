@@ -43,34 +43,38 @@ class ConstructionSite:
     def add_entity(self, kind, pos, direction, recipe=None):
         '''Add an entity to the construction site
         :param kind:  Entity type name
-        :param pos:   An (x,y) tuple where the entity would be added
+        :param pos:  An (x,y) tuple pointing at the top left corner where the machine should be placed.
+            Note: This is different from how Factorio blueprints works
         :param direction:  Entity direction
         :param recipe:  What recipe should the machine produce
         '''
         x, y = pos
+        if not (x.is_integer() and y.is_integer()):
+            raise ValueError(f'Position must be integer only. Was {pos}')
 
         # Only allow recipe on machines we know can have one
         if recipe is not None and kind not in MACHINES_WITH_RECIPE:
             raise ValueError(f"I'm not aware that a {kind} can have a recipie")
 
-        # Place machine. This will raise an error if there is no room
-        # FIXME assume machine is 3x3
-        for y_ofs in [-1, 0, 1]:
-            for x_ofs in [-1, 0, 1]:
-                self.reserve(x + x_ofs, y + y_ofs)
+        # Place machine
+        for ofs in iter_entity_area(kind):
+            self.reserve(pos[0] + ofs[0], pos[1] + ofs[1])
 
         # Remember machine information
-        entity = dict(kind=kind, pos=pos, direction=direction)
+        entity = dict(kind=kind, pos=pos[:], direction=direction)
         if recipe:
             entity['recipe'] = recipe
         self.entities.append(entity)
 
     def get_entity_list(self):
         '''Return all entities added in a form ready for Blueprint generation'''
+
+        center_pos = {i: center_position(e['kind'], e['direction'], e['pos'])
+                      for i, e in enumerate(self.entities)}
         return [
             dict(
                 name=e['kind'],
-                position=dict(x=e['pos'][0], y=e['pos'][1]),
+                position=dict(x=center_pos[i][0], y=center_pos[i][1]),
                 direction=e['direction'],
                 entity_number=i+1
             )
@@ -102,6 +106,32 @@ def factoriocalc_entity_size(machine_name):
 def entity_size(entity_name):
     size = factoriocalc_entity_size(entity_name)
     return ENTITY_SIZE.get(entity_name) if size is None else size
+
+def center_position(entity_name, direc: Direction, top_left_pos):
+    '''Factorio blueprint position are at the center of the entity, which has 1/2 grid resolution'''
+    size = entity_size(entity_name)
+    if direc in [2, 6]:
+        # Switch x and y size
+        y, x = size
+        size = [x,y]
+    return [top_left_pos[i] + size[i]/2 for i in range(2)]
+
+def iter_entity_area(entity_name):
+    '''Compute all possible offset for the named entity.
+    For an inserter, the list is 1 long.
+    For a gun-turrent 4 long.
+    For an assembly-machine-1, 9 long.
+
+    No offset are negative, so only right-down
+
+    Note: This is not how Factorio blueprint works with offset
+    '''
+    size = entity_size(entity_name)
+    if size is None:
+        raise NotImplementedError(f'Unknown size of entity {entity_name}')
+    for y_ofs in range(size[1]):
+        for x_ofs in range(size[0]):
+            yield x_ofs, y_ofs
 
 def factorio_version_string_as_int():
     '''return a 64 bit integer, corresponding to a version string'''
