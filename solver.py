@@ -92,12 +92,13 @@ def find_machine_of_type(machines: List[LocatedMachine], machine_type: dict[any,
                 print(f' machine {machine} produces {recipe_output}')
                 return True
         return False
-    
+
     machine_list = [m for m in machines if machine_produces(m.machine, machine_type)]
     if len(machine_list) < 1:
         print(f' no machine produces {machine_type}')
         return None
     if len(machine_list) > 1:
+        # TODO - This should not return error, but just choose the one that already is being used the most.
         raise ValueError(f'More than one machine in list produces {machine_type}')
     return machine_list[0]
 

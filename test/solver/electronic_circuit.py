@@ -56,4 +56,3 @@ class TestElectronicCircuit(unittest.TestCase):
         solver.connect_points(site)
         print(site)
         print(layout.site_as_blueprint_string(site, label='test of blueprint code'))
-
