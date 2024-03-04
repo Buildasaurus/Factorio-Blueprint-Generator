@@ -138,6 +138,7 @@ def place_on_site(site, machines: List[LocatedMachine]):
             pos = [source.position[i] + 1 for i in range(2)]
             tgtpos = [target.position[i] + 1 for i in range(2)]
             step = 0
+            pos_list = []
             while pos != tgtpos:
                 step += 1
                 if pos[0] != tgtpos[0]:
@@ -146,13 +147,17 @@ def place_on_site(site, machines: List[LocatedMachine]):
                     pos[1] += 1 if tgtpos[1] > pos[1] else -1
                 if step < 2 or step > 3 + belt_count:
                     continue
-                step_dir = 0 # TODO compute step_dir
-                if step == 2:
-                    site.add_entity('inserter', pos, step_dir, None)
-                elif step == 3 + belt_count:
-                    site.add_entity('inserter', pos, step_dir, None)
-                else:
-                    site.add_entity('transport-belt', pos, step_dir, None)
+                pos_list.append(pos[:])
+            pos_list.append(tgtpos)
+            dir_list = []
+            for i in range(len(pos_list) - 1):
+                dir_list.append(layout.direction_to(pos_list[i], pos_list[i+1]))
+            for i in range(len(dir_list)):
+                kind = 'inserter' if i == 0 or i + 1 == len(dir_list) else 'transport-belt'
+                dir = dir_list[i]
+                if kind == 'inserter':
+                    dir = (dir + 4) % 8
+                site.add_entity(kind, pos_list[i], dir, None)
 
 def connect_points(site):
     'Generates a list of coordinates, to walk from one coordinate to the other'
