@@ -52,6 +52,8 @@ class TestElectronicCircuit(unittest.TestCase):
         solver.spring(machines)
         solver.machines_to_int(machines)
         site = layout.ConstructionSite(solver.WIDTH, solver.HEIGHT)
+        for machine in machines:
+            print(machine)
         solver.place_on_site(site, machines)
         solver.connect_points(site)
         print(site)
