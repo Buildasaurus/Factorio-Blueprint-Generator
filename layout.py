@@ -2,6 +2,8 @@
 Functions related to placing machines on a grid.
 '''
 
+from constants import Direction
+
 MACHINES_WITH_RECIPE = {
     'assembling-machine-1',
     'assembling-machine-2',
@@ -199,3 +201,36 @@ def export_blueprint_dict(bp_dict):
     encodedString = VERSION + base64.b64encode(compressedJson).decode("utf-8")
 
     return encodedString
+
+#
+#  Helper functions
+#
+
+def direction_to(s, t) -> Direction:
+    '''Find direction from s to t'''
+    # x,y increases right-down
+    #  NW N NE
+    #  W  +  E
+    #  SW S SE
+    if t[0] > s[0]:
+        # east-like
+        if t[1] < s[1]:
+            return Direction.NORTHEAST
+        elif t[1] == s[1]:
+            return Direction.EAST
+        else:
+            return Direction.SOUTHEAST
+    elif t[0] == s[0]:
+        # north-south
+        if t[1] > s[1]:
+            return Direction.SOUTH
+        else: # == or <
+            return Direction.NORTH
+    else: # t[0] < s[0]
+        # west-like
+        if t[1] < s[1]:
+            return Direction.NORTHWEST
+        elif t[1] == s[1]:
+            return Direction.WEST
+        else:
+            return Direction.SOUTHWEST
