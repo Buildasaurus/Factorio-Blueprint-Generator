@@ -166,7 +166,7 @@ def place_on_site(site, machines: List[LocatedMachine]):
     """
     for lm in machines:
         machine = lm.machine
-        site.add_entity(machine.name, lm.position, 0, machine.recipe)
+        site.add_entity(machine.name, lm.position, 0, str(machine.recipe))
 
     for target in machines:
         for source in target.connections:
