@@ -57,6 +57,8 @@ class ConstructionSite:
         # Only allow recipe on machines we know can have one
         if recipe is not None and kind not in MACHINES_WITH_RECIPE:
             raise ValueError(f"I'm not aware that a {kind} can have a recipie")
+        if recipe is not None and not isinstance(recipe, str):
+            raise ValueError(f"The recipe must be a string, but was a {type(recipe)}")
 
         # Place machine
         for ofs in iter_entity_area(kind):
@@ -73,15 +75,17 @@ class ConstructionSite:
 
         center_pos = {i: center_position(e['kind'], e['direction'], e['pos'])
                       for i, e in enumerate(self.entities)}
-        return [
-            dict(
+        result = []
+        for i, e in enumerate(self.entities):
+            result.append(dict(
                 name=e['kind'],
                 position=dict(x=center_pos[i][0], y=center_pos[i][1]),
                 direction=e['direction'],
                 entity_number=i+1
-            )
-            for i, e in enumerate(self.entities)
-        ]
+            ))
+            if 'recipe' in e:
+                result[-1]['recipe'] = e['recipe']
+        return result
 
 ENTITY_SIZE = {
     'transport-belt': (1,1),
