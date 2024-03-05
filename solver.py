@@ -61,8 +61,10 @@ class LocatedMachine:
     def move(self, direction):
         for i in range(len(direction)):
             self.position[i] += direction[i]
-            self.position[i] %= WIDTH # TODO Hacky solution, move shouldn't do this, but I want it to work.
-            # with negative numbers it should handle it in another smarter way.
+        # TODO Hacky solution, move shouldn't do this, but I want it to work.
+        # with negative numbers it should handle it in another smarter way.
+        self.position[0] %= WIDTH
+        self.position[1] %= HEIGHT
 
     def overlaps(self, other_machine : 'LocatedMachine'):
         # TODO - don't assume size is 4
