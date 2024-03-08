@@ -57,6 +57,7 @@ class TestElectronicCircuit(unittest.TestCase):
         print("Machines are at: " + str([machine.position for machine in machines]))
         solver.machines_to_int(machines)
         print("Machines are at: " + str([machine.position for machine in machines]))
+        #FIXME Error occurs when trying to place machines on site
         solver.place_on_site(site, machines)
         solver.connect_points(site)
         print(site)

@@ -117,12 +117,11 @@ def spring(machines: List[LocatedMachine]):
             else:
                 machine.connect(source_machine)
 
-    # FIXME improve code to do the springing. It is not very natural, and will probably bug with more machines than two
-    # due to no smart way of making sure machines don't collide
     # IDEA Examine algorithms found when searching for
     #      "force directed graph layout algorithm"
     #      One of these is a chapter in a book, published by Brown University
     #      Section 12.2 suggests using logarithmic springs and a repelling force
+    # FIXME tune constants to make machines go near each other.
 
     c1 = 10
     c2 = 10
