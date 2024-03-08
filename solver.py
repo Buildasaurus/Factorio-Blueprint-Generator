@@ -7,6 +7,7 @@ import random
 from typing import List
 
 from factoriocalc import Machine, Item
+from vector import Vector
 
 import layout
 import math
@@ -18,6 +19,7 @@ HEIGHT = 96  # blueprint height
 #  classes
 #
 
+
 class LocatedMachine:
     "A data class to store a machine and its position"
 
@@ -27,16 +29,20 @@ class LocatedMachine:
         self.position = position
 
     def set_random_position(self, site_size):
-        '''Place the machine on a random position inside the provided dimension'''
+        """Place the machine on a random position inside the provided dimension"""
         my_size = layout.entity_size(self.machine.name)
         corner_range = [site_size[i] - my_size[i] for i in range(2)]
-        self.position = [random.random() * corner_range[i] for i in range(2)]
+        self.position = Vector(
+            random.random() * corner_range[0], random.random() * corner_range[1]
+        )
+        print(self.position.values)
 
     def to_int(self):
         """Converts the stored position to integers.
         Truncates towards zero to avoid placement outside site."""
-        self.position[0] = int(self.position[0])
-        self.position[1] = int(self.position[1])
+        self.position = Vector(
+            int(self.position.values[0]), int(self.position.values[1])
+        )
 
     def __str__(self) -> str:
         "Converts the LocatedMachine to a nicely formatted string"
@@ -49,26 +55,31 @@ class LocatedMachine:
     def getConnections(self) -> List["LocatedMachine"]:
         return self.connections
 
-    def directionTo(self, other_machine: "LocatedMachine"):
+    def directionTo(self, other_machine: "LocatedMachine") -> Vector:
         """
         Returns a vector pointing from this machine, to the other machine.
         """
-        return [
-            other_machine.position[0] - self.position[0],
-            other_machine.position[1] - self.position[1],
-        ]
+        return other_machine.position - self.position
 
-    def move(self, direction):
-        for i in range(len(direction)):
-            self.position[i] += direction[i]
+    def distance_to(self, othermachine: "LocatedMachine") -> int:
+
+        summed_vectors = self.position + othermachine.position
+        return math.sqrt(summed_vectors.inner(summed_vectors))
+
+    def move(self, direction: "Vector"):
+        self.position += direction
         # TODO Hacky solution, move shouldn't do this, but I want it to work.
         # with negative numbers it should handle it in another smarter way.
-        self.position[0] %= WIDTH
-        self.position[1] %= HEIGHT
+        self.position = Vector(
+            self.position.values[0] % WIDTH, self.position.values[1] % HEIGHT
+        )
 
-    def overlaps(self, other_machine : 'LocatedMachine'):
+    def overlaps(self, other_machine: "LocatedMachine"):
         # TODO - don't assume size is 4
-        return abs(self.position[0] - other_machine.position[0]) < 4 and  abs(self.position[1] - other_machine.position[1]) < 4
+        return (
+            abs(self.position[0] - other_machine.position[0]) < 4
+            and abs(self.position[1] - other_machine.position[1]) < 4
+        )
 
 
 def randomly_placed_machines(factory, site_size):
@@ -107,33 +118,42 @@ def spring(machines: List[LocatedMachine]):
                 machine.connect(source_machine)
 
     # FIXME improve code to do the springing. It is not very natural, and will probably bug with more machines than two
-                # due to no smart way of making sure machines don't collide
+    # due to no smart way of making sure machines don't collide
     # IDEA Examine algorithms found when searching for
     #      "force directed graph layout algorithm"
     #      One of these is a chapter in a book, published by Brown University
     #      Section 12.2 suggests using logarithmic springs and a repelling force
-    for i in range(10):
-        for machine in machines:
-            for connected_machine in machine.getConnections():
-                machine.move([
-                        machine.directionTo(connected_machine)[0] / 10,
-                        machine.directionTo(connected_machine)[1] / 10,
-                    ])
-                connected_machine.move(
-                    [
-                        connected_machine.directionTo(machine)[0] / 10,
-                        connected_machine.directionTo(machine)[1] / 10,
-                    ]
-                )
 
-        # Remove overlapping machine
-        # TODO - improve the spring algorithm instead, to make it less explosive.
+    c1 = 10
+    c2 = 10
+    c3 = 10
+    c4 = 10
+    resultant_forces = [Vector() for i in range(len(machines))]
+    for i in range(
+        1000
+    ):  # lots of small iterations with small movement in each - high resolution
+        machine_index = 0
         for machine in machines:
+            connections = machine.getConnections()
             for other_machine in machines:
                 if machine == other_machine:
                     continue
-                if machine.overlaps(other_machine):
-                    machine.move([4 - other_machine.directionTo(machine)[0],  4 - other_machine.directionTo(machine)[1]])
+                distance = machine.distance_to(other_machine)
+
+                if other_machine in connections:  # Spring is an attracting force
+                    spring_force = c1 * math.log(distance / c2)
+                else:
+                    spring_force = 0
+
+                repelling_force = c3 / distance**2
+
+                # Positive is away from the machine
+                force = repelling_force - spring_force
+                force_vector = machine.directionTo(other_machine).normalize() * force
+                resultant_forces[machine_index] += force_vector
+            machine_index += 1
+        for force in resultant_forces:
+            machine.move(force * c4)
 
     return machines
 
@@ -189,7 +209,7 @@ def place_on_site(site, machines: List[LocatedMachine]):
                 raise ValueError(f"Machines overlap")
             if max_dist == 3:
                 pass
-                #raise NotImplementedError("Machines touch")
+                # raise NotImplementedError("Machines touch")
             if min(abs_dist) in [1, 2]:
                 raise NotImplementedError("Path algorithm cannot handle small offsets")
             assert max_dist > 3
@@ -213,13 +233,16 @@ def place_on_site(site, machines: List[LocatedMachine]):
             pos_list.append(tgtpos)
             dir_list = []
             for i in range(len(pos_list) - 1):
-                dir_list.append(layout.direction_to(pos_list[i], pos_list[i+1]))
+                dir_list.append(layout.direction_to(pos_list[i], pos_list[i + 1]))
             for i in range(len(dir_list)):
-                kind = 'inserter' if i == 0 or i + 1 == len(dir_list) else 'transport-belt'
+                kind = (
+                    "inserter" if i == 0 or i + 1 == len(dir_list) else "transport-belt"
+                )
                 dir = dir_list[i]
-                if kind == 'inserter':
+                if kind == "inserter":
                     dir = (dir + 4) % 8
                 site.add_entity(kind, pos_list[i], dir, None)
+
 
 def connect_points(site):
     "Generates a list of coordinates, to walk from one coordinate to the other"
