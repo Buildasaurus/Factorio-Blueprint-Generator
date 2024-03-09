@@ -3,6 +3,9 @@ A class to generate blueprints from a certain input, to a certain output, on a c
 amount of space in factorio.
 """
 
+import numpy as np
+import matplotlib.pyplot as plt
+
 import random
 from typing import List
 
@@ -14,6 +17,8 @@ import math
 
 WIDTH = 96  # blueprint width
 HEIGHT = 96  # blueprint height
+
+with_visuals = True
 
 #
 #  classes
@@ -63,7 +68,7 @@ class LocatedMachine:
 
     def distance_to(self, othermachine: "LocatedMachine") -> int:
 
-        summed_vectors = self.position + othermachine.position
+        summed_vectors = self.position - othermachine.position
         return math.sqrt(summed_vectors.inner(summed_vectors))
 
     def move(self, direction: "Vector"):
@@ -122,37 +127,56 @@ def spring(machines: List[LocatedMachine]):
     #      One of these is a chapter in a book, published by Brown University
     #      Section 12.2 suggests using logarithmic springs and a repelling force
     # FIXME tune constants to make machines go near each other.
+    plt.axis([0, 100, 0, 100])
 
-    c1 = 10
-    c2 = 10
-    c3 = 10
-    c4 = 10
+    c1 = 1
+    c2 = 5  # this value is the preferred balanced distance
+    c3 = 1
+    c4 = 1
     resultant_forces = [Vector() for i in range(len(machines))]
     for i in range(
-        1000
+        50
     ):  # lots of small iterations with small movement in each - high resolution
         machine_index = 0
         for machine in machines:
+            # calculating how all other machines affect this machine
             connections = machine.getConnections()
             for other_machine in machines:
                 if machine == other_machine:
                     continue
+
                 distance = machine.distance_to(other_machine)
 
-                if other_machine in connections:  # Spring is an attracting force
+                if (
+                    other_machine in connections
+                ):  # Spring is an attracting force, positive values if far away
                     spring_force = c1 * math.log(distance / c2)
                 else:
                     spring_force = 0
 
                 repelling_force = c3 / distance**2
 
-                # Positive is away from the machine
+                # Force is the force the other machine is excerting on this machine
+                # positive values means that the other machine is pushing this machine away.
                 force = repelling_force - spring_force
                 force_vector = machine.directionTo(other_machine).normalize() * force
+                # idk why it's not minus.
                 resultant_forces[machine_index] += force_vector
             machine_index += 1
-        for force in resultant_forces:
-            machine.move(force * c4)
+
+        for i in range(len(resultant_forces)):
+            if with_visuals:
+                plt.scatter(
+                    machines[i].position.values[0], machines[i].position.values[1]
+                )
+
+            machine.move(resultant_forces[i] * c4)
+            resultant_forces[i] = Vector(0, 0)
+
+        if with_visuals:
+            plt.pause(0.1)
+            plt.clf()
+            plt.axis([0, 100, 0, 100])
 
     return machines
 
