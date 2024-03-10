@@ -9,8 +9,9 @@ import matplotlib.pyplot as plt
 import random
 from typing import List
 
-from factoriocalc import Machine, Item
+from factoriocalc import Machine, Item, fracs, itm
 from vector import Vector
+
 
 import layout
 import math
@@ -32,6 +33,14 @@ class LocatedMachine:
         self.connections = []
         self.machine = machine
         self.position = position
+        # Items pr second - True to make it calculate actual value.
+        a = machine.flows(True).byItem
+        #FIXME Available production should also be a dictionary for multiple outputs
+        self.available_production =  sum(item.rateOut for item in machine.flows(True).byItem.values())
+
+        self.users = []
+        self.missing_input = {key: value.rateIn for key, value in machine.flows(True).byItem.items() if value.rateIn != 0}
+        print(self.missing_input)
 
     def set_random_position(self, site_size):
         """Place the machine on a random position inside the provided dimension"""
@@ -53,9 +62,36 @@ class LocatedMachine:
         "Converts the LocatedMachine to a nicely formatted string"
         return str(self.machine) + " at " + str(self.position)
 
-    def connect(self, otherMachine: "LocatedMachine"):
+    def set_user(self, other_machine: "LocatedMachine", usage) -> int:
+        '''
+        Returns the production this machine could provide'''
+        assert isinstance(other_machine, LocatedMachine)
+        used = 0
+        if self.available_production > 0:
+            self.users.append(other_machine)
+            if self.available_production < usage:
+                used = self.available_production
+                self.available_production = 0
+            else:
+                used = usage
+                self.available_production -= usage
+
+        print(self.available_production)
+        return used
+
+    def connect(self, otherMachine: "LocatedMachine", item_type) -> bool:
+        '''
+        Returns if the connection satisfied the remaining requirements
+        Input is necessary if machine produces multiple thing
+        '''
         assert isinstance(otherMachine, LocatedMachine)
         self.connections.append(otherMachine)
+        b = self.missing_input[item_type]
+        a =  self.machine.flows().byItem
+        print(type(a))
+        extra_input = otherMachine.set_user(self, self.missing_input[item_type])
+        self.missing_input[item_type] -= extra_input
+
 
     def getConnections(self) -> List["LocatedMachine"]:
         return self.connections
@@ -120,22 +156,21 @@ def spring(machines: List[LocatedMachine]):
             if source_machine is None:
                 pass  # TODO External input should be fixed at the edge of the construction site
             else:
-                machine.connect(source_machine)
+                machine.connect(source_machine, input)
 
     # IDEA Examine algorithms found when searching for
     #      "force directed graph layout algorithm"
     #      One of these is a chapter in a book, published by Brown University
     #      Section 12.2 suggests using logarithmic springs and a repelling force
-    # FIXME tune constants to make machines go near each other.
     plt.axis([0, 100, 0, 100])
 
     c1 = 1
-    c2 = 5  # this value is the preferred balanced distance
+    c2 = 6  # this value is the preferred balanced distance
     c3 = 1
     c4 = 1
     resultant_forces = [Vector() for i in range(len(machines))]
     for i in range(
-        50
+        20
     ):  # lots of small iterations with small movement in each - high resolution
         machine_index = 0
         for machine in machines:
@@ -200,8 +235,14 @@ def find_machine_of_type(machines: List[LocatedMachine], machine_type: dict[any,
         print(f" no machine produces {machine_type}")
         return None
     if len(machine_list) > 1:
-        # TODO - This should not return error, but just choose the one that already is being used the most.
-        raise ValueError(f"More than one machine in list produces {machine_type}")
+        minimum = 99999
+        machine_to_connect = machine_list[0]
+        for machine in machine_list:
+            if machine.available_production < minimum:
+                minimum = machine.available_production
+                machine_to_connect = machine
+
+        return machine_to_connect
     return machine_list[0]
 
 

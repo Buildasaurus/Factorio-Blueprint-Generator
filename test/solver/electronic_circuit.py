@@ -45,7 +45,7 @@ class TestElectronicCircuit(unittest.TestCase):
         # Output for the blueprint
         desired_output = fc.itm.electronic_circuit
 
-        throughput = 1 # items pr second
+        throughput = 2 # items pr second
 
         #machines for construciton - assemblytypes & smelting type
         fc.config.machinePrefs.set(fcc.MP_LATE_GAME)
@@ -57,7 +57,6 @@ class TestElectronicCircuit(unittest.TestCase):
         print("Machines are at: " + str([machine.position for machine in machines]))
         solver.machines_to_int(machines)
         print("Machines are at: " + str([machine.position for machine in machines]))
-        #FIXME Error occurs when trying to place machines on site
         solver.place_on_site(site, machines)
         solver.connect_points(site)
         print(site)
