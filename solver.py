@@ -3,7 +3,6 @@ A class to generate blueprints from a certain input, to a certain output, on a c
 amount of space in factorio.
 """
 
-import numpy as np
 import matplotlib.pyplot as plt
 
 import random

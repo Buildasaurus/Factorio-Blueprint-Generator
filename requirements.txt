@@ -2,3 +2,7 @@
 factoriocalc
 
 networkx
+
+# Test output of graph
+mathplotlib
+PyQt5
