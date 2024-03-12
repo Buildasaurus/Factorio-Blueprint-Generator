@@ -193,7 +193,7 @@ def spring(machines: List[LocatedMachine]):
                 # Force is the force the other machine is excerting on this machine
                 # positive values means that the other machine is pushing this machine away.
                 force = repelling_force - spring_force
-                force_vector = machine.directionTo(other_machine).normalize() * force
+                force_vector = machine.directionTo(other_machine).normalize() * -force
                 # idk why it's not minus.
                 resultant_forces[machine_index] += force_vector
             machine_index += 1
