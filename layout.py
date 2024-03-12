@@ -55,7 +55,10 @@ class ConstructionSite:
         :param recipe:  What recipe should the machine produce
         '''
         x, y = pos
-        if not (x.is_integer() and y.is_integer()):
+        if not (
+            (isinstance(x, int) or x.is_integer()) 
+            and (isinstance(y, int) or y.is_integer()) 
+        ):
             raise ValueError(f'Position must be integer only. Was {pos}')
 
         # Only allow recipe on machines we know can have one
