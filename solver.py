@@ -168,7 +168,7 @@ def spring(machines: List[LocatedMachine]):
     c3 = 1
     c4 = 1
     resultant_forces = [Vector() for i in range(len(machines))]
-    for i in range(
+    for iteration_no in range(
         20
     ):  # lots of small iterations with small movement in each - high resolution
         machine_index = 0
@@ -204,7 +204,7 @@ def spring(machines: List[LocatedMachine]):
                     machines[i].position.values[0], machines[i].position.values[1]
                 )
 
-            machine.move(resultant_forces[i] * c4)
+            machines[i].move(resultant_forces[i] * c4)
             resultant_forces[i] = Vector(0, 0)
 
         if with_visuals:
