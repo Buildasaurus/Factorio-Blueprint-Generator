@@ -4,6 +4,7 @@ amount of space in factorio.
 """
 
 import matplotlib.pyplot as plt
+import matplotlib.patches
 
 import random
 from typing import List
@@ -161,7 +162,8 @@ def spring(machines: List[LocatedMachine]):
     #      "force directed graph layout algorithm"
     #      One of these is a chapter in a book, published by Brown University
     #      Section 12.2 suggests using logarithmic springs and a repelling force
-    plt.axis([0, 100, 0, 100])
+    plt.axis([0, WIDTH, 0, HEIGHT])
+    ax = plt.gca()
 
     c1 = 1
     c2 = 6  # this value is the preferred balanced distance
@@ -200,17 +202,18 @@ def spring(machines: List[LocatedMachine]):
 
         for i in range(len(resultant_forces)):
             if with_visuals:
-                plt.scatter(
-                    machines[i].position.values[0], machines[i].position.values[1]
-                )
+                machine_shape = matplotlib.patches.Rectangle(machines[i].position.values, width=3, height=3)
+                ax.add_patch(machine_shape)
+                
 
             machines[i].move(resultant_forces[i] * c4)
             resultant_forces[i] = Vector(0, 0)
 
         if with_visuals:
             plt.pause(0.1)
-            plt.clf()
-            plt.axis([0, 100, 0, 100])
+            ax.clear()
+            ax.set_xlim(0, WIDTH)
+            ax.set_ylim(0, HEIGHT)
 
     return machines
 
