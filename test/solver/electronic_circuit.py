@@ -13,13 +13,15 @@ import solver
 #  Logging
 #
 
-LOG_FILE = 'fbg.log'
+LOG_FILE = "fbg.log"
+
 
 def config_logging():
-    formatter = logging.Formatter(style='{',
-        fmt='{asctime} {module} {levelname} {message}' )
+    formatter = logging.Formatter(
+        style="{", fmt="{asctime} {module} {levelname} {message}"
+    )
 
-    handler = logging.FileHandler(filename=LOG_FILE, mode='w', encoding='utf-8')
+    handler = logging.FileHandler(filename=LOG_FILE, mode="w", encoding="utf-8")
     handler.setFormatter(formatter)
 
     root_log = logging.getLogger()
@@ -27,15 +29,17 @@ def config_logging():
     root_log.setLevel(logging.DEBUG)
     return root_log
 
+
 log = config_logging()
-log.info('unittest of solver module')
+log.info("unittest of solver module")
 
 #
 #  Test
 #
 
-WIDTH = 96 # blueprint width
-HEIGHT = 96 # blueprint height
+WIDTH = 96  # blueprint width
+HEIGHT = 96  # blueprint height
+
 
 class TestElectronicCircuit(unittest.TestCase):
     def test_problem_to_layout(self):
@@ -45,12 +49,15 @@ class TestElectronicCircuit(unittest.TestCase):
         # Output for the blueprint
         desired_output = fc.itm.electronic_circuit
 
-        throughput = 2 # items pr second
+        throughput = 3  # items pr second. 3 is equivalent of 2 green circuit, 3 copper assembling 2 machines
 
-        #machines for construciton - assemblytypes & smelting type
+        # machines for construciton - assemblytypes & smelting type
         fc.config.machinePrefs.set(fcc.MP_LATE_GAME)
         fc.config.machinePrefs.set([fc.mch.AssemblingMachine2()])
-        factory = fc.produce([desired_output @ throughput], using=input_items, roundUp=True).factory
+        factory = fc.produce(
+            [desired_output @ throughput], using=input_items, roundUp=True
+        ).factory
+
         site = layout.ConstructionSite(WIDTH, HEIGHT)
         machines = solver.randomly_placed_machines(factory, site.size())
         solver.spring(machines)
@@ -60,4 +67,4 @@ class TestElectronicCircuit(unittest.TestCase):
         solver.place_on_site(site, machines)
         solver.connect_points(site)
         print(site)
-        print(layout.site_as_blueprint_string(site, label='test of blueprint code'))
+        print(layout.site_as_blueprint_string(site, label="test of blueprint code"))

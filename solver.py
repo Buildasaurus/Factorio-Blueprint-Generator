@@ -101,6 +101,9 @@ class LocatedMachine:
     def getConnections(self) -> List["LocatedMachine"]:
         return self.connections
 
+    def getUsers(self) -> List["LocatedMachine"]:
+        return self.users
+
     def directionTo(self, other_machine: "LocatedMachine") -> Vector:
         """
         Returns a vector pointing from this machine, to the other machine.
@@ -180,19 +183,20 @@ def spring(machines: List[LocatedMachine]):
     c3 = 1
     c4 = 1
     resultant_forces = [Vector() for i in range(len(machines))]
-    for iteration_no in range(20):
+    for iteration_no in range(100):
         # lots of small iterations with small movement in each - high resolution
         machine_index = 0
         for machine in machines:
             # calculating how all other machines affect this machine
             connections = machine.getConnections()
+            connections2 = machine.getUsers()
             for other_machine in machines:
                 if machine == other_machine:
                     continue
 
                 distance = machine.distance_to(other_machine)
 
-                if other_machine in connections:
+                if other_machine in connections or other_machine in connections2:
                     # Spring is an attracting force, positive values if far away
                     spring_force = c1 * math.log(distance / c2)
                 else:
@@ -208,17 +212,45 @@ def spring(machines: List[LocatedMachine]):
                 resultant_forces[machine_index] += force_vector
             machine_index += 1
 
+        color_legend = {}
+
         for i in range(len(resultant_forces)):
             if with_visuals:
+                # Chat-gpt generated
+                def hash_to_rgb(hash_value):
+                    r = ((hash_value >> 16) & 255) / 255.0
+                    g = ((hash_value >> 8) & 255) / 255.0
+                    b = (hash_value & 255) / 255.0
+                    return r, g, b
+
+                color = hash_to_rgb(machines[i].machine.recipe.alias.__hash__())
                 machine_shape = matplotlib.patches.Rectangle(
-                    machines[i].position.values, width=3, height=3
+                    machines[i].position.values,
+                    width=3,
+                    height=3,
+                    color=color,
                 )
+
                 ax.add_patch(machine_shape)
+
+                # Add the color and its label to the dictionary
+                color_legend[machines[i].machine.recipe.alias] = (
+                    matplotlib.patches.Patch(
+                        color=color, label=machines[i].machine.recipe.alias
+                    )
+                )
 
             machines[i].move(resultant_forces[i] * c4)
             resultant_forces[i] = Vector(0, 0)
 
         if with_visuals:
+            # Create a custom legend using the color and label pairs in the dictionary
+            ax.legend(
+                handles=list(color_legend.values()),
+                bbox_to_anchor=(0.7, 0.7),
+                loc="upper left",
+            )
+
             plt.pause(0.1)
             ax.clear()
             ax.set_xlim(0, WIDTH)
