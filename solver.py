@@ -157,11 +157,16 @@ def spring(machines: List[LocatedMachine]):
     """
     for machine in machines:
         for input in machine.machine.inputs:
-            source_machine = find_machine_of_type(machines, input)
-            if source_machine is None:
-                pass  # TODO External input should be fixed at the edge of the construction site
-            else:
+            found_machine_count = 0
+            while machine.missing_input[input] > 0:
+                source_machine = find_machine_of_type(machines, input)
+                if source_machine is None:
+                    break
+                found_machine_count += 1
                 machine.connect(source_machine, input)
+
+            if found_machine_count == 0:
+                pass  # TODO External input should be fixed at the edge of the construction site
 
     # IDEA Examine algorithms found when searching for
     #      "force directed graph layout algorithm"
@@ -175,9 +180,8 @@ def spring(machines: List[LocatedMachine]):
     c3 = 1
     c4 = 1
     resultant_forces = [Vector() for i in range(len(machines))]
-    for iteration_no in range(
-        20
-    ):  # lots of small iterations with small movement in each - high resolution
+    for iteration_no in range(20):
+        # lots of small iterations with small movement in each - high resolution
         machine_index = 0
         for machine in machines:
             # calculating how all other machines affect this machine
@@ -188,9 +192,8 @@ def spring(machines: List[LocatedMachine]):
 
                 distance = machine.distance_to(other_machine)
 
-                if (
-                    other_machine in connections
-                ):  # Spring is an attracting force, positive values if far away
+                if other_machine in connections:
+                    # Spring is an attracting force, positive values if far away
                     spring_force = c1 * math.log(distance / c2)
                 else:
                     spring_force = 0
@@ -242,16 +245,22 @@ def find_machine_of_type(machines: List[LocatedMachine], machine_type: dict[any,
     if len(machine_list) < 1:
         print(f" no machine produces {machine_type}")
         return None
-    if len(machine_list) > 1:
+    else:
+        # Find the machine with the least available output, above 0
         minimum = 99999
         machine_to_connect = machine_list[0]
         for machine in machine_list:
-            if machine.available_production < minimum:
+            if (
+                machine.available_production < minimum
+                and machine.available_production > 0
+            ):
                 minimum = machine.available_production
                 machine_to_connect = machine
 
+        if machine_to_connect.available_production == 0:
+            # In case we never went past machine 0, which might have 0 available production
+            return None
         return machine_to_connect
-    return machine_list[0]
 
 
 def machines_to_int(machines: List[LocatedMachine]):
