@@ -35,11 +35,17 @@ class LocatedMachine:
         self.position = position
         # Items pr second - True to make it calculate actual value.
         a = machine.flows(True).byItem
-        #FIXME Available production should also be a dictionary for multiple outputs
-        self.available_production =  sum(item.rateOut for item in machine.flows(True).byItem.values())
+        # FIXME Available production should also be a dictionary for multiple outputs
+        self.available_production = sum(
+            item.rateOut for item in machine.flows(True).byItem.values()
+        )
 
         self.users = []
-        self.missing_input = {key: value.rateIn for key, value in machine.flows(True).byItem.items() if value.rateIn != 0}
+        self.missing_input = {
+            key: value.rateIn
+            for key, value in machine.flows(True).byItem.items()
+            if value.rateIn != 0
+        }
         print(self.missing_input)
 
     def set_random_position(self, site_size):
@@ -63,8 +69,8 @@ class LocatedMachine:
         return str(self.machine) + " at " + str(self.position)
 
     def set_user(self, other_machine: "LocatedMachine", usage) -> int:
-        '''
-        Returns the production this machine could provide'''
+        """
+        Returns the production this machine could provide"""
         assert isinstance(other_machine, LocatedMachine)
         used = 0
         if self.available_production > 0:
@@ -80,18 +86,17 @@ class LocatedMachine:
         return used
 
     def connect(self, otherMachine: "LocatedMachine", item_type) -> bool:
-        '''
+        """
         Returns if the connection satisfied the remaining requirements
         Input is necessary if machine produces multiple thing
-        '''
+        """
         assert isinstance(otherMachine, LocatedMachine)
         self.connections.append(otherMachine)
         b = self.missing_input[item_type]
-        a =  self.machine.flows().byItem
+        a = self.machine.flows().byItem
         print(type(a))
         extra_input = otherMachine.set_user(self, self.missing_input[item_type])
         self.missing_input[item_type] -= extra_input
-
 
     def getConnections(self) -> List["LocatedMachine"]:
         return self.connections
@@ -202,9 +207,10 @@ def spring(machines: List[LocatedMachine]):
 
         for i in range(len(resultant_forces)):
             if with_visuals:
-                machine_shape = matplotlib.patches.Rectangle(machines[i].position.values, width=3, height=3)
+                machine_shape = matplotlib.patches.Rectangle(
+                    machines[i].position.values, width=3, height=3
+                )
                 ax.add_patch(machine_shape)
-
 
             machines[i].move(resultant_forces[i] * c4)
             resultant_forces[i] = Vector(0, 0)
