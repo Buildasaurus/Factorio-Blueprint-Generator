@@ -4,5 +4,5 @@ factoriocalc
 networkx
 
 # Test output of graph
-mathplotlib
+matplotlib
 PyQt5
