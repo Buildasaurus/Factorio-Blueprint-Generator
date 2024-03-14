@@ -284,3 +284,10 @@ def compute_max_flow(G: Graph):
     for n in ordered_nodes:
         join_inputs(G, n)
         split_outputs(G, n)
+
+if __name__ == "__main__":
+    """Test code executed if run from command line"""
+    import test.flow
+    import unittest
+
+    unittest.main(defaultTest="test.flow", verbosity=2)

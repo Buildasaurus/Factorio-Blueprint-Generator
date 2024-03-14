@@ -44,9 +44,9 @@ FAST_INSERTER_SPEED = 60/26 # 2.31 items/sec
 
 class TestBurnerDrill(unittest.TestCase):
     '''Simple flow with burner drill and wooden box.
-    
+
     A burner drill (node A) is placed such that its output drops into
-      a wodden box (node B)
+      a wooden box (node B)
     '''
     def build_graph(self):
         g = flow.Graph()
@@ -78,7 +78,7 @@ class TestTransportBelt(unittest.TestCase):
     am1 : 1 iron gear + 1 iron plate = 2 transport belt
     am2 : 2 iron plate -> 1 iron gear
     At the top runs a transport belt with iron plate
-    am1 gets iron gear directly from am2 with an inserter 
+    am1 gets iron gear directly from am2 with an inserter
     both machines gets iron plates from the upper transport belt via inserters
 
     node A: assembling-machine-1 (am1)
@@ -154,7 +154,7 @@ class TestTransportBelt(unittest.TestCase):
             inputs={'iron-plate': BELT_DENSITY},
             outputs={'iron-plate': BELT_DENSITY},
             time=1/TRANSPORT_BELT_TILE_SPEED)
-        
+
         g.add_edge('F','H')
         g.add_edge('H','G')
         g.add_edge('F','D')
