@@ -195,8 +195,8 @@ def spring(machines: List[LocatedMachine]):
                 # Force is the force the other machine is excerting on this machine
                 # positive values means that the other machine is pushing this machine away.
                 force = repelling_force - spring_force
-                force_vector = machine.directionTo(other_machine).normalize() * -force
-                # idk why it's not minus.
+                force_vector = other_machine.directionTo(machine).normalize() * force
+
                 resultant_forces[machine_index] += force_vector
             machine_index += 1
 
@@ -204,7 +204,7 @@ def spring(machines: List[LocatedMachine]):
             if with_visuals:
                 machine_shape = matplotlib.patches.Rectangle(machines[i].position.values, width=3, height=3)
                 ax.add_patch(machine_shape)
-                
+
 
             machines[i].move(resultant_forces[i] * c4)
             resultant_forces[i] = Vector(0, 0)
@@ -249,7 +249,7 @@ def find_machine_of_type(machines: List[LocatedMachine], machine_type: dict[any,
 
 
 def machines_to_int(machines: List[LocatedMachine]):
-    "Assumes that the machiens are not overlapping in any way"
+    "Assumes that the machines are not overlapping in any way"
     for machine in machines:
         machine.to_int()
 
