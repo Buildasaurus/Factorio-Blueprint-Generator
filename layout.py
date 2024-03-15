@@ -248,3 +248,29 @@ def direction_to(s, t) -> Direction:
             return Direction.WEST
         else:
             return Direction.SOUTHWEST
+
+#
+#  Layout algorithms
+#
+
+def belt_path(site: ConstructionSite, point_list, belt_type='transport-belt'):
+    '''Layout a path of transport belts
+    :param site:  The ConstructionSite to place belts on
+    :param point_list: The points that should be connected. There should be at least two points. Any following points are only allowed to modify one dimension.
+    :param belt_type: The entity name of the belt to place.
+    Note: The cell pointed to by the last point in point_list is not laid out, it is only used to set direction of the second-last belt cell. For example point_list = [(0,0), (10,0)] will place 10 belt cells, at (0,0) .. (9,0)
+    '''
+    for i in range(len(point_list) - 1):
+        s, t = point_list[i][:], point_list[i + 1]
+        if s[0] != t[0] and s[1] != t[1]:
+            raise ValueError('Any pair of following points must only change one dimension. This is not true for {s}, {t}')
+        if s[0] == t[0] and s[1] == t[1]:
+            raise ValueError(f'Duplicate points are not allowed. This happens at index {i} and {i+1}')
+        d = direction_to(s, t)
+        sign = lambda a: -1 if a < 0 else 1 if a > 0 else 0
+        step = [sign(t[i] - s[i]) for i in range(2)]
+        while s != t:
+            site.add_entity(belt_type, s, d)
+            s[0] += step[0]
+            s[1] += step[1]
+        
