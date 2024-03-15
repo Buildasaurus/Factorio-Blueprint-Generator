@@ -16,11 +16,6 @@ from vector import Vector
 import layout
 
 
-WIDTH = 96  # blueprint width
-HEIGHT = 96  # blueprint height
-
-with_visuals = True
-
 #
 #  classes
 #
