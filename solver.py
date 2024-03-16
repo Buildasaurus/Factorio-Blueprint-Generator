@@ -180,10 +180,10 @@ def spring(machines: List[LocatedMachine]):
 
     c1 = 1
     c2 = 6  # this value is the preferred balanced distance
-    c3 = 1
+    c3 = 5 # Repelling force multiplier
     c4 = 1
     resultant_forces = [Vector() for i in range(len(machines))]
-    for iteration_no in range(100):
+    for iteration_no in range(200):
         # lots of small iterations with small movement in each - high resolution
         machine_index = 0
         for machine in machines:
@@ -251,7 +251,7 @@ def spring(machines: List[LocatedMachine]):
                 loc="upper left",
             )
 
-            plt.pause(0.1)
+            plt.pause(0.05)
             ax.clear()
             ax.set_xlim(0, WIDTH)
             ax.set_ylim(0, HEIGHT)
