@@ -26,13 +26,57 @@ with_visuals = True
 #
 
 
-class LocatedMachine:
+class FactoryNode:
+    """ An abstraction of machines and ports used to find rough layout. """
+
+    def __init__(self, position=None):
+        """Create a FactoryNode
+        :param position:  Upper left position of node
+        """
+        self.position = position
+
+    def size(self):
+        return (0, 0)
+
+    def center(self) -> Vector:
+        return self.position + (Vector(self.size()) / 2)
+
+    def move(self, direction: Vector):
+        self.position += direction
+
+    def overlaps(self, other: "FactoryNode") -> bool:
+        min_dist = [(self.size()[i] + other.size()[i]) / 2 for i in range(2)]
+        return (
+            abs(self.center()[0] - other.center()[0]) < min_dist[0]
+            and abs(self.center()[1] - other.center()[1]) < min_dist[1]
+        )
+
+class Port(FactoryNode):
+    """ A point where a factory exchanges items with its surroundings. 
+    This is usually a transport-belt tile, but can also be a provider chest
+    or requester chest. """
+
+    def __init__(self, item_type, rate, position=None):
+        """Create an external port for a factory. 
+        :param item_type:  The item type exchanged here
+        :param rate:  The flow through this port, measured in items per second.
+            Positive means output from factory, negative means input to factory.
+        :param position:  The position of the port
+        """
+        super().__init__(position)
+        self.item_type = item_type
+        self.rate = rate
+
+    def size(self):
+        return (1, 1)
+
+class LocatedMachine(FactoryNode):
     "A data class to store a machine and its position"
 
     def __init__(self, machine: Machine, position=None):
+        super().__init__(position)
         self.connections = []
         self.machine = machine
-        self.position = position
         # Items pr second - True to make it calculate actual value.
         a = machine.flows(True).byItem
         # FIXME Available production should also be a dictionary for multiple outputs
@@ -47,6 +91,10 @@ class LocatedMachine:
             if value.rateIn != 0
         }
         print(self.missing_input)
+    
+    def size(self):
+        # TODO - don't assume size is 4
+        return (4, 4)
 
     def set_random_position(self, site_size):
         """Place the machine on a random position inside the provided dimension"""
@@ -114,21 +162,6 @@ class LocatedMachine:
 
         summed_vectors = self.position - othermachine.position
         return math.sqrt(summed_vectors.inner(summed_vectors))
-
-    def move(self, direction: "Vector"):
-        self.position += direction
-        # TODO Hacky solution, move shouldn't do this, but I want it to work.
-        # with negative numbers it should handle it in another smarter way.
-        self.position = Vector(
-            self.position.values[0] % WIDTH, self.position.values[1] % HEIGHT
-        )
-
-    def overlaps(self, other_machine: "LocatedMachine"):
-        # TODO - don't assume size is 4
-        return (
-            abs(self.position[0] - other_machine.position[0]) < 4
-            and abs(self.position[1] - other_machine.position[1]) < 4
-        )
 
 
 def randomly_placed_machines(factory, site_size):
