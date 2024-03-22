@@ -124,8 +124,8 @@ class Graph:
             raise ValueError("You cannot make edges between nodes the graph does not know about.")
         self.graph.add_edge(u, v)
         # Automatically determine items that can flow
-        outputs = set(self.nodes[u].outputs.keys())
-        inputs = set(self.nodes[v].inputs.keys())
+        outputs = set() if self.nodes[u].outputs is None else set(self.nodes[u].outputs.keys())
+        inputs = set() if self.nodes[u].inputs is None else set(self.nodes[v].inputs.keys())
         for item in outputs.intersection(inputs):
             self.graph.edges[u, v][item] = 1 # will be scaled by compute_max_flow
 
