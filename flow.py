@@ -139,10 +139,10 @@ class Graph:
         for n in node_list:
             node = self.nodes[n]
             def show(s):
-                return '(null)' if len(s) == 0 else ", ".join(s)
+                return '(null)' if len(s) == 0 else ", ".join([str(i) for i in s])
             inbound = list(self.graph.predecessors(n))
             outbound = list(self.graph.successors(n))
-            result.append(f'node {node.id} - from {show(inbound)} to {show(outbound)} throttle {int(node.throttle*100)}%')
+            result.append(f'node {node.id}: {node.name} - from {show(inbound)} to {show(outbound)} throttle {int(node.throttle*100)}%')
             for prev in inbound:
                 for item, value in self.graph.edges[prev, n].items():
                     result.append(f'  in-flow from {prev}: {value} * {item}')
