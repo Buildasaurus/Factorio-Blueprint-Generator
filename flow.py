@@ -132,7 +132,11 @@ class Graph:
     def __str__(self) -> str:
         '''String representation of flow graph'''
         result = []
-        for n in list(networkx.topological_sort(self.graph)):
+        try:
+            node_list = list(networkx.topological_sort(self.graph))
+        except networkx.NetworkXUnfeasible:
+            node_list = list(self.graph.nodes)
+        for n in node_list:
             node = self.nodes[n]
             def show(s):
                 return '(null)' if len(s) == 0 else ", ".join(s)
