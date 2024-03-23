@@ -347,52 +347,65 @@ def place_on_site(site, machines: List[LocatedMachine]):
 
     for target in machines:
         for source in target.connections:
-            dist = [target.position[i] - source.position[i] for i in range(2)]
-            abs_dist = [abs(dist[i]) for i in range(2)]
-            max_dist = max(abs_dist)
-            # FIXME: Assume both machines are size 3x3
-            if max_dist < 3:
+            # Check for unsupported configuration
+            if target.overlaps(source):
                 raise ValueError(f"Machines overlap")
-            if max_dist == 3:
-                pass
-                # raise NotImplementedError("Machines touch")
-            if min(abs_dist) in [1, 2]:
-                raise NotImplementedError("Path algorithm cannot handle small offsets")
-            assert max_dist > 3
-            # Layout belt
-            belt_count = sum(abs_dist) - 3 - 2 * 1
-            if belt_count < 1:
-                raise NotImplementedError("Machines can connect with single inserter")
+
+            # Find connection points on machines
             pos = [source.position[i] + 1 for i in range(2)]
             tgtpos = [target.position[i] + 1 for i in range(2)]
-            step = 0
-            pos_list = []
-            while pos != tgtpos:
-                step += 1
-                if pos[0] != tgtpos[0]:
-                    pos[0] += 1 if tgtpos[0] > pos[0] else -1
-                else:
-                    pos[1] += 1 if tgtpos[1] > pos[1] else -1
-                if step < 2 or step > 3 + belt_count:
-                    continue
-                pos_list.append(pos[:])
-            pos_list.append(tgtpos)
-            dir_list = []
-            for i in range(len(pos_list) - 1):
-                dir_list.append(layout.direction_to(pos_list[i], pos_list[i + 1]))
-            for i in range(len(dir_list)):
-                kind = (
-                    "inserter" if i == 0 or i + 1 == len(dir_list) else "transport-belt"
-                )
-                dir = dir_list[i]
-                if kind == "inserter":
-                    dir = (dir + 4) % 8
-                site.add_entity(kind, pos_list[i], dir, None)
+
+            # Connect connection points with a transport belt            
+            connect_points(site, pos, tgtpos)
 
 
-def connect_points(site):
-    "Generates a list of coordinates, to walk from one coordinate to the other"
-    pass  # do A star
+def connect_points(site, source, target):
+    """Connect two points with a transport belt"""
+    # TODO A-star search around obstacles on site
+    # The current implementation is much simpler
+
+    # Check for unsupported corner cases
+    dist = [target[i] - source[i] for i in range(2)]
+    abs_dist = [abs(dist[i]) for i in range(2)]
+    max_dist = max(abs_dist)
+    if min(abs_dist) in [1, 2]:
+        raise NotImplementedError("Path algorithm cannot handle small offsets")
+    assert max_dist > 3
+    belt_count = sum(abs_dist) - 3 - 2 * 1
+    if belt_count < 1:
+        raise NotImplementedError("Points can connect with single inserter")
+
+    # Find tiles needed
+    pos = source[:]
+    tgtpos = target[:]
+    step = 0
+    pos_list = []
+    while pos != tgtpos:
+        step += 1
+        if pos[0] != tgtpos[0]:
+            pos[0] += 1 if tgtpos[0] > pos[0] else -1
+        else:
+            pos[1] += 1 if tgtpos[1] > pos[1] else -1
+        if step < 2 or step > 3 + belt_count:
+            continue
+        pos_list.append(pos[:])
+    pos_list.append(tgtpos)
+
+    # Find belt direction
+    dir_list = []
+    for i in range(len(pos_list) - 1):
+        dir_list.append(layout.direction_to(pos_list[i], pos_list[i + 1]))
+    
+    # Add to site
+    for i in range(len(dir_list)):
+        kind = (
+            "inserter" if i == 0 or i + 1 == len(dir_list) else "transport-belt"
+        )
+        d = dir_list[i]
+        if kind == "inserter":
+            d = (d + 4) % 8
+        site.add_entity(kind, pos_list[i], d, None)
+
 
 
 if __name__ == "__main__":
