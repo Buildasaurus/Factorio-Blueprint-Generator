@@ -39,7 +39,7 @@ class FactoryNode:
         return (0, 0)
 
     def center(self) -> Vector:
-        return self.position + (Vector(self.size()) / 2)
+        return self.position + (Vector(*self.size()) / 2)
 
     def move(self, direction: Vector):
         self.position += direction
