@@ -3,18 +3,20 @@ A class to generate blueprints from a certain input, to a certain output, on a c
 amount of space in factorio.
 """
 
-import matplotlib.pyplot as plt
-import matplotlib.patches
-
+# Standard imports
+import math
 import random
 from typing import List
 
-from factoriocalc import Machine, Item, fracs, itm
+# Third party imports
+import matplotlib.pyplot as plt
+import matplotlib.patches
+from factoriocalc import Machine, Item
+
+# First party imports
 from vector import Vector
-
-
 import layout
-import math
+
 
 WIDTH = 96  # blueprint width
 HEIGHT = 96  # blueprint height
@@ -36,15 +38,19 @@ class FactoryNode:
         self.position = position
 
     def size(self):
+        """ Returns a tuple representing the size """
         return (0, 0)
 
     def center(self) -> Vector:
+        """ Returns a position at the center of the node. Coordinates may be floats. """
         return self.position + (Vector(*self.size()) / 2)
 
     def move(self, direction: Vector):
+        """ Move node position the specified amount """
         self.position += direction
 
     def overlaps(self, other: "FactoryNode") -> bool:
+        """ Check if two square nodes overlap """
         min_dist = [(self.size()[i] + other.size()[i]) / 2 for i in range(2)]
         return (
             abs(self.center()[0] - other.center()[0]) < min_dist[0]
@@ -52,12 +58,12 @@ class FactoryNode:
         )
 
 class Port(FactoryNode):
-    """ A point where a factory exchanges items with its surroundings. 
+    """ A point where a factory exchanges items with its surroundings.
     This is usually a transport-belt tile, but can also be a provider chest
     or requester chest. """
 
     def __init__(self, item_type, rate, position=None):
-        """Create an external port for a factory. 
+        """Create an external port for a factory.
         :param item_type:  The item type exchanged here
         :param rate:  The flow through this port, measured in items per second.
             Positive means output from factory, negative means input to factory.
@@ -91,7 +97,7 @@ class LocatedMachine(FactoryNode):
             if value.rateIn != 0
         }
         print(self.missing_input)
-    
+
     def size(self):
         # TODO - don't assume size is 4
         return (4, 4)
@@ -117,8 +123,7 @@ class LocatedMachine(FactoryNode):
         return str(self.machine) + " at " + str(self.position)
 
     def set_user(self, other_machine: "LocatedMachine", usage) -> int:
-        """
-        Returns the production this machine could provide"""
+        """Returns the production this machine could provide"""
         assert isinstance(other_machine, LocatedMachine)
         used = 0
         if self.available_production > 0:
@@ -134,9 +139,10 @@ class LocatedMachine(FactoryNode):
         return used
 
     def connect(self, otherMachine: "LocatedMachine", item_type) -> bool:
-        """
-        Returns if the connection satisfied the remaining requirements
-        Input is necessary if machine produces multiple thing
+        """ Set up a connection from other to this machine
+        :param otherMachine:  source of items
+        :param item_type:  item type to get from source
+        :return:  True, if all input requirements were satisfied
         """
         assert isinstance(otherMachine, LocatedMachine)
         self.connections.append(otherMachine)
@@ -349,13 +355,13 @@ def place_on_site(site, machines: List[LocatedMachine]):
         for source in target.connections:
             # Check for unsupported configuration
             if target.overlaps(source):
-                raise ValueError(f"Machines overlap")
+                raise ValueError("Machines overlap")
 
             # Find connection points on machines
             pos = [source.position[i] + 1 for i in range(2)]
             tgtpos = [target.position[i] + 1 for i in range(2)]
 
-            # Connect connection points with a transport belt            
+            # Connect connection points with a transport belt
             connect_points(site, pos, tgtpos)
 
 
@@ -395,7 +401,7 @@ def connect_points(site, source, target):
     dir_list = []
     for i in range(len(pos_list) - 1):
         dir_list.append(layout.direction_to(pos_list[i], pos_list[i + 1]))
-    
+
     # Add to site
     for i in range(len(dir_list)):
         kind = (
