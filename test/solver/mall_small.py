@@ -7,13 +7,14 @@ import factoriocalc.presets as fcc
 
 import layout
 import solver
+from test.solver.visuals import ForceAlgorithmVisuals
 
 #
 #  Test
 #
 
-WIDTH = 96 # blueprint width
-HEIGHT = 96 # blueprint height
+WIDTH = 64 # blueprint width
+HEIGHT = 64 # blueprint height
 
 class TestSmallMall(unittest.TestCase):
     '''This test is more complex, in that the flow is higher so there must be multiple machines for one recipe and the recipe graph is no longer a tree. However, there is still just one obvious way to solve it. No fluids involved.'''
@@ -41,7 +42,12 @@ class TestSmallMall(unittest.TestCase):
         factory = fc.produce(desired_output, using=input_items, roundUp=True).factory
         site = layout.ConstructionSite(WIDTH, HEIGHT)
         machines = solver.randomly_placed_machines(factory, site.size())
-        solver.spring(machines)
+        visuals = ForceAlgorithmVisuals(WIDTH, HEIGHT, fps=20)
+        visuals.set_machines(machines)
+        solver.spring(machines,
+                visuals.show_frame,
+                borders=((0, 0), site.size()),
+                max_iterations=1000)
         solver.machines_to_int(machines)
         solver.place_on_site(site, machines)
         solver.connect_points(site)
