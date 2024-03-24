@@ -149,3 +149,9 @@ class Vector(object):
 
     def __repr__(self):
         return str(self.values)
+
+    def __eq__(self, other):
+        return self.values == other.values
+
+    def __hash__(self) -> int:
+        return hash(self.values)
