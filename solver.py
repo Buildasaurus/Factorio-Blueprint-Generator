@@ -9,8 +9,6 @@ import random
 from typing import List
 
 # Third party imports
-import matplotlib.pyplot as plt
-import matplotlib.patches
 from factoriocalc import Machine, Item
 
 # First party imports
@@ -192,10 +190,12 @@ def randomly_placed_machines(factory, site_size):
     return located_machines
 
 
-def spring(machines: List[LocatedMachine]):
+def spring(machines: List[LocatedMachine], iteration_visitor=None):
     """
     Does the spring algorithm on the given machines, and returns them after
     Will treat input as a list of floats
+    :param machines:  The machines to move
+    :param iteration_visitor:  A visitor function called after each iteration
     """
     for machine in machines:
         for input in machine.machine.inputs:
@@ -214,8 +214,6 @@ def spring(machines: List[LocatedMachine]):
     #      "force directed graph layout algorithm"
     #      One of these is a chapter in a book, published by Brown University
     #      Section 12.2 suggests using logarithmic springs and a repelling force
-    plt.axis([0, WIDTH, 0, HEIGHT])
-    ax = plt.gca()
 
     c1 = 1
     c2 = 6  # this value is the preferred balanced distance
@@ -251,50 +249,12 @@ def spring(machines: List[LocatedMachine]):
                 resultant_forces[machine_index] += force_vector
             machine_index += 1
 
-        color_legend = {}
-
         for i in range(len(resultant_forces)):
             machines[i].move(resultant_forces[i] * c4)
             resultant_forces[i] = Vector(0, 0)
-        if with_visuals:
-            for i in range(len(resultant_forces)):
-                # Chat-gpt generated
-                def hash_to_rgb(hash_value):
-                    r = ((hash_value >> 16) & 255) / 255.0
-                    g = ((hash_value >> 8) & 255) / 255.0
-                    b = (hash_value & 255) / 255.0
-                    return r, g, b
 
-                color = hash_to_rgb(machines[i].machine.recipe.alias.__hash__())
-                machine_shape = matplotlib.patches.Rectangle(
-                    machines[i].position.values,
-                    width=3,
-                    height=3,
-                    color=color,
-                )
-
-                ax.add_patch(machine_shape)
-
-                # Add the color and its label to the dictionary
-                color_legend[machines[i].machine.recipe.alias] = (
-                    matplotlib.patches.Patch(
-                        color=color, label=machines[i].machine.recipe.alias
-                    )
-                )
-
-
-        if with_visuals:
-            # Create a custom legend using the color and label pairs in the dictionary
-            ax.legend(
-                handles=list(color_legend.values()),
-                bbox_to_anchor=(0.7, 0.7),
-                loc="upper left",
-            )
-
-            plt.pause(0.05)
-            ax.clear()
-            ax.set_xlim(0, WIDTH)
-            ax.set_ylim(0, HEIGHT)
+        if iteration_visitor:
+            iteration_visitor()
 
     return machines
 
