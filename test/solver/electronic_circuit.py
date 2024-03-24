@@ -48,7 +48,11 @@ class ForceAlgorithmVisuals:
         self.frame_duration = 1/fps
         plt.axis([0, self.width, 0, self.height])
         self.ax = plt.gca()
+        self.ax.figure.canvas.mpl_connect('close_event', lambda event: self.max_speed())
         self.machines = None
+
+    def max_speed(self):
+        self.frame_duration = 0
 
     def set_machines(self, machines):
         self.machines = machines
