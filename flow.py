@@ -1,27 +1,11 @@
-''' Flow computation.
-This module computes max flow in a graph. Each node represent some kind of processing,
+''' Flow computation in a graph. Each node represent some kind of processing,
 that could be an assembling machine or a transport belt. Edges represents transitions
 from one unit to another.
 
-Example:
-  A burner drill (node A) is placed such that its output drops into a wodden box (node B)
-
-Example:
-  am1 : 1 iron gear + 1 iron plate = 2 transport belt
-  am2 : 2 iron plate -> 1 iron gear
-  At the top runs a transport belt with iron plate
-  am1 gets iron gear directly from am2 with an inserter
-  both machines gets iron plates from the upper transport belt via inserters
-
-  node A: am1
-  node B: inserter from am2 to am1
-  node C: am2
-  node D: inserter from upper belt to am1
-  node E: inserter from upper belt to am2
-  node F: belt before D
-  node G: belt before E
-  node H: belt between F and G
-
+Primary interface:
+- Node - a node in a flow graph
+- Graph - a flow graph
+- compute_max_flow(Graph) - recompute flow in the graph
 '''
 
 import logging
