@@ -3,6 +3,9 @@ factoriocalc
 
 networkx
 
+# Pathfinding - A* algorithm
+Pathfinding
+
 # Test output of graph
 matplotlib
 PyQt5

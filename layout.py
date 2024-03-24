@@ -56,8 +56,8 @@ class ConstructionSite:
         '''
         x, y = pos
         if not (
-            (isinstance(x, int) or x.is_integer()) 
-            and (isinstance(y, int) or y.is_integer()) 
+            (isinstance(x, int) or x.is_integer())
+            and (isinstance(y, int) or y.is_integer())
         ):
             raise ValueError(f'Position must be integer only. Was {pos}')
 
@@ -194,10 +194,10 @@ def site_as_blueprint_string(site, label='Unnamed ConstructionSite', icons=None,
     if description is not None:
         blueprint['description'] = description
     return export_blueprint_dict(bp_dict)
-    
+
 def export_blueprint_dict(bp_dict):
     '''Encodes a blueprint as an exchange string
-    :param blueprint:  a dict representing the blueprint, containing elements defined by 
+    :param blueprint:  a dict representing the blueprint, containing elements defined by
     https://wiki.factorio.com/Blueprint_string_format
     '''
 

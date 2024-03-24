@@ -12,6 +12,11 @@ from typing import List
 from factoriocalc import Machine, Item, fracs, itm
 from vector import Vector
 
+# Guide at https://github.com/brean/python-pathfinding/blob/main/docs/01_basic_usage.md
+from pathfinding.core.diagonal_movement import DiagonalMovement
+from pathfinding.core.grid import Grid
+from pathfinding.finder.a_star import AStarFinder
+from layout import ConstructionSite
 
 import layout
 import math
@@ -27,7 +32,7 @@ with_visuals = True
 
 
 class FactoryNode:
-    """ An abstraction of machines and ports used to find rough layout. """
+    """An abstraction of machines and ports used to find rough layout."""
 
     def __init__(self, position=None):
         """Create a FactoryNode
@@ -51,13 +56,14 @@ class FactoryNode:
             and abs(self.center()[1] - other.center()[1]) < min_dist[1]
         )
 
+
 class Port(FactoryNode):
-    """ A point where a factory exchanges items with its surroundings. 
+    """A point where a factory exchanges items with its surroundings.
     This is usually a transport-belt tile, but can also be a provider chest
-    or requester chest. """
+    or requester chest."""
 
     def __init__(self, item_type, rate, position=None):
-        """Create an external port for a factory. 
+        """Create an external port for a factory.
         :param item_type:  The item type exchanged here
         :param rate:  The flow through this port, measured in items per second.
             Positive means output from factory, negative means input to factory.
@@ -69,6 +75,7 @@ class Port(FactoryNode):
 
     def size(self):
         return (1, 1)
+
 
 class LocatedMachine(FactoryNode):
     "A data class to store a machine and its position"
@@ -91,7 +98,7 @@ class LocatedMachine(FactoryNode):
             if value.rateIn != 0
         }
         print(self.missing_input)
-    
+
     def size(self):
         # TODO - don't assume size is 4
         return (4, 4)
@@ -213,10 +220,10 @@ def spring(machines: List[LocatedMachine]):
 
     c1 = 1
     c2 = 6  # this value is the preferred balanced distance
-    c3 = 5 # Repelling force multiplier
+    c3 = 5  # Repelling force multiplier
     c4 = 1
     resultant_forces = [Vector() for i in range(len(machines))]
-    for iteration_no in range(200):
+    for iteration_no in range(20):
         # lots of small iterations with small movement in each - high resolution
         machine_index = 0
         for machine in machines:
@@ -284,7 +291,7 @@ def spring(machines: List[LocatedMachine]):
                 loc="upper left",
             )
 
-            plt.pause(0.05)
+            plt.pause(0.01)
             ax.clear()
             ax.set_xlim(0, WIDTH)
             ax.set_ylim(0, HEIGHT)
@@ -344,7 +351,7 @@ def place_on_site(site, machines: List[LocatedMachine]):
     for lm in machines:
         machine = lm.machine
         site.add_entity(machine.name, lm.position, 0, machine.recipe.name)
-
+    """
     for target in machines:
         for source in target.connections:
             dist = [target.position[i] - source.position[i] for i in range(2)]
@@ -388,10 +395,37 @@ def place_on_site(site, machines: List[LocatedMachine]):
                 if kind == "inserter":
                     dir = (dir + 4) % 8
                 site.add_entity(kind, pos_list[i], dir, None)
+    """
 
 
-def connect_points(site):
+def connect_points(site: "ConstructionSite", startx, starty, endx, endy):
     "Generates a list of coordinates, to walk from one coordinate to the other"
+    map = [[0 for i in range(WIDTH)] for i in range(HEIGHT)]
+    for entity in site.entities:
+        # An entity is dict(kind, pos, direction, recipe)
+        # FIXME - don't assume entity is 3x3
+
+        print(entity.get("kind"))
+        print(entity.get("pos"))
+        print(entity.get("direction"))
+        print(entity.get("recipe"))
+        posx = entity.get("pos")[0]
+        posy = entity.get("pos")[1]
+
+        for dy in range(-1, 2, 1):
+            for dx in range(-1, 2, 1):
+                map[posx+dx][posy+dy] = 1
+    grid = Grid(matrix = map)
+    start = grid.node(startx, starty)
+    end = grid.node(endx, endy)
+
+    finder = AStarFinder(diagonal_movement=DiagonalMovement.never)
+    path, runs = finder.find_path(start, end, grid)
+
+    print('operations:', runs, 'path length:', len(path))
+    print(grid.grid_str(path=path, start=start, end=end))
+
+    print(map)
     pass  # do A star
 
 
