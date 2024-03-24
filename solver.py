@@ -225,8 +225,7 @@ def spring(machines: List[LocatedMachine], iteration_visitor=None, iteration_thr
     resultant_forces = [Vector() for i in range(len(machines))]
     for iteration_no in range(200):
         # lots of small iterations with small movement in each - high resolution
-        machine_index = 0
-        for machine in machines:
+        for machine_index, machine in enumerate(machines):
             # calculating how all other machines affect this machine
             connections = machine.getConnections()
             connections2 = machine.getUsers()
@@ -250,7 +249,6 @@ def spring(machines: List[LocatedMachine], iteration_visitor=None, iteration_thr
                 force_vector = other_machine.directionTo(machine).normalize() * force
 
                 resultant_forces[machine_index] += force_vector
-            machine_index += 1
 
         if borders is not None:
             # Borders repell if you get too close
