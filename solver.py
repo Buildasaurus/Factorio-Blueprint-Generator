@@ -190,12 +190,13 @@ def randomly_placed_machines(factory, site_size):
     return located_machines
 
 
-def spring(machines: List[LocatedMachine], iteration_visitor=None, iteration_threshold=0.1):
+def spring(machines: List[LocatedMachine], iteration_visitor=None, iteration_threshold=0.1, borders=None):
     """
     Does the spring algorithm on the given machines, and returns them after
     Will treat input as a list of floats
     :param machines:  The machines to move
     :param iteration_visitor:  A visitor function called after each iteration
+    :param borders:  Boundaries for machine position ((min_x, min_y), (max_x, max_y))
     """
     for machine in machines:
         for input in machine.machine.inputs:
@@ -219,6 +220,8 @@ def spring(machines: List[LocatedMachine], iteration_visitor=None, iteration_thr
     c2 = 6 # Preferred distance along connections
     c3 = 5 # Repelling force multiplier
     c4 = 1 # Move multiplier
+    preferred_border_distance = 3
+
     resultant_forces = [Vector() for i in range(len(machines))]
     for iteration_no in range(200):
         # lots of small iterations with small movement in each - high resolution
@@ -248,6 +251,21 @@ def spring(machines: List[LocatedMachine], iteration_visitor=None, iteration_thr
 
                 resultant_forces[machine_index] += force_vector
             machine_index += 1
+
+        if borders is not None:
+            # Borders repell if you get too close
+            min_pos = borders[0]
+            max_pos = borders[1]
+            for machine_index, machine in enumerate(machines):
+                force = [0, 0]
+                for d in range(2):
+                    past_min_border = min_pos[d] - machine.position.values[d] + preferred_border_distance
+                    if past_min_border > 0:
+                        force[d] += past_min_border / preferred_border_distance
+                    past_max_border = machine.position.values[d] - max_pos[d] + preferred_border_distance
+                    if past_max_border > 0:
+                        force[d] -=  past_max_border / preferred_border_distance
+                resultant_forces[machine_index] += Vector(*force)
 
         max_dist = 0
         for i in range(len(resultant_forces)):

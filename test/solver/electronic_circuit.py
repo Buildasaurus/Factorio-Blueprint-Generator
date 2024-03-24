@@ -135,7 +135,7 @@ class TestElectronicCircuit(unittest.TestCase):
         machines = solver.randomly_placed_machines(factory, site.size())
         visuals = ForceAlgorithmVisuals(WIDTH, HEIGHT, fps=20)
         visuals.set_machines(machines)
-        solver.spring(machines, visuals.show_frame)
+        solver.spring(machines, visuals.show_frame, borders=((0, 0), (WIDTH, HEIGHT)))
         print("Machines are at: " + str([machine.position for machine in machines]))
         solver.machines_to_int(machines)
         print("Machines are at: " + str([machine.position for machine in machines]))
