@@ -254,7 +254,10 @@ def spring(machines: List[LocatedMachine]):
         color_legend = {}
 
         for i in range(len(resultant_forces)):
-            if with_visuals:
+            machines[i].move(resultant_forces[i] * c4)
+            resultant_forces[i] = Vector(0, 0)
+        if with_visuals:
+            for i in range(len(resultant_forces)):
                 # Chat-gpt generated
                 def hash_to_rgb(hash_value):
                     r = ((hash_value >> 16) & 255) / 255.0
@@ -279,8 +282,6 @@ def spring(machines: List[LocatedMachine]):
                     )
                 )
 
-            machines[i].move(resultant_forces[i] * c4)
-            resultant_forces[i] = Vector(0, 0)
 
         if with_visuals:
             # Create a custom legend using the color and label pairs in the dictionary
