@@ -215,10 +215,10 @@ def spring(machines: List[LocatedMachine], iteration_visitor=None, iteration_thr
     #      One of these is a chapter in a book, published by Brown University
     #      Section 12.2 suggests using logarithmic springs and a repelling force
 
-    c1 = 1
-    c2 = 6  # this value is the preferred balanced distance
+    c1 = 1 # Spring force multiplier
+    c2 = 6 # Preferred distance along connections
     c3 = 5 # Repelling force multiplier
-    c4 = 1
+    c4 = 1 # Move multiplier
     resultant_forces = [Vector() for i in range(len(machines))]
     for iteration_no in range(200):
         # lots of small iterations with small movement in each - high resolution
