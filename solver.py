@@ -3,13 +3,15 @@ A class to generate blueprints from a certain input, to a certain output, on a c
 amount of space in factorio.
 """
 
-import matplotlib.pyplot as plt
-import matplotlib.patches
-
+# Standard imports
+import math
 import random
 from typing import List
 
-from factoriocalc import Machine, Item, fracs, itm
+# Third party imports
+from factoriocalc import Machine, Item
+
+# First party imports
 from vector import Vector
 
 # Guide at https://github.com/brean/python-pathfinding/blob/main/docs/01_basic_usage.md
@@ -19,7 +21,7 @@ from pathfinding.finder.a_star import AStarFinder
 from layout import ConstructionSite
 
 import layout
-import math
+
 
 WIDTH = 96  # blueprint width
 HEIGHT = 96  # blueprint height
@@ -41,15 +43,19 @@ class FactoryNode:
         self.position = position
 
     def size(self):
+        """ Returns a tuple representing the size """
         return (0, 0)
 
     def center(self) -> Vector:
-        return self.position + (Vector(self.size()) / 2)
+        """ Returns a position at the center of the node. Coordinates may be floats. """
+        return self.position + (Vector(*self.size()) / 2)
 
     def move(self, direction: Vector):
+        """ Move node position the specified amount """
         self.position += direction
 
     def overlaps(self, other: "FactoryNode") -> bool:
+        """ Check if two square nodes overlap """
         min_dist = [(self.size()[i] + other.size()[i]) / 2 for i in range(2)]
         return (
             abs(self.center()[0] - other.center()[0]) < min_dist[0]
@@ -124,8 +130,7 @@ class LocatedMachine(FactoryNode):
         return str(self.machine) + " at " + str(self.position)
 
     def set_user(self, other_machine: "LocatedMachine", usage) -> int:
-        """
-        Returns the production this machine could provide"""
+        """Returns the production this machine could provide"""
         assert isinstance(other_machine, LocatedMachine)
         used = 0
         if self.available_production > 0:
@@ -141,9 +146,10 @@ class LocatedMachine(FactoryNode):
         return used
 
     def connect(self, otherMachine: "LocatedMachine", item_type) -> bool:
-        """
-        Returns if the connection satisfied the remaining requirements
-        Input is necessary if machine produces multiple thing
+        """ Set up a connection from other to this machine
+        :param otherMachine:  source of items
+        :param item_type:  item type to get from source
+        :return:  True, if all input requirements were satisfied
         """
         assert isinstance(otherMachine, LocatedMachine)
         self.connections.append(otherMachine)
@@ -193,10 +199,13 @@ def randomly_placed_machines(factory, site_size):
     return located_machines
 
 
-def spring(machines: List[LocatedMachine]):
+def spring(machines: List[LocatedMachine], iteration_visitor=None, iteration_threshold=0.1, borders=None):
     """
     Does the spring algorithm on the given machines, and returns them after
     Will treat input as a list of floats
+    :param machines:  The machines to move
+    :param iteration_visitor:  A visitor function called after each iteration
+    :param borders:  Boundaries for machine position ((min_x, min_y), (max_x, max_y))
     """
     for machine in machines:
         for input in machine.machine.inputs:
@@ -215,18 +224,17 @@ def spring(machines: List[LocatedMachine]):
     #      "force directed graph layout algorithm"
     #      One of these is a chapter in a book, published by Brown University
     #      Section 12.2 suggests using logarithmic springs and a repelling force
-    plt.axis([0, WIDTH, 0, HEIGHT])
-    ax = plt.gca()
 
-    c1 = 1
-    c2 = 6  # this value is the preferred balanced distance
-    c3 = 5  # Repelling force multiplier
-    c4 = 1
+    c1 = 1 # Spring force multiplier
+    c2 = 6 # Preferred distance along connections
+    c3 = 5 # Repelling force multiplier
+    c4 = 1 # Move multiplier
+    preferred_border_distance = 3
+
     resultant_forces = [Vector() for i in range(len(machines))]
     for iteration_no in range(20):
         # lots of small iterations with small movement in each - high resolution
-        machine_index = 0
-        for machine in machines:
+        for machine_index, machine in enumerate(machines):
             # calculating how all other machines affect this machine
             connections = machine.getConnections()
             connections2 = machine.getUsers()
@@ -250,51 +258,34 @@ def spring(machines: List[LocatedMachine]):
                 force_vector = other_machine.directionTo(machine).normalize() * force
 
                 resultant_forces[machine_index] += force_vector
-            machine_index += 1
 
-        color_legend = {}
+        if borders is not None:
+            # Borders repell if you get too close
+            min_pos = borders[0]
+            max_pos = borders[1]
+            for machine_index, machine in enumerate(machines):
+                force = [0, 0]
+                for d in range(2):
+                    past_min_border = min_pos[d] - machine.position.values[d] + preferred_border_distance
+                    if past_min_border > 0:
+                        force[d] += past_min_border / preferred_border_distance
+                    past_max_border = machine.position.values[d] - max_pos[d] + preferred_border_distance
+                    if past_max_border > 0:
+                        force[d] -=  past_max_border / preferred_border_distance
+                resultant_forces[machine_index] += Vector(*force)
 
+        max_dist = 0
         for i in range(len(resultant_forces)):
-            if with_visuals:
-                # Chat-gpt generated
-                def hash_to_rgb(hash_value):
-                    r = ((hash_value >> 16) & 255) / 255.0
-                    g = ((hash_value >> 8) & 255) / 255.0
-                    b = (hash_value & 255) / 255.0
-                    return r, g, b
-
-                color = hash_to_rgb(machines[i].machine.recipe.alias.__hash__())
-                machine_shape = matplotlib.patches.Rectangle(
-                    machines[i].position.values,
-                    width=3,
-                    height=3,
-                    color=color,
-                )
-
-                ax.add_patch(machine_shape)
-
-                # Add the color and its label to the dictionary
-                color_legend[machines[i].machine.recipe.alias] = (
-                    matplotlib.patches.Patch(
-                        color=color, label=machines[i].machine.recipe.alias
-                    )
-                )
-
-            machines[i].move(resultant_forces[i] * c4)
+            move_step = resultant_forces[i] * c4
+            machines[i].move(move_step)
             resultant_forces[i] = Vector(0, 0)
+            max_dist = max(max_dist, move_step.norm())
 
-        if with_visuals:
-            # Create a custom legend using the color and label pairs in the dictionary
-            ax.legend(
-                handles=list(color_legend.values()),
-                bbox_to_anchor=(0.7, 0.7),
-                loc="upper left",
-            )
+        if iteration_visitor:
+            iteration_visitor()
 
-            plt.pause(0.01)
-            ax.clear()
-            ax.set_xlim(0, WIDTH)
-            ax.set_ylim(0, HEIGHT)
+        if max_dist < iteration_threshold:
+            break
 
     return machines
 
@@ -351,27 +342,16 @@ def place_on_site(site, machines: List[LocatedMachine]):
     for lm in machines:
         machine = lm.machine
         site.add_entity(machine.name, lm.position, 0, machine.recipe.name)
-    """
     for target in machines:
         for source in target.connections:
-            dist = [target.position[i] - source.position[i] for i in range(2)]
-            abs_dist = [abs(dist[i]) for i in range(2)]
-            max_dist = max(abs_dist)
-            # FIXME: Assume both machines are size 3x3
-            if max_dist < 3:
-                raise ValueError(f"Machines overlap")
-            if max_dist == 3:
-                pass
-                # raise NotImplementedError("Machines touch")
-            if min(abs_dist) in [1, 2]:
-                raise NotImplementedError("Path algorithm cannot handle small offsets")
-            assert max_dist > 3
-            # Layout belt
-            belt_count = sum(abs_dist) - 3 - 2 * 1
-            if belt_count < 1:
-                raise NotImplementedError("Machines can connect with single inserter")
+            # Check for unsupported configuration
+            if target.overlaps(source):
+                raise ValueError("Machines overlap")
+
+            # Find connection points on machines
             pos = [source.position[i] + 1 for i in range(2)]
             tgtpos = [target.position[i] + 1 for i in range(2)]
+            '''
             step = 0
             pos_list = []
             while pos != tgtpos:
@@ -395,10 +375,16 @@ def place_on_site(site, machines: List[LocatedMachine]):
                 if kind == "inserter":
                     dir = (dir + 4) % 8
                 site.add_entity(kind, pos_list[i], dir, None)
-    """
+    '''
+        # Connect connection points with a transport belt
+    connect_points(site, pos, tgtpos)
 
 
-def connect_points(site: "ConstructionSite", startx, starty, endx, endy):
+def connect_points(site: "ConstructionSite", pos, tgtpos):
+    startx = pos[0]
+    starty = pos[1]
+    endx = tgtpos[0]
+    endy = tgtpos[1]
     "Generates a list of coordinates, to walk from one coordinate to the other"
     map = [[0 for i in range(WIDTH)] for i in range(HEIGHT)]
     for entity in site.entities:
@@ -426,7 +412,51 @@ def connect_points(site: "ConstructionSite", startx, starty, endx, endy):
     print(grid.grid_str(path=path, start=start, end=end))
 
     print(map)
-    pass  # do A star
+    pass
+
+    '''
+    # Check for unsupported corner cases
+    dist = [target[i] - source[i] for i in range(2)]
+    abs_dist = [abs(dist[i]) for i in range(2)]
+    max_dist = max(abs_dist)
+    if min(abs_dist) in [1, 2]:
+        raise NotImplementedError("Path algorithm cannot handle small offsets")
+    assert max_dist > 3
+    belt_count = sum(abs_dist) - 3 - 2 * 1
+    if belt_count < 1:
+        raise NotImplementedError("Points can connect with single inserter")
+
+    # Find tiles needed
+    pos = source[:]
+    tgtpos = target[:]
+    step = 0
+    pos_list = []
+    while pos != tgtpos:
+        step += 1
+        if pos[0] != tgtpos[0]:
+            pos[0] += 1 if tgtpos[0] > pos[0] else -1
+        else:
+            pos[1] += 1 if tgtpos[1] > pos[1] else -1
+        if step < 2 or step > 3 + belt_count:
+            continue
+        pos_list.append(pos[:])
+    pos_list.append(tgtpos)
+
+    # Find belt direction
+    dir_list = []
+    for i in range(len(pos_list) - 1):
+        dir_list.append(layout.direction_to(pos_list[i], pos_list[i + 1]))
+
+    # Add to site
+    for i in range(len(dir_list)):
+        kind = (
+            "inserter" if i == 0 or i + 1 == len(dir_list) else "transport-belt"
+        )
+        d = dir_list[i]
+        if kind == "inserter":
+            d = (d + 4) % 8
+        site.add_entity(kind, pos_list[i], d, None)
+    '''
 
 
 if __name__ == "__main__":
