@@ -190,7 +190,7 @@ def randomly_placed_machines(factory, site_size):
     return located_machines
 
 
-def spring(machines: List[LocatedMachine], iteration_visitor=None):
+def spring(machines: List[LocatedMachine], iteration_visitor=None, iteration_threshold=0.1):
     """
     Does the spring algorithm on the given machines, and returns them after
     Will treat input as a list of floats
@@ -249,12 +249,18 @@ def spring(machines: List[LocatedMachine], iteration_visitor=None):
                 resultant_forces[machine_index] += force_vector
             machine_index += 1
 
+        max_dist = 0
         for i in range(len(resultant_forces)):
-            machines[i].move(resultant_forces[i] * c4)
+            move_step = resultant_forces[i] * c4
+            machines[i].move(move_step)
             resultant_forces[i] = Vector(0, 0)
+            max_dist = max(max_dist, move_step.norm())
 
         if iteration_visitor:
             iteration_visitor()
+
+        if max_dist < iteration_threshold:
+            break
 
     return machines
 
