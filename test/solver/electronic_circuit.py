@@ -88,7 +88,7 @@ class ForceAlgorithmVisuals:
             loc="upper left",
         )
 
-        plt.pause(0.05)
+        plt.pause(self.frame_duration)
         self.ax.clear()
         self.ax.set_xlim(0, self.width)
         self.ax.set_ylim(0, self.height)
