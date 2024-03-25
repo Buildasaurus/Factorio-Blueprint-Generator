@@ -29,7 +29,7 @@ class ForceAlgorithmVisuals:
         g = ((hash_value >> 8) & 255) / 255.0
         b = (hash_value & 255) / 255.0
         return r, g, b
-    
+
     def show_frame(self):
         color_legend = {}
         for i in range(len(self.machines)):
@@ -69,4 +69,8 @@ class ForceAlgorithmVisuals:
         plt.pause(self.frame_duration)
         self.ax.clear()
         self.ax.set_xlim(0, self.width)
-        self.ax.set_ylim(0, self.height)
+        self.ax.set_ylim(0, self.height
+                         )
+    def close(self):
+        print("Closing plot")
+        plt.close()

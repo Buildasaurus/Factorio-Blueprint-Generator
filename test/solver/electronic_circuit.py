@@ -62,7 +62,7 @@ class TestElectronicCircuit(unittest.TestCase):
 
         site = layout.ConstructionSite(WIDTH, HEIGHT)
         machines = solver.randomly_placed_machines(factory, site.size())
-        visuals = ForceAlgorithmVisuals(WIDTH, HEIGHT, fps=20)
+        visuals = ForceAlgorithmVisuals(WIDTH, HEIGHT, fps=60)
         visuals.set_machines(machines)
         solver.spring(machines, visuals.show_frame, borders=((0, 0), (WIDTH, HEIGHT)))
         print("Machines are at: " + str([machine.position for machine in machines]))
@@ -70,4 +70,6 @@ class TestElectronicCircuit(unittest.TestCase):
         print("Machines are at: " + str([machine.position for machine in machines]))
         solver.place_on_site(site, machines)
         print(site)
+        visuals.close()
         print(layout.site_as_blueprint_string(site, label="test of blueprint code"))
+        print("End of test")
