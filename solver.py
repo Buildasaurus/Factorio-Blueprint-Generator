@@ -362,7 +362,7 @@ def place_on_site(site, machines: List[LocatedMachine]):
             pos = [source.position[i] + 1 for i in range(2)]
             tgtpos = [target.position[i] + 1 for i in range(2)]
 
-            # TODO Remove dead code, and or reimplement what it did. 
+            # TODO Remove dead code, and or reimplement what it did.
             connect_points(site, pos, tgtpos)
             """
             step = 0

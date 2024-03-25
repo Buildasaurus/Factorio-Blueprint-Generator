@@ -50,7 +50,6 @@ class TestSmallMall(unittest.TestCase):
                 max_iterations=100)
         solver.machines_to_int(machines)
         solver.place_on_site(site, machines)
-        solver.connect_points(site)
         site.fit_to_content()
         print(f'site dimensions: {site.size()}')
         print(site)
