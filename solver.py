@@ -39,19 +39,19 @@ class FactoryNode:
         self.position = position
 
     def size(self):
-        """ Returns a tuple representing the size """
+        """Returns a tuple representing the size"""
         return (0, 0)
 
     def center(self) -> Vector:
-        """ Returns a position at the center of the node. Coordinates may be floats. """
+        """Returns a position at the center of the node. Coordinates may be floats."""
         return self.position + (Vector(*self.size()) / 2)
 
     def move(self, direction: Vector):
-        """ Move node position the specified amount """
+        """Move node position the specified amount"""
         self.position += direction
 
     def overlaps(self, other: "FactoryNode") -> bool:
-        """ Check if two square nodes overlap """
+        """Check if two square nodes overlap"""
         min_dist = [(self.size()[i] + other.size()[i]) / 2 for i in range(2)]
         return (
             abs(self.center()[0] - other.center()[0]) < min_dist[0]
@@ -142,7 +142,7 @@ class LocatedMachine(FactoryNode):
         return used
 
     def connect(self, otherMachine: "LocatedMachine", item_type) -> bool:
-        """ Set up a connection from other to this machine
+        """Set up a connection from other to this machine
         :param otherMachine:  source of items
         :param item_type:  item type to get from source
         :return:  True, if all input requirements were satisfied
@@ -195,7 +195,13 @@ def randomly_placed_machines(factory, site_size):
     return located_machines
 
 
-def spring(machines: List[LocatedMachine], iteration_visitor=None, iteration_threshold=0.1, borders=None, max_iterations=200):
+def spring(
+    machines: List[LocatedMachine],
+    iteration_visitor=None,
+    iteration_threshold=0.1,
+    borders=None,
+    max_iterations=200,
+):
     """
     Does the spring algorithm on the given machines, and returns them after
     Will treat input as a list of floats
@@ -221,10 +227,10 @@ def spring(machines: List[LocatedMachine], iteration_visitor=None, iteration_thr
     #      One of these is a chapter in a book, published by Brown University
     #      Section 12.2 suggests using logarithmic springs and a repelling force
 
-    c1 = 1 # Spring force multiplier
-    c2 = 6 # Preferred distance along connections
-    c3 = 5 # Repelling force multiplier
-    c4 = 1 # Move multiplier
+    c1 = 1  # Spring force multiplier
+    c2 = 6  # Preferred distance along connections
+    c3 = 5  # Repelling force multiplier
+    c4 = 1  # Move multiplier
     preferred_border_distance = 3
 
     resultant_forces = [Vector() for i in range(len(machines))]
@@ -262,12 +268,20 @@ def spring(machines: List[LocatedMachine], iteration_visitor=None, iteration_thr
             for machine_index, machine in enumerate(machines):
                 force = [0, 0]
                 for d in range(2):
-                    past_min_border = min_pos[d] - machine.position.values[d] + preferred_border_distance
+                    past_min_border = (
+                        min_pos[d]
+                        - machine.position.values[d]
+                        + preferred_border_distance
+                    )
                     if past_min_border > 0:
                         force[d] += past_min_border / preferred_border_distance
-                    past_max_border = machine.position.values[d] - max_pos[d] + preferred_border_distance
+                    past_max_border = (
+                        machine.position.values[d]
+                        - max_pos[d]
+                        + preferred_border_distance
+                    )
                     if past_max_border > 0:
-                        force[d] -=  past_max_border / preferred_border_distance
+                        force[d] -= past_max_border / preferred_border_distance
                 resultant_forces[machine_index] += Vector(*force)
 
         max_dist = 0
@@ -347,7 +361,7 @@ def place_on_site(site, machines: List[LocatedMachine]):
             # Find connection points on machines
             pos = [source.position[i] + 1 for i in range(2)]
             tgtpos = [target.position[i] + 1 for i in range(2)]
-            '''
+            """
             step = 0
             pos_list = []
             while pos != tgtpos:
@@ -371,14 +385,14 @@ def place_on_site(site, machines: List[LocatedMachine]):
                 if kind == "inserter":
                     dir = (dir + 4) % 8
                 site.add_entity(kind, pos_list[i], dir, None)
-    '''
+    """
         # Connect connection points with a transport belt
     connect_points(site, pos, tgtpos)
 
 
 def connect_points(site: "ConstructionSite", pos, tgtpos) -> List[GridNode]:
-    '''Generates a list of coordinates, to walk from one coordinate to the other
-    :returns: a list of GridNodes'''
+    """Generates a list of coordinates, to walk from one coordinate to the other
+    :returns: a list of GridNodes"""
     startx = pos[0]
     starty = pos[1]
     endx = tgtpos[0]
@@ -397,18 +411,17 @@ def connect_points(site: "ConstructionSite", pos, tgtpos) -> List[GridNode]:
 
         for dy in range(-1, 2, 1):
             for dx in range(-1, 2, 1):
-                map[posx+dx][posy+dy] = 1
-    grid = Grid(matrix = map)
+                map[posx + dx][posy + dy] = 1
+    grid = Grid(matrix=map)
     start = grid.node(startx, starty)
     end = grid.node(endx, endy)
 
     finder = AStarFinder(diagonal_movement=DiagonalMovement.never)
     path, runs = finder.find_path(start, end, grid)
 
-    print('operations:', runs, 'path length:', len(path))
+    print("operations:", runs, "path length:", len(path))
     print(grid.grid_str(path=path, start=start, end=end))
     print(type(path))
-
 
     return path
 
