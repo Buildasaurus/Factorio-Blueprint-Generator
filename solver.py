@@ -15,6 +15,7 @@ from factoriocalc import Machine, Item
 from vector import Vector
 
 # Guide at https://github.com/brean/python-pathfinding/blob/main/docs/01_basic_usage.md
+from pathfinding.core.node import GridNode
 from pathfinding.core.diagonal_movement import DiagonalMovement
 from pathfinding.core.grid import Grid
 from pathfinding.finder.a_star import AStarFinder
@@ -380,13 +381,14 @@ def place_on_site(site, machines: List[LocatedMachine]):
     connect_points(site, pos, tgtpos)
 
 
-def connect_points(site: "ConstructionSite", pos, tgtpos):
+def connect_points(site: "ConstructionSite", pos, tgtpos) -> List[GridNode]:
+    '''Generates a list of coordinates, to walk from one coordinate to the other
+    :returns: a list of GridNodes'''
     startx = pos[0]
     starty = pos[1]
     endx = tgtpos[0]
     endy = tgtpos[1]
-    "Generates a list of coordinates, to walk from one coordinate to the other"
-    map = [[0 for i in range(WIDTH)] for i in range(HEIGHT)]
+    map = [[1 for i in range(WIDTH)] for i in range(HEIGHT)]
     for entity in site.entities:
         # An entity is dict(kind, pos, direction, recipe)
         # FIXME - don't assume entity is 3x3
@@ -410,9 +412,7 @@ def connect_points(site: "ConstructionSite", pos, tgtpos):
 
     print('operations:', runs, 'path length:', len(path))
     print(grid.grid_str(path=path, start=start, end=end))
-
-    print(map)
-    pass
+    print(type(path))
 
     '''
     # Check for unsupported corner cases
@@ -457,6 +457,7 @@ def connect_points(site: "ConstructionSite", pos, tgtpos):
             d = (d + 4) % 8
         site.add_entity(kind, pos_list[i], d, None)
     '''
+    return path
 
 
 if __name__ == "__main__":
