@@ -21,8 +21,8 @@ class TestSmallMall(unittest.TestCase):
     def test_layout_small_mall(self):
         # Input for the blueprint
         input_items = [
-            fc.itm.iron_plate, 
-            fc.itm.steel_plate, 
+            fc.itm.iron_plate,
+            fc.itm.steel_plate,
             fc.itm.copper_plate]
 
         throughput = 1 # items pr second
@@ -47,7 +47,7 @@ class TestSmallMall(unittest.TestCase):
         solver.spring(machines,
                 visuals.show_frame,
                 borders=((0, 0), site.size()),
-                max_iterations=1000)
+                max_iterations=100)
         solver.machines_to_int(machines)
         solver.place_on_site(site, machines)
         solver.connect_points(site)

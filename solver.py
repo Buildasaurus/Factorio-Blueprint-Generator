@@ -383,7 +383,7 @@ def connect_points(site: "ConstructionSite", pos, tgtpos) -> List[GridNode]:
     starty = pos[1]
     endx = tgtpos[0]
     endy = tgtpos[1]
-    map = [[1 for i in range(WIDTH)] for i in range(HEIGHT)]
+    map = [[1 for i in range(site.size()[0])] for i in range(site.size()[1])]
     for entity in site.entities:
         # An entity is dict(kind, pos, direction, recipe)
         # FIXME - don't assume entity is 3x3
