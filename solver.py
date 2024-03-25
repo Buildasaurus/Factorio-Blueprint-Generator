@@ -409,49 +409,7 @@ def connect_points(site: "ConstructionSite", pos, tgtpos) -> List[GridNode]:
     print(grid.grid_str(path=path, start=start, end=end))
     print(type(path))
 
-    '''
-    # Check for unsupported corner cases
-    dist = [target[i] - source[i] for i in range(2)]
-    abs_dist = [abs(dist[i]) for i in range(2)]
-    max_dist = max(abs_dist)
-    if min(abs_dist) in [1, 2]:
-        raise NotImplementedError("Path algorithm cannot handle small offsets")
-    assert max_dist > 3
-    belt_count = sum(abs_dist) - 3 - 2 * 1
-    if belt_count < 1:
-        raise NotImplementedError("Points can connect with single inserter")
 
-    # Find tiles needed
-    pos = source[:]
-    tgtpos = target[:]
-    step = 0
-    pos_list = []
-    while pos != tgtpos:
-        step += 1
-        if pos[0] != tgtpos[0]:
-            pos[0] += 1 if tgtpos[0] > pos[0] else -1
-        else:
-            pos[1] += 1 if tgtpos[1] > pos[1] else -1
-        if step < 2 or step > 3 + belt_count:
-            continue
-        pos_list.append(pos[:])
-    pos_list.append(tgtpos)
-
-    # Find belt direction
-    dir_list = []
-    for i in range(len(pos_list) - 1):
-        dir_list.append(layout.direction_to(pos_list[i], pos_list[i + 1]))
-
-    # Add to site
-    for i in range(len(dir_list)):
-        kind = (
-            "inserter" if i == 0 or i + 1 == len(dir_list) else "transport-belt"
-        )
-        d = dir_list[i]
-        if kind == "inserter":
-            d = (d + 4) % 8
-        site.add_entity(kind, pos_list[i], d, None)
-    '''
     return path
 
 
