@@ -361,6 +361,9 @@ def place_on_site(site, machines: List[LocatedMachine]):
             # Find connection points on machines
             pos = [source.position[i] + 1 for i in range(2)]
             tgtpos = [target.position[i] + 1 for i in range(2)]
+
+            # TODO Remove dead code, and or reimplement what it did. 
+            connect_points(site, pos, tgtpos)
             """
             step = 0
             pos_list = []
@@ -386,8 +389,6 @@ def place_on_site(site, machines: List[LocatedMachine]):
                     dir = (dir + 4) % 8
                 site.add_entity(kind, pos_list[i], dir, None)
     """
-        # Connect connection points with a transport belt
-    connect_points(site, pos, tgtpos)
 
 
 def connect_points(site: "ConstructionSite", pos, tgtpos) -> List[GridNode]:
