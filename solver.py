@@ -230,6 +230,8 @@ def spring(
 
     resultant_forces = [Vector() for i in range(len(machines))]
     for iteration_no in range(max_iterations):
+        if iteration_no/max_iterations*100 % 10 == 0:
+            print(f"{iteration_no} of at most {max_iterations}")
         # lots of small iterations with small movement in each - high resolution
         for machine_index, machine in enumerate(machines):
             # calculating how all other machines affect this machine
@@ -279,6 +281,7 @@ def spring(
                         force[d] -= past_max_border / preferred_border_distance
                 resultant_forces[machine_index] += Vector(*force)
 
+        # Check for no more movement
         max_dist = 0
         for i in range(len(resultant_forces)):
             move_step = resultant_forces[i] * c4
@@ -412,8 +415,8 @@ def connect_points(site: "ConstructionSite", pos, tgtpos) -> List[GridNode]:
     path, runs = finder.find_path(start, end, grid)
 
     print("operations:", runs, "path length:", len(path))
-    print(grid.grid_str(path=path, start=start, end=end))
-    print(type(path))
+    #print(grid.grid_str(path=path, start=start, end=end))
+    #print(type(path))
 
     return path
 
