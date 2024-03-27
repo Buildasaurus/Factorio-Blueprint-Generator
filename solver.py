@@ -99,7 +99,7 @@ class LocatedMachine(FactoryNode):
             for key, value in machine.flows(True).byItem.items()
             if value.rateIn != 0
         }
-        print(self.missing_input)
+        #print(self.missing_input)
 
     def size(self):
         # TODO - don't assume size is 4
@@ -112,7 +112,7 @@ class LocatedMachine(FactoryNode):
         self.position = Vector(
             random.random() * corner_range[0], random.random() * corner_range[1]
         )
-        print(self.position.values)
+        #print(self.position.values)
 
     def to_int(self):
         """Converts the stored position to integers.
@@ -138,7 +138,7 @@ class LocatedMachine(FactoryNode):
                 used = usage
                 self.available_production -= usage
 
-        print(self.available_production)
+        #print(self.available_production)
         return used
 
     def connect(self, otherMachine: "LocatedMachine", item_type) -> bool:
@@ -151,7 +151,6 @@ class LocatedMachine(FactoryNode):
         self.connections.append(otherMachine)
         b = self.missing_input[item_type]
         a = self.machine.flows().byItem
-        print(type(a))
         extra_input = otherMachine.set_user(self, self.missing_input[item_type])
         self.missing_input[item_type] -= extra_input
 
@@ -187,10 +186,6 @@ def randomly_placed_machines(factory, site_size):
             located_machine = LocatedMachine(machine.machine)
             located_machine.set_random_position(site_size)
             located_machines.append(located_machine)
-
-    # FIXME remove this debug code
-    for located_machine in located_machines:
-        print(located_machine)
 
     return located_machines
 
@@ -403,10 +398,6 @@ def connect_points(site: "ConstructionSite", pos, tgtpos) -> List[GridNode]:
         # An entity is dict(kind, pos, direction, recipe)
         # FIXME - don't assume entity is 3x3
 
-        print(entity.get("kind"))
-        print(entity.get("pos"))
-        print(entity.get("direction"))
-        print(entity.get("recipe"))
         posx = entity.get("pos")[0]
         posy = entity.get("pos")[1]
 
