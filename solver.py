@@ -362,31 +362,7 @@ def place_on_site(site, machines: List[LocatedMachine]):
 
             # TODO Remove dead code, and or reimplement what it did.
             connect_points(site, pos, tgtpos)
-            """
-            step = 0
-            pos_list = []
-            while pos != tgtpos:
-                step += 1
-                if pos[0] != tgtpos[0]:
-                    pos[0] += 1 if tgtpos[0] > pos[0] else -1
-                else:
-                    pos[1] += 1 if tgtpos[1] > pos[1] else -1
-                if step < 2 or step > 3 + belt_count:
-                    continue
-                pos_list.append(pos[:])
-            pos_list.append(tgtpos)
-            dir_list = []
-            for i in range(len(pos_list) - 1):
-                dir_list.append(layout.direction_to(pos_list[i], pos_list[i + 1]))
-            for i in range(len(dir_list)):
-                kind = (
-                    "inserter" if i == 0 or i + 1 == len(dir_list) else "transport-belt"
-                )
-                dir = dir_list[i]
-                if kind == "inserter":
-                    dir = (dir + 4) % 8
-                site.add_entity(kind, pos_list[i], dir, None)
-    """
+
 
 
 def connect_points(site: "ConstructionSite", pos, tgtpos) -> List[GridNode]:
