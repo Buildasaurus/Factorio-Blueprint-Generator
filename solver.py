@@ -351,17 +351,22 @@ def place_on_site(site, machines: List[LocatedMachine]):
         machine = lm.machine
         site.add_entity(machine.name, lm.position, 0, machine.recipe.name)
     for target in machines:
-        for source in target.connections:
+        for source in target.getConnections():
             # Check for unsupported configuration
             if target.overlaps(source):
                 raise ValueError("Machines overlap")
 
             # Find connection points on machines
-            pos = [source.position[i] + 1 for i in range(2)]
-            tgtpos = [target.position[i] + 1 for i in range(2)]
+            pos = [source.position[i] - 1 for i in range(2)]
+            tgtpos = [target.position[i] - 1 for i in range(2)]
 
-            # TODO Remove dead code, and or reimplement what it did.
-            connect_points(site, pos, tgtpos)
+            path = connect_points(site, pos, tgtpos)
+            print(path)
+            for node in path:
+                #FIXME implement directions and inserters
+                dir = 0
+                kind = "transport-belt"
+                site.add_entity(kind, (node.x,node.y), dir, None)
 
 
 
@@ -375,14 +380,14 @@ def connect_points(site: "ConstructionSite", pos, tgtpos) -> List[GridNode]:
     map = [[1 for i in range(site.size()[0])] for i in range(site.size()[1])]
     for entity in site.entities:
         # An entity is dict(kind, pos, direction, recipe)
-        # FIXME - don't assume entity is 3x3
+        # FIXME - don't assume entity is 3x3, belts aren't for example
 
         posx = entity.get("pos")[0]
         posy = entity.get("pos")[1]
 
         for dy in range(-1, 2, 1):
             for dx in range(-1, 2, 1):
-                map[posx + dx][posy + dy] = 1
+                map[posx + dx][posy + dy] = 0
     grid = Grid(matrix=map)
     start = grid.node(startx, starty)
     end = grid.node(endx, endy)
@@ -391,7 +396,7 @@ def connect_points(site: "ConstructionSite", pos, tgtpos) -> List[GridNode]:
     path, runs = finder.find_path(start, end, grid)
 
     print("operations:", runs, "path length:", len(path))
-    #print(grid.grid_str(path=path, start=start, end=end))
+    print(grid.grid_str(path=path, start=start, end=end))
     #print(type(path))
 
     return path
