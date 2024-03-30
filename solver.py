@@ -360,34 +360,6 @@ def place_on_site(site, machines: List[LocatedMachine]):
             pos = [source.position[i] + 1 for i in range(2)]
             tgtpos = [target.position[i] + 1 for i in range(2)]
 
-            # TODO Remove dead code, and or reimplement what it did.
-            connect_points(site, pos, tgtpos)
-            """
-            step = 0
-            pos_list = []
-            while pos != tgtpos:
-                step += 1
-                if pos[0] != tgtpos[0]:
-                    pos[0] += 1 if tgtpos[0] > pos[0] else -1
-                else:
-                    pos[1] += 1 if tgtpos[1] > pos[1] else -1
-                if step < 2 or step > 3 + belt_count:
-                    continue
-                pos_list.append(pos[:])
-            pos_list.append(tgtpos)
-            dir_list = []
-            for i in range(len(pos_list) - 1):
-                dir_list.append(layout.direction_to(pos_list[i], pos_list[i + 1]))
-            for i in range(len(dir_list)):
-                kind = (
-                    "inserter" if i == 0 or i + 1 == len(dir_list) else "transport-belt"
-                )
-                dir = dir_list[i]
-                if kind == "inserter":
-                    dir = (dir + 4) % 8
-                site.add_entity(kind, pos_list[i], dir, None)
-    """
-
             connect_machines(site, pos, tgtpos)
 
 def connect_machines(site: ConstructionSite, pos, tgtpos):
@@ -397,6 +369,22 @@ def connect_machines(site: ConstructionSite, pos, tgtpos):
     :param pos: Position of source machine
     :param tgtpos: Position of target machine
     """
+    # Find an open path between machines
+    grid_node_list = find_path(site, pos, tgtpos)
+    pos_list = [(n.x, n.y) for n in grid_node_list]
+    # Find proper orientation of belt cells
+    dir_list = []
+    for i in range(len(pos_list) - 1):
+        dir_list.append(layout.direction_to(pos_list[i], pos_list[i + 1]))
+    # Add belt and inserters to site
+    for i in range(len(dir_list)):
+        kind = (
+            "inserter" if i == 0 or i + 1 == len(dir_list) else "transport-belt"
+        )
+        dir = dir_list[i]
+        if kind == "inserter":
+            dir = (dir + 4) % 8
+        site.add_entity(kind, pos_list[i], dir, None)
 
 def find_path(site: ConstructionSite, pos, tgtpos) -> List[GridNode]:
     """Generates a list of coordinates, to walk from one coordinate to the other
