@@ -362,12 +362,15 @@ def place_on_site(site, machines: List[LocatedMachine]):
 
             connect_machines(site, pos, tgtpos)
 
-def connect_machines(site: ConstructionSite, pos, tgtpos):
+def connect_machines(site: ConstructionSite, pos, tgtpos,
+        inserter='inserter', belt='transport-belt'):
     """Connect two machines by adding a transport belt to the 
     construction site.
     :param site: The site to build on
     :param pos: Position of source machine
     :param tgtpos: Position of target machine
+    :param inserter: Type of inserter to use
+    :param belt: Type of belt to use
     """
     # Find an open path between machines
     grid_node_list = find_path(site, pos, tgtpos)
@@ -379,10 +382,10 @@ def connect_machines(site: ConstructionSite, pos, tgtpos):
     # Add belt and inserters to site
     for i in range(len(dir_list)):
         kind = (
-            "inserter" if i == 0 or i + 1 == len(dir_list) else "transport-belt"
+            inserter if i == 0 or i + 1 == len(dir_list) else belt
         )
         dir = dir_list[i]
-        if kind == "inserter":
+        if kind == inserter:
             dir = (dir + 4) % 8
         site.add_entity(kind, pos_list[i], dir, None)
 
