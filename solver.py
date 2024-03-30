@@ -388,10 +388,23 @@ def place_on_site(site, machines: List[LocatedMachine]):
                 site.add_entity(kind, pos_list[i], dir, None)
     """
 
+            connect_machines(site, pos, tgtpos)
 
-def connect_points(site: "ConstructionSite", pos, tgtpos) -> List[GridNode]:
+def connect_machines(site: ConstructionSite, pos, tgtpos):
+    """Connect two machines by adding a transport belt to the 
+    construction site.
+    :param site: The site to build on
+    :param pos: Position of source machine
+    :param tgtpos: Position of target machine
+    """
+
+def find_path(site: ConstructionSite, pos, tgtpos) -> List[GridNode]:
     """Generates a list of coordinates, to walk from one coordinate to the other
-    :returns: a list of GridNodes"""
+    :param site: The site knows which coordinates are already taken
+    :param pos: Start position
+    :param tgtpos: Target position
+    :returns: a list of GridNodes
+    """
     startx = pos[0]
     starty = pos[1]
     endx = tgtpos[0]
