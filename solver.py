@@ -102,8 +102,8 @@ class LocatedMachine(FactoryNode):
         #print(self.missing_input)
 
     def size(self):
-        # TODO - don't assume size is 4
-        return (4, 4)
+        # TODO - don't assume size is 3
+        return (3, 3)
 
     def set_random_position(self, site_size):
         """Place the machine on a random position inside the provided dimension"""
