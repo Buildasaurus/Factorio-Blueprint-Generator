@@ -101,12 +101,11 @@ class LocatedMachine(FactoryNode):
         #print(self.missing_input)
 
     def size(self):
-        # TODO - don't assume size is 3
-        return (3, 3)
+        return layout.entity_size(self.machine.name)
 
     def set_random_position(self, site_size):
         """Place the machine on a random position inside the provided dimension"""
-        my_size = layout.entity_size(self.machine.name)
+        my_size = self.size()
         corner_range = [site_size[i] - my_size[i] for i in range(2)]
         self.position = Vector(
             random.random() * corner_range[0], random.random() * corner_range[1]
