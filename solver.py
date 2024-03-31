@@ -419,12 +419,11 @@ def find_path(
             map[r][c] = EXPENSIVE
 
     grid = Grid(matrix=map)
-    start = grid.node(*source.center().as_int())
-    start = grid.node(*(source.center() + 1).as_int())
+    start = [grid.node(*source.center().as_int()), grid.node(*(source.center() + 1).as_int())]
     end = grid.node(*target.center().as_int())
 
     finder = AStarFinder(diagonal_movement=DiagonalMovement.never)
-    path, runs = finder.find_path([start, ], end, grid)
+    path, runs = finder.find_path(start, end, grid)
 
     print("operations:", runs, "path length:", len(path))
     print(grid.grid_str(path=path, start=start, end=end))

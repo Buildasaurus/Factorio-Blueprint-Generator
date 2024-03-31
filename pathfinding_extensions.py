@@ -29,7 +29,7 @@ def my_find_path(self, start: List[GridNode], end, grid):
     first_node.opened = True
     open_list = SimpleHeap(first_node, grid)
     for node_index in range (1,len(start)):
-        open_list.push_node(start.get(node_index))
+        open_list.push_node(start[node_index])
         start[node_index].opened = True
 
     while len(open_list) > 0:
@@ -44,7 +44,7 @@ def my_find_path(self, start: List[GridNode], end, grid):
     return [], self.runs
 
 
-def a_star_find_path(self, start, end, graph):
+def a_star_find_path(self, start: List[GridNode], end, graph):
         """
         find a path from start to end node on grid using the A* algorithm
         :param start: start node
