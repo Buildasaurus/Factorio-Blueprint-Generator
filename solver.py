@@ -370,12 +370,8 @@ def connect_machines(
     # Check for unsupported configuration
     if target.overlaps(source):
         raise ValueError("Machines overlap")
-    # Find connection points on machines
-    pos = source.center()
-    tgtpos = target.center()
     # Find an open path between machines
-    grid_node_list = find_path(site, pos, tgtpos)
-    pos_list = [(n.x, n.y) for n in grid_node_list]
+    pos_list = find_path(site, source, target)
     # Find proper orientation of belt cells
     dir_list = []
     for i in range(len(pos_list) - 1):
@@ -390,26 +386,33 @@ def connect_machines(
             dir = (dir + 4) % 8
         site.add_entity(kind, pos_list[i], dir, None)
 
-def find_path(site: ConstructionSite, start_pos, end_pos) -> List[GridNode]:
-    """Generates a list of coordinates, to walk from one coordinate to the other
+def find_path(
+        site: ConstructionSite,
+        source: FactoryNode,
+        target: FactoryNode
+    ) -> List[tuple]:
+    """Generates a list of coordinates, to walk from one machine to the other
     :param site: The site knows which coordinates are already taken
-    :param start_pos: Start position
-    :param end_pos: Target position
-    :returns: a list of GridNodes
+    :param source: Source machine
+    :param target: Target machine
+    :returns: a list of site coordinates between the two machines
     """
-    startx = start_pos[0]
-    starty = start_pos[1]
-    endx = end_pos[0]
-    endy = end_pos[1]
     map = []
     for r in range(site.size()[1]):
         row = []
         for c in range(site.size()[0]):
             row.append(0 if site.is_reserved(c,r) else 1)
         map.append(row)
+    # Make source and target machines expensive, but not impossible to travel
+    for m in [source, target]:
+        pos = m.position.as_int()
+        for ofs in layout.iter_area(m.size()):
+            c, r = (pos[0] + ofs[0], pos[1] + ofs[1])
+            map[r][c] = 100
+
     grid = Grid(matrix=map)
-    start = grid.node(startx, starty)
-    end = grid.node(endx, endy)
+    start = grid.node(*source.center().as_int())
+    end = grid.node(*target.center().as_int())
 
     finder = AStarFinder(diagonal_movement=DiagonalMovement.never)
     path, runs = finder.find_path(start, end, grid)
@@ -418,7 +421,7 @@ def find_path(site: ConstructionSite, start_pos, end_pos) -> List[GridNode]:
     print(grid.grid_str(path=path, start=start, end=end))
     #print(type(path))
 
-    return path
+    return [(n.x, n.y) for n in path if map[n.y][n.x] < 100]
 
 
 if __name__ == "__main__":
