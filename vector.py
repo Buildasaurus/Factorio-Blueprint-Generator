@@ -7,6 +7,11 @@ class Vector(object):
         if len(args)==0: self.values = (0,0)
         else: self.values = args
 
+    def as_int(self):
+        """ Convert both coordinates to integers """
+        values = tuple(int(v) for v in self.values)
+        return self.__class__(*values)
+
     def norm(self):
         """ Returns the norm (length, magnitude) of the vector """
         return math.sqrt(sum( x*x for x in self ))
