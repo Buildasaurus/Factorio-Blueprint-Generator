@@ -421,14 +421,14 @@ def find_path(
             # right side
             x = pos[0] + m.size()[0]
             y = pos[1] + row
-            if map[y][x] is not BLOCKED:
+            if is_in_bounds(x, y, map) and map[y][x] is not BLOCKED:
                 coordinates[i].append(GridNode(x + 1, y))
                 map[y][x] = BLOCKED
 
             # left side
             x = pos[0] - 1
             y = pos[1] + row
-            if map[y][x] is not BLOCKED:
+            if is_in_bounds(x, y, map) and map[y][x] is not BLOCKED:
                 coordinates[i].append(GridNode(x - 1, y))
                 map[y][x] = BLOCKED
 
@@ -437,14 +437,14 @@ def find_path(
             # downwards side
             x = pos[0] + column
             y = pos[1] + m.size()[1]
-            if map[y][x] is not BLOCKED:
+            if is_in_bounds(x, y, map) and map[y][x] is not BLOCKED:
                 coordinates[i].append(GridNode(x, y + 1))
                 map[y][x] = BLOCKED
 
             # upwards side
             x = pos[0] + column
             y = pos[1] - 1
-            if map[y][x] is not BLOCKED:
+            if is_in_bounds(x, y, map) and map[y][x] is not BLOCKED:
                 coordinates[i].append(GridNode(x, y - 1))
                 map[y][x] = BLOCKED
         i += 1
@@ -459,6 +459,10 @@ def find_path(
     # print(type(path))
 
     return [(n.x, n.y) for n in path if map[n.y][n.x] < EXPENSIVE]
+
+
+def is_in_bounds(x, y, map):
+    return x >= 0 and y >= 0 and x < len(map[0]) and y < len(map)
 
 
 if __name__ == "__main__":
