@@ -22,7 +22,6 @@ from layout import ConstructionSite
 import layout
 
 
-
 #
 #  classes
 #
@@ -98,7 +97,7 @@ class LocatedMachine(FactoryNode):
             for key, value in machine.flows(True).byItem.items()
             if value.rateIn != 0
         }
-        #print(self.missing_input)
+        # print(self.missing_input)
 
     def size(self):
         # TODO - don't assume size is 3
@@ -111,7 +110,7 @@ class LocatedMachine(FactoryNode):
         self.position = Vector(
             random.random() * corner_range[0], random.random() * corner_range[1]
         )
-        #print(self.position.values)
+        # print(self.position.values)
 
     def to_int(self):
         """Converts the stored position to integers.
@@ -137,7 +136,7 @@ class LocatedMachine(FactoryNode):
                 used = usage
                 self.available_production -= usage
 
-        #print(self.available_production)
+        # print(self.available_production)
         return used
 
     def connect(self, otherMachine: "LocatedMachine", item_type) -> bool:
@@ -229,7 +228,7 @@ def spring(
 
     resultant_forces = [Vector() for i in range(len(machines))]
     for iteration_no in range(max_iterations):
-        if iteration_no/max_iterations*100 % 10 == 0:
+        if iteration_no / max_iterations * 100 % 10 == 0:
             print(f"{iteration_no} of at most {max_iterations}")
         # lots of small iterations with small movement in each - high resolution
         for machine_index, machine in enumerate(machines):
@@ -353,11 +352,14 @@ def place_on_site(site, machines: List[LocatedMachine]):
         for source in target.getConnections():
             connect_machines(site, source, target)
 
+
 def connect_machines(
-        site: ConstructionSite,
-        source: FactoryNode,
-        target: FactoryNode,
-        inserter='inserter', belt='transport-belt'):
+    site: ConstructionSite,
+    source: FactoryNode,
+    target: FactoryNode,
+    inserter="inserter",
+    belt="transport-belt",
+):
     """Connect two machines by adding a transport belt to the
     construction site.
     :param site: The site to build on
@@ -376,26 +378,22 @@ def connect_machines(
     for i in range(len(pos_list) - 1):
         dir_list.append(layout.direction_to(pos_list[i], pos_list[i + 1]))
     try:
-        dir_list.append(dir_list[-1]) # repeat last direction
+        dir_list.append(dir_list[-1])  # repeat last direction
     except:
         raise ValueError("No possible path")
 
-
     # Add belt and inserters to site
     for i in range(len(dir_list)):
-        kind = (
-            inserter if i == 0 or i + 1 == len(dir_list) else belt
-        )
+        kind = inserter if i == 0 or i + 1 == len(dir_list) else belt
         dir = dir_list[i]
         if kind == inserter:
             dir = (dir + 4) % 8
         site.add_entity(kind, pos_list[i], dir, None)
 
+
 def find_path(
-        site: ConstructionSite,
-        source: FactoryNode,
-        target: FactoryNode
-    ) -> List[tuple]:
+    site: ConstructionSite, source: FactoryNode, target: FactoryNode
+) -> List[tuple]:
     """Generates a list of coordinates, to walk from one machine to the other
     :param site: The site knows which coordinates are already taken
     :param source: Source machine
@@ -409,25 +407,57 @@ def find_path(
     for r in range(site.size()[1]):
         row = []
         for c in range(site.size()[0]):
-            row.append(BLOCKED if site.is_reserved(c,r) else NORMAL)
+            row.append(BLOCKED if site.is_reserved(c, r) else NORMAL)
         map.append(row)
+
     # Make source and target machines expensive, but not impossible to travel
+    # For each direction in the two dimensions, create starting squares
+    # x and y are the inserter coordinates
+    coordinates = [[] for i in range(2)]
+    i = 0
     for m in [source, target]:
         pos = m.position.as_int()
-        for ofs in layout.iter_area(m.size()):
-            c, r = (pos[0] + ofs[0], pos[1] + ofs[1])
-            map[r][c] = EXPENSIVE
+        for row in range(m.size()[1]):
+
+            # right side
+            x = pos[0] + m.size()[0]
+            y = pos[1] + row
+            if map[y][x] is not BLOCKED:
+                coordinates[i].append(GridNode(x + 1, y))
+                map[y][x] = BLOCKED
+
+            # left side
+            x = pos[0] - 1
+            y = pos[1] + row
+            if map[y][x] is not BLOCKED:
+                coordinates[i].append(GridNode(x - 1, y))
+                map[y][x] = BLOCKED
+
+        for column in range(m.size()[0]):
+
+            # downwards side
+            x = pos[0] + column
+            y = pos[1] + m.size()[1]
+            if map[y][x] is not BLOCKED:
+                coordinates[i].append(GridNode(x, y + 1))
+                map[y][x] = BLOCKED
+
+            # upwards side
+            x = pos[0] + column
+            y = pos[1] - 1
+            if map[y][x] is not BLOCKED:
+                coordinates[i].append(GridNode(x, y - 1))
+                map[y][x] = BLOCKED
+        i += 1
 
     grid = Grid(matrix=map)
-    start = [grid.node(*source.center().as_int()), grid.node(*(source.center() + 1).as_int())]
-    end = grid.node(*target.center().as_int())
 
     finder = AStarFinder(diagonal_movement=DiagonalMovement.never)
-    path, runs = finder.find_path(start, end, grid)
+    path, runs = finder.find_path(coordinates[0], coordinates[1], grid)
 
     print("operations:", runs, "path length:", len(path))
-    print(grid.grid_str(path=path, start=start, end=end))
-    #print(type(path))
+    print(grid.grid_str(path=path, start=coordinates[0], end=coordinates[1]))
+    # print(type(path))
 
     return [(n.x, n.y) for n in path if map[n.y][n.x] < EXPENSIVE]
 
