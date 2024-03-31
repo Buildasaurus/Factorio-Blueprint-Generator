@@ -402,11 +402,11 @@ def find_path(site: ConstructionSite, start_pos, end_pos) -> List[GridNode]:
     endx = end_pos[0]
     endy = end_pos[1]
     map = []
-    for c in range(site.size()[0]):
-        col = []
-        for r in range(site.size()[1]):
-            col.append(0 if site.is_reserved(c,r) else 1)
-        map.append(col)
+    for r in range(site.size()[1]):
+        row = []
+        for c in range(site.size()[0]):
+            row.append(0 if site.is_reserved(c,r) else 1)
+        map.append(row)
     grid = Grid(matrix=map)
     start = grid.node(startx, starty)
     end = grid.node(endx, endy)
