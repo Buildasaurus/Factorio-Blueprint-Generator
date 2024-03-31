@@ -376,7 +376,12 @@ def connect_machines(
     dir_list = []
     for i in range(len(pos_list) - 1):
         dir_list.append(layout.direction_to(pos_list[i], pos_list[i + 1]))
-    dir_list.append(dir_list[-1]) # repeat last direction
+    try:
+        dir_list.append(dir_list[-1]) # repeat last direction
+    except:
+        raise ValueError("No possible path")
+
+
     # Add belt and inserters to site
     for i in range(len(dir_list)):
         kind = (
