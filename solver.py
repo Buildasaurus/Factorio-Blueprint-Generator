@@ -400,7 +400,7 @@ def find_path(
     map = []
     BLOCKED = 0
     NORMAL = 1
-    EXPENSIVE = 100
+    EXPENSIVE = 2
     for r in range(site.size()[1]):
         row = []
         for c in range(site.size()[0]):
