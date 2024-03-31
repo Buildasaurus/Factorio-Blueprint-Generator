@@ -390,17 +390,17 @@ def connect_machines(
             dir = (dir + 4) % 8
         site.add_entity(kind, pos_list[i], dir, None)
 
-def find_path(site: ConstructionSite, pos, tgtpos) -> List[GridNode]:
+def find_path(site: ConstructionSite, start_pos, end_pos) -> List[GridNode]:
     """Generates a list of coordinates, to walk from one coordinate to the other
     :param site: The site knows which coordinates are already taken
-    :param pos: Start position
-    :param tgtpos: Target position
+    :param start_pos: Start position
+    :param end_pos: Target position
     :returns: a list of GridNodes
     """
-    startx = pos[0]
-    starty = pos[1]
-    endx = tgtpos[0]
-    endy = tgtpos[1]
+    startx = start_pos[0]
+    starty = start_pos[1]
+    endx = end_pos[0]
+    endy = end_pos[1]
     map = []
     for c in range(site.size()[0]):
         col = []
