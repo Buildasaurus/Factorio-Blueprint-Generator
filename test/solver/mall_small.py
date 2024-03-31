@@ -42,12 +42,12 @@ class TestSmallMall(unittest.TestCase):
         factory = fc.produce(desired_output, using=input_items, roundUp=True).factory
         site = layout.ConstructionSite(WIDTH, HEIGHT)
         machines = solver.randomly_placed_machines(factory, site.size())
-        visuals = ForceAlgorithmVisuals(WIDTH, HEIGHT, fps=5)
+        visuals = ForceAlgorithmVisuals(WIDTH, HEIGHT, fps=25)
         visuals.set_machines(machines)
         solver.spring(machines,
                 visuals.show_frame,
                 borders=((0, 0), site.size()),
-                max_iterations=100)
+                max_iterations=200)
         solver.machines_to_int(machines)
         solver.place_on_site(site, machines)
         print(f'site dimensions: {site.size()}')
