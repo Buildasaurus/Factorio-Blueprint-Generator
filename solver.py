@@ -352,26 +352,27 @@ def place_on_site(site, machines: List[LocatedMachine]):
         site.add_entity(machine.name, lm.position, 0, machine.recipe.name)
     for target in machines:
         for source in target.getConnections():
-            # Check for unsupported configuration
-            if target.overlaps(source):
-                raise ValueError("Machines overlap")
+            connect_machines(site, source, target)
 
-            # Find connection points on machines
-            pos = [source.position[i] - 1 for i in range(2)]
-            tgtpos = [target.position[i] - 1 for i in range(2)]
-
-            connect_machines(site, pos, tgtpos)
-
-def connect_machines(site: ConstructionSite, pos, tgtpos,
+def connect_machines(
+        site: ConstructionSite,
+        source: FactoryNode,
+        target: FactoryNode,
         inserter='inserter', belt='transport-belt'):
-    """Connect two machines by adding a transport belt to the 
+    """Connect two machines by adding a transport belt to the
     construction site.
     :param site: The site to build on
-    :param pos: Position of source machine
-    :param tgtpos: Position of target machine
+    :param source: Source machine
+    :param target: Target machine
     :param inserter: Type of inserter to use
     :param belt: Type of belt to use
     """
+    # Check for unsupported configuration
+    if target.overlaps(source):
+        raise ValueError("Machines overlap")
+    # Find connection points on machines
+    pos = source.center()
+    tgtpos = target.center()
     # Find an open path between machines
     grid_node_list = find_path(site, pos, tgtpos)
     pos_list = [(n.x, n.y) for n in grid_node_list]
