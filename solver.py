@@ -398,17 +398,20 @@ def find_path(
     :returns: a list of site coordinates between the two machines
     """
     map = []
+    BLOCKED = 0
+    NORMAL = 1
+    EXPENSIVE = 100
     for r in range(site.size()[1]):
         row = []
         for c in range(site.size()[0]):
-            row.append(0 if site.is_reserved(c,r) else 1)
+            row.append(BLOCKED if site.is_reserved(c,r) else NORMAL)
         map.append(row)
     # Make source and target machines expensive, but not impossible to travel
     for m in [source, target]:
         pos = m.position.as_int()
         for ofs in layout.iter_area(m.size()):
             c, r = (pos[0] + ofs[0], pos[1] + ofs[1])
-            map[r][c] = 100
+            map[r][c] = EXPENSIVE
 
     grid = Grid(matrix=map)
     start = grid.node(*source.center().as_int())
@@ -421,7 +424,7 @@ def find_path(
     print(grid.grid_str(path=path, start=start, end=end))
     #print(type(path))
 
-    return [(n.x, n.y) for n in path if map[n.y][n.x] < 100]
+    return [(n.x, n.y) for n in path if map[n.y][n.x] < EXPENSIVE]
 
 
 if __name__ == "__main__":
