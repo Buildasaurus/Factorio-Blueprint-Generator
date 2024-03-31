@@ -132,6 +132,12 @@ def center_position(entity_name, direc: Direction, top_left_pos):
         size = [x,y]
     return [top_left_pos[i] + size[i]/2 for i in range(2)]
 
+def iter_area(size):
+    '''Iterate over all possible offsets for a given entity size'''
+    for y_ofs in range(size[1]):
+        for x_ofs in range(size[0]):
+            yield x_ofs, y_ofs
+
 def iter_entity_area(entity_name):
     '''Compute all possible offset for the named entity.
     For an inserter, the list is 1 long.
@@ -145,9 +151,7 @@ def iter_entity_area(entity_name):
     size = entity_size(entity_name)
     if size is None:
         raise NotImplementedError(f'Unknown size of entity {entity_name}')
-    for y_ofs in range(size[1]):
-        for x_ofs in range(size[0]):
-            yield x_ofs, y_ofs
+    return iter_area(size)
 
 def factorio_version_string_as_int():
     '''return a 64 bit integer, corresponding to a version string'''
