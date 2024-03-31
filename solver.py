@@ -400,17 +400,12 @@ def find_path(site: ConstructionSite, pos, tgtpos) -> List[GridNode]:
     starty = pos[1]
     endx = tgtpos[0]
     endy = tgtpos[1]
-    map = [[1 for i in range(site.size()[0])] for i in range(site.size()[1])]
-    for entity in site.entities:
-        # An entity is dict(kind, pos, direction, recipe)
-        # FIXME - don't assume entity is 3x3, belts aren't for example
-
-        posx = entity.get("pos")[0]
-        posy = entity.get("pos")[1]
-
-        for dy in range(-1, 2, 1):
-            for dx in range(-1, 2, 1):
-                map[posx + dx][posy + dy] = 0
+    map = []
+    for c in range(site.size()[0]):
+        col = []
+        for r in range(site.size()[1]):
+            col.append(0 if site.is_reserved(c,r) else 1)
+        map.append(col)
     grid = Grid(matrix=map)
     start = grid.node(startx, starty)
     end = grid.node(endx, endy)
