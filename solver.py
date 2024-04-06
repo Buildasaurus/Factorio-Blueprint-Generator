@@ -187,6 +187,23 @@ def randomly_placed_machines(factory, site_size):
     return located_machines
 
 
+def add_connections(machines: List[LocatedMachine]):
+    """
+    Connect machines such that input and output match.
+    """
+    for machine in machines:
+        for input in machine.machine.inputs:
+            found_machine_count = 0
+            while machine.missing_input[input] > 0:
+                source_machine = find_machine_of_type(machines, input)
+                if source_machine is None:
+                    break
+                found_machine_count += 1
+                machine.connect(source_machine, input)
+
+            if found_machine_count == 0:
+                pass  # TODO External input should be fixed at the edge of the construction site
+
 def spring(
     machines: List[LocatedMachine],
     iteration_visitor=None,
@@ -201,18 +218,6 @@ def spring(
     :param iteration_visitor:  A visitor function called after each iteration
     :param borders:  Boundaries for machine position ((min_x, min_y), (max_x, max_y))
     """
-    for machine in machines:
-        for input in machine.machine.inputs:
-            found_machine_count = 0
-            while machine.missing_input[input] > 0:
-                source_machine = find_machine_of_type(machines, input)
-                if source_machine is None:
-                    break
-                found_machine_count += 1
-                machine.connect(source_machine, input)
-
-            if found_machine_count == 0:
-                pass  # TODO External input should be fixed at the edge of the construction site
 
     # IDEA Examine algorithms found when searching for
     #      "force directed graph layout algorithm"

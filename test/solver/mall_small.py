@@ -44,6 +44,7 @@ class TestSmallMall(unittest.TestCase):
         machines = solver.randomly_placed_machines(factory, site.size())
         visuals = ForceAlgorithmVisuals(WIDTH, HEIGHT, fps=25)
         visuals.set_machines(machines)
+        solver.add_connections(machines)
         solver.spring(machines,
                 visuals.show_frame,
                 borders=((0, 0), site.size()),
