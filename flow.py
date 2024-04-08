@@ -3,9 +3,10 @@ that could be an assembling machine or a transport belt. Edges represents transi
 from one unit to another.
 
 Primary interface:
-- Node - a node in a flow graph
-- Graph - a flow graph
-- compute_max_flow(Graph) - recompute flow in the graph
+
+- :class:`Node` - a node in a flow graph
+- :class:`Graph` - a flow graph
+- :func:`compute_max_flow` - recompute flow in the graph
 '''
 
 import logging
@@ -57,6 +58,7 @@ class Node:
 
     def set_transformation(self, inputs, outputs, crafting_speed=1, time=None):
         ''' Scale a recipe by crafting speed and cycle time.
+
         :param inputs:  dict that maps recipe inputs to quantity per cycle
         :param outputs: dict that maps recipe outputs to quantity per cycle
         :param crafting_speed:  Machine efficiency.
@@ -81,11 +83,11 @@ class Node:
 
 
 class Graph:
-    '''A flow graph that links Nodes. Links are unbounded, Nodes are not.
+    '''A flow graph where Nodes represent entities on the surface, and edges transfer betweeen two neighbour entities.
+    
+    When initializing a graph, you place bounds on items/sec on Node input and output, but none on Edges.
 
-    Edges hold a dict
-        item -> items/sec
-    that is computed by compute_max_flow()
+    Edges hold a dict (item -> items/sec) that is set by compute_max_flow(). This is the maximum flow possible between nodes.
     '''
     def __init__(self) -> None:
         self.graph = networkx.DiGraph()

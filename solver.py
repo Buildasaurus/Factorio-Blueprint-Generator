@@ -1,6 +1,6 @@
 """
-A class to generate blueprints from a certain input, to a certain output, on a certain
-amount of space in factorio.
+A module that generate blueprints from a certain input, to a certain output, on a certain
+amount of space in Factorio.
 """
 
 # Standard imports
@@ -32,6 +32,7 @@ class FactoryNode:
 
     def __init__(self, position=None):
         """Create a FactoryNode
+
         :param position:  Upper left position of node
         """
         self.position = position
@@ -64,6 +65,7 @@ class Port(FactoryNode):
 
     def __init__(self, item_type, rate, position=None):
         """Create an external port for a factory.
+
         :param item_type:  The item type exchanged here
         :param rate:  The flow through this port, measured in items per second.
             Positive means output from factory, negative means input to factory.
@@ -140,6 +142,7 @@ class LocatedMachine(FactoryNode):
 
     def connect(self, otherMachine: "LocatedMachine", item_type) -> bool:
         """Set up a connection from other to this machine
+
         :param otherMachine:  source of items
         :param item_type:  item type to get from source
         :return:  True, if all input requirements were satisfied
@@ -214,6 +217,7 @@ def spring(
     """
     Does the spring algorithm on the given machines, and returns them after
     Will treat input as a list of floats
+
     :param machines:  The machines to move
     :param iteration_visitor:  A visitor function called after each iteration
     :param borders:  Boundaries for machine position ((min_x, min_y), (max_x, max_y))
@@ -366,6 +370,7 @@ def connect_machines(
 ):
     """Connect two machines by adding a transport belt to the
     construction site.
+
     :param site: The site to build on
     :param source: Source machine
     :param target: Target machine
@@ -399,6 +404,7 @@ def find_path(
     site: ConstructionSite, source: FactoryNode, target: FactoryNode
 ) -> List[tuple]:
     """Generates a list of coordinates, to walk from one machine to the other
+
     :param site: The site knows which coordinates are already taken
     :param source: Source machine
     :param target: Target machine

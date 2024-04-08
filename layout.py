@@ -51,6 +51,7 @@ class ConstructionSite:
 
     def add_entity(self, kind, pos, direction, recipe=None):
         '''Add an entity to the construction site
+
         :param kind:  Entity type name
         :param pos:  An (x,y) tuple pointing at the top left corner where the machine should be placed.
             Note: This is different from how Factorio blueprints works
@@ -204,8 +205,9 @@ def site_as_blueprint_string(site, label='Unnamed ConstructionSite', icons=None,
 
 def export_blueprint_dict(bp_dict):
     '''Encodes a blueprint as an exchange string
+
     :param blueprint:  a dict representing the blueprint, containing elements defined by
-    https://wiki.factorio.com/Blueprint_string_format
+        https://wiki.factorio.com/Blueprint_string_format
     '''
 
     # This code is copied from factoriolib.dictToExchangeString
@@ -259,9 +261,11 @@ def direction_to(s, t) -> Direction:
 
 def belt_path(site: ConstructionSite, point_list, belt_type='transport-belt'):
     '''Layout a path of transport belts
+
     :param site:  The ConstructionSite to place belts on
     :param point_list: The points that should be connected. There should be at least two points. Any following points are only allowed to modify one dimension.
     :param belt_type: The entity name of the belt to place.
+
     Note: The cell pointed to by the last point in point_list is not laid out, it is only used to set direction of the second-last belt cell. For example point_list = [(0,0), (10,0)] will place 10 belt cells, at (0,0) .. (9,0)
     '''
     for i in range(len(point_list) - 1):
