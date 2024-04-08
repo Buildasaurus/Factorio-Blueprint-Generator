@@ -140,12 +140,11 @@ class LocatedMachine(FactoryNode):
         # print(self.available_production)
         return used
 
-    def connect(self, otherMachine: "LocatedMachine", item_type) -> bool:
+    def connect(self, otherMachine: "LocatedMachine", item_type):
         """Set up a connection from other to this machine
 
         :param otherMachine:  source of items
         :param item_type:  item type to get from source
-        :return:  True, if all input requirements were satisfied
         """
         assert isinstance(otherMachine, LocatedMachine)
         self.connections.append(otherMachine)
