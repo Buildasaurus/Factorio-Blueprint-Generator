@@ -15,3 +15,7 @@ pip install -r requirements.txt
 
 # Run test
 python -m unittest
+
+# Build documentation
+cd doc
+make clean html
