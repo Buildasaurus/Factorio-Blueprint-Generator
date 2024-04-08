@@ -107,11 +107,9 @@ class LocatedMachine(FactoryNode):
     def set_random_position(self, site_size):
         """Place the machine on a random position inside the provided dimension"""
         my_size = self.size()
+        top_left = (0, 0)
         corner_range = [site_size[i] - my_size[i] for i in range(2)]
-        self.position = Vector(
-            random.random() * corner_range[0], random.random() * corner_range[1]
-        )
-        # print(self.position.values)
+        self.position = random_position(top_left, corner_range)
 
     def to_int(self):
         """Converts the stored position to integers.
@@ -170,6 +168,11 @@ class LocatedMachine(FactoryNode):
         summed_vectors = self.position - othermachine.position
         return math.sqrt(summed_vectors.inner(summed_vectors))
 
+
+def random_position(min_pos, max_pos):
+    """Provide a random position in the given bounderies"""
+    random_pos = [min_pos[i] + random.random() * (max_pos[i] - min_pos[i]) for i in range(2)]
+    return Vector(*random_pos)
 
 def randomly_placed_machines(factory, site_size):
     """
