@@ -1,11 +1,15 @@
 # Recipie calculation
 factoriocalc
 
+# Graph representation
 networkx
 
 # Pathfinding - A* algorithm
 Pathfinding
 
-# Test output of graph
-matplotlib
-PyQt5
+# Extra: Development - Test will show graph layout while it is built
+matplotlib[dev]
+PyQt5[dev]
+
+# Extra: Documentation
+sphinx[doc]
