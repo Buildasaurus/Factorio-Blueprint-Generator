@@ -158,7 +158,7 @@ class Graph:
 
 
 
-def join_inputs(G: Graph, n):
+def _join_inputs(G: Graph, n):
     '''Compute inbound flow. Reduce throttle to match'''
     node = G.nodes[n]
     log.debug(f'{n}: join inputs of {node.name} from {list(G.graph.predecessors(n))}')
@@ -183,7 +183,7 @@ def join_inputs(G: Graph, n):
         node.throttle = min(node.throttle, in_throttle)
         log.debug(f'{n}: flow_in = {list(flow_in.items())}, throttle := {node.throttle}')
 
-def split_outputs(G, n):
+def _split_outputs(G, n):
     '''Compute outbound flow from inner flow'''
     node = G.nodes[n]
 
@@ -209,7 +209,7 @@ def split_outputs(G, n):
             G.graph.edges[u, v][item] *= factor[item]
 
 
-def combine_outputs(G: Graph, n):
+def _combine_outputs(G: Graph, n):
     '''Compute initial node throttle from outbound flow limits.'''
     log.debug(f'{n}: combine outputs to reduce throttle')
     graph = G.graph
@@ -236,7 +236,7 @@ def combine_outputs(G: Graph, n):
             node.throttle = 1
         log.debug(f' : {flow_out} -> throttle={node.throttle}')
 
-def allocate_inputs(G: Graph, n):
+def _allocate_inputs(G: Graph, n):
     '''Compute node in-flow from inner flow limits'''
     node = G.nodes[n]
     log.debug(f'{n}: compute in-flow from inner flow, throttle={node.throttle}')
@@ -282,16 +282,16 @@ def compute_max_flow(G: Graph):
 
     # Flow backwards, computing throttle from output limits
     for n in reversed(ordered_nodes):
-        combine_outputs(G, n)
-        allocate_inputs(G, n)
+        _combine_outputs(G, n)
+        _allocate_inputs(G, n)
 
     log.debug('---- begin forward flow ----')
     log.debug(G)
 
     # Flow forwards, updating nodes on acctual flow
     for n in ordered_nodes:
-        join_inputs(G, n)
-        split_outputs(G, n)
+        _join_inputs(G, n)
+        _split_outputs(G, n)
 
 if __name__ == "__main__":
     """Test code executed if run from command line"""
