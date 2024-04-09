@@ -125,7 +125,9 @@ def entity_size(entity_name):
     return ENTITY_SIZE.get(entity_name) if size is None else size
 
 def center_position(entity_name, direc: Direction, top_left_pos):
-    '''Factorio blueprint position are at the center of the entity, which has 1/2 grid resolution'''
+    '''Factorio blueprint position are at the center of the entity,
+    which has 1/2 grid resolution
+    '''
     size = entity_size(entity_name)
     if direc in [2, 6]:
         # Switch x and y size
@@ -134,18 +136,19 @@ def center_position(entity_name, direc: Direction, top_left_pos):
     return [top_left_pos[i] + size[i]/2 for i in range(2)]
 
 def iter_area(size):
-    '''Iterate over all possible offsets for a given entity size'''
+    '''Iterate over all possible offsets for a given entity size,
+    relative to the upper left corner.
+    
+    :param size: Tuple (width, height) with two integer values
+    :return: (offset x, offset y) tuples
+    '''
     for y_ofs in range(size[1]):
         for x_ofs in range(size[0]):
             yield x_ofs, y_ofs
 
 def iter_entity_area(entity_name):
     '''Compute all possible offset for the named entity.
-    For an inserter, the list is 1 long.
-    For a gun-turrent 4 long.
-    For an assembly-machine-1, 9 long.
-
-    No offset are negative, so only right-down
+    No offset is negative, so only right-down
 
     Note: This is not how Factorio blueprint works with offset
     '''

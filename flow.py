@@ -2,6 +2,9 @@
 that could be an assembling machine or a transport belt. Edges represents transitions
 from one unit to another.
 
+The module has no depencencies, except networkx. It is designed to be a
+utility module for other modules.
+
 Primary interface:
 
 - :class:`Node` - a node in a flow graph
@@ -84,24 +87,39 @@ class Node:
 
 class Graph:
     '''A flow graph where Nodes represent entities on the surface, and edges transfer betweeen two neighbour entities.
-    
-    When initializing a graph, you place bounds on items/sec on Node input and output, but none on Edges.
 
-    Edges hold a dict (item -> items/sec) that is set by compute_max_flow(). This is the maximum flow possible between nodes.
+    When initializing a graph, you place bounds on items/sec on Node input
+    and output, but none on Edges.
+
+    Edges hold a dict (item -> items/sec) that is set by
+    :func:`compute_max_flow`.
+    This is the maximum flow possible between nodes.
     '''
     def __init__(self) -> None:
         self.graph = networkx.DiGraph()
         self.nodes = dict()
 
-    def add_node(self, node):
-        '''Add a node to the graph'''
+    def add_node(self, node: Node):
+        '''Add a node to the graph
+
+        :param node: The node.id is used to identify the node. If another
+            node in the graph has the same id, it will be replaced with this
+            new node.
+        '''
         assert isinstance(node, Node)
         self.graph.add_node(node.id)
         self.nodes[node.id] = node
         return node
 
     def add_edge(self, u, v):
-        '''Add a flow from node u to node v'''
+        '''
+        Add a flow from node u to node v. Any item type present in both
+        u.outputs and v.inputs will be added to the flow along the edge.
+        Default flow is 1.
+
+        :param u: Node or node.id for source node in the graph
+        :param v: Node or node.id for target node in the graph
+        '''
         if isinstance(u, Node):
             u = u.id
         if isinstance(v, Node):
