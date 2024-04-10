@@ -128,6 +128,8 @@ ENTITY_SIZE = {
     'assembling-machine-2': (3,3),
     'assembling-machine-3': (3,3),
     'se-electric-boiler': (3,2),
+    'logistic-chest-requester': (1,1),
+    'logistic-chest-passive-provider': (1,1),
 }
 
 def factoriocalc_entity_size(machine_name):

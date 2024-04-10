@@ -143,20 +143,36 @@ class Port(FactoryNode):
     This is usually a transport-belt tile, but can also be a provider chest
     or requester chest."""
 
-    def __init__(self, item_type, rate, position=None):
+    def __init__(self, position=None, item_type=None, rate=0):
         """Create an external port for a factory.
 
+        :param position:  The position of the port
         :param item_type:  The item type exchanged here
         :param rate:  The flow through this port, measured in items per second.
             Positive means output from factory, negative means input to factory.
-        :param position:  The position of the port
         """
-        super().__init__(position)
-        self.item_type = item_type
-        self.rate = rate
+        super().__init__(position=position)
+        if rate > 0:
+            direction = 'output'
+        elif rate < 0:
+            direction = 'input'
+            rate = -rate
+        else:
+            return
+        self.change_flow_request(direction, item_type, rate)
 
     def size(self):
         return (1, 1)
+    
+    @property
+    def name(self):
+        '''Return the factoro entity name'''
+        if len(self.missing_input) > 0:
+            return 'logistic-chest-passive-provider'
+        if len(self.unused_output) > 0:
+            return 'logistic-chest-requester'
+        return 'chest'
+
 
 
 class LocatedMachine(FactoryNode):
@@ -222,19 +238,56 @@ def randomly_placed_machines(factory, site_size):
 def add_connections(machines: List[LocatedMachine]):
     """
     Connect machines such that input and output match.
+    Add ports when input or output is missing.
     """
-    for machine in machines:
-        for item_type in machine.machine.inputs:
-            found_machine_count = 0
-            while machine.missing_input.get(item_type, 0) > 0:
+    new_ports = []
+    port_for = {}
+    def find_port(item_type, pos) -> Port:
+        """Find a port ready for a connection of a specific type"""
+        if item_type in port_for:
+            # A port may have at most 4 connections
+            port = port_for[item_type]
+            connection_count = len(port.input_nodes) + len(port.output_nodes)
+            if connection_count >= 4:
+                del port_for[item_type]
+        if item_type not in port_for:
+            log.debug(f'Create Port for {item_type}')
+            new_ports.append(Port(pos))
+            port_for[item_type] = new_ports[-1]
+        return port_for[item_type]
+    def find_input_port(item, rate, pos):
+        # A factory input port is a requester chest with output to the factory
+        port = find_port(item_type, pos)
+        port.change_flow_request('output', item_type, rate)
+        return port
+    def find_output_port(item, rate, pos):
+        # An factory output port is a provider chest with input from the factory
+        port = find_port(item_type, pos)
+        port.change_flow_request('input', item_type, rate)
+        return port
+    
+    # Connect all machines to suppliers
+    for target_machine in machines:
+        for item_type in target_machine.machine.inputs:
+            while target_machine.missing_input.get(item_type, 0) > 0:
                 source_machine = find_machine_with_unused_output(machines, item_type)
                 if source_machine is None:
-                    break
-                found_machine_count += 1
-                machine.consume_from(source_machine, item_type)
+                    # Not enough supplies, get it from an input port
+                    pos = target_machine.position + random_position((-1, -1), (1, 1))
+                    rate = target_machine.missing_input[item_type]
+                    source_machine = find_input_port(item_type, rate, pos)
+                target_machine.consume_from(source_machine, item_type)
 
-            if found_machine_count == 0:
-                pass  # TODO External input should be fixed at the edge of the construction site
+    # Find machines that supplies stuff that is not consumed
+    for machine in machines:
+        for item_type, rate in machine.unused_output.items():
+            if rate > 0:
+                pos = machine.position + random_position((-1, -1), (1, 1))
+                port = find_output_port(item_type, rate, pos)
+                port.consume_from(machine, item_type)
+    
+    # Add found ports to machine list
+    machines.extend(new_ports)
 
 def spring(
     machines: List[LocatedMachine],
@@ -362,8 +415,11 @@ def place_on_site(site, machines: List[LocatedMachine]):
     :param machines:  A list of LocatedMachine
     """
     for lm in machines:
-        machine = lm.machine
-        site.add_entity(machine.name, lm.position, 0, machine.recipe.name)
+        if hasattr(lm, 'machine'):
+            machine = lm.machine
+            site.add_entity(machine.name, lm.position, 0, machine.recipe.name)
+        else:
+            site.add_entity(lm.name, lm.position, 0)
     for target in machines:
         for source in target.getConnections():
             connect_machines(site, source, target)
