@@ -409,42 +409,44 @@ def find_path(
     # Make source and target machines expensive, but not impossible to travel
     # For each direction in the two dimensions, create starting squares
     # x and y are the inserter coordinates
+    def add_entry_if_free(inserter_pos, step, entry_list):
+        x, y = inserter_pos
+        if not is_in_bounds(x, y, map) or map[y][x] == BLOCKED:
+            return
+        x, y = (Vector(*inserter_pos) + Vector(*step)).values
+        if not is_in_bounds(x, y, map) or map[y][x] == BLOCKED:
+            return
+        entry_list.append(GridNode(x, y))
+        x, y = inserter_pos
+        map[y][x] = BLOCKED
+
     coordinates = [[] for i in range(2)]
-    i = 0
-    for m in [source, target]:
+    for i, m in enumerate([source, target]):
         pos = m.position.as_int()
+
         for row in range(m.size()[1]):
 
             # right side
             x = pos[0] + m.size()[0]
             y = pos[1] + row
-            if is_in_bounds(x, y, map) and map[y][x] is not BLOCKED:
-                coordinates[i].append(GridNode(x + 1, y))
-                map[y][x] = BLOCKED
+            add_entry_if_free((x, y), (1, 0), coordinates[i])
 
             # left side
             x = pos[0] - 1
             y = pos[1] + row
-            if is_in_bounds(x, y, map) and map[y][x] is not BLOCKED:
-                coordinates[i].append(GridNode(x - 1, y))
-                map[y][x] = BLOCKED
+            add_entry_if_free((x, y), (-1, 0), coordinates[i])
 
         for column in range(m.size()[0]):
 
             # downwards side
             x = pos[0] + column
             y = pos[1] + m.size()[1]
-            if is_in_bounds(x, y, map) and map[y][x] is not BLOCKED:
-                coordinates[i].append(GridNode(x, y + 1))
-                map[y][x] = BLOCKED
+            add_entry_if_free((x, y), (0, 1), coordinates[i])
 
             # upwards side
             x = pos[0] + column
             y = pos[1] - 1
-            if is_in_bounds(x, y, map) and map[y][x] is not BLOCKED:
-                coordinates[i].append(GridNode(x, y - 1))
-                map[y][x] = BLOCKED
-        i += 1
+            add_entry_if_free((x, y), (0, -1), coordinates[i])
 
     grid = Grid(matrix=map)
 
