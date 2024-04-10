@@ -84,22 +84,25 @@ class LocatedMachine(FactoryNode):
 
     def __init__(self, machine: Machine, position=None):
         super().__init__(position)
-        self.connections = []
         self.machine = machine
         # Items pr second - True to make it calculate actual value.
-        a = machine.flows(True).byItem
-        # FIXME Available production should also be a dictionary for multiple outputs
-        self.available_production = sum(
-            item.rateOut for item in machine.flows(True).byItem.values()
-        )
+        flow_by_item = machine.flows(True).byItem
 
-        self.users = []
+        # Input to machine
+        self.connections = []
         self.missing_input = {
             key: value.rateIn
-            for key, value in machine.flows(True).byItem.items()
+            for key, value in flow_by_item.items()
             if value.rateIn != 0
         }
-        # print(self.missing_input)
+
+        # Output from machine
+        self.users = []
+        self.unused_output = {
+            key: value.rateOut
+            for key, value in flow_by_item.items()
+            if value.rateOut != 0
+        }
 
     def size(self):
         return layout.entity_size(self.machine.name)
@@ -122,34 +125,34 @@ class LocatedMachine(FactoryNode):
         "Converts the LocatedMachine to a nicely formatted string"
         return str(self.machine) + " at " + str(self.position)
 
-    def set_user(self, other_machine: "LocatedMachine", usage) -> int:
-        """Returns the production this machine could provide"""
-        assert isinstance(other_machine, LocatedMachine)
-        used = 0
-        if self.available_production > 0:
-            self.users.append(other_machine)
-            if self.available_production < usage:
-                used = self.available_production
-                self.available_production = 0
-            else:
-                used = usage
-                self.available_production -= usage
+    def consume_from(self, other: "LocatedMachine", item_type):
+        """Set up a connection from other machine to this machine
 
-        # print(self.available_production)
-        return used
-
-    def connect(self, otherMachine: "LocatedMachine", item_type):
-        """Set up a connection from other to this machine
-
-        :param otherMachine:  source of items
+        :param other:  source of items
         :param item_type:  item type to get from source
         """
-        assert isinstance(otherMachine, LocatedMachine)
-        self.connections.append(otherMachine)
-        b = self.missing_input[item_type]
-        a = self.machine.flows().byItem
-        extra_input = otherMachine.set_user(self, self.missing_input[item_type])
-        self.missing_input[item_type] -= extra_input
+        assert isinstance(other, LocatedMachine)
+
+        # Rename parameters
+        source = other
+        target = self
+
+        # Link machines
+        target.connections.append(source)
+        source.users.append(target)
+
+        # Compute how much flow is still not accounted for
+        output_items = set(source.unused_output.keys())
+        input_items = set(target.missing_input.keys())
+        def decrease_flow(dict, key, value):
+            dict[key] -= value
+            if dict[key] == 0:
+                del dict[key]
+        for item_type in output_items.intersection(input_items):
+            flow_rate = min(source.unused_output[item_type], 
+                            target.missing_input[item_type])
+            decrease_flow(source.unused_output, item_type, flow_rate)
+            decrease_flow(target.missing_input, item_type, flow_rate)
 
     def getConnections(self) -> List["LocatedMachine"]:
         return self.connections
@@ -197,14 +200,14 @@ def add_connections(machines: List[LocatedMachine]):
     Connect machines such that input and output match.
     """
     for machine in machines:
-        for input in machine.machine.inputs:
+        for item_type in machine.machine.inputs:
             found_machine_count = 0
-            while machine.missing_input[input] > 0:
-                source_machine = find_machine_of_type(machines, input)
+            while machine.missing_input.get(item_type, 0) > 0:
+                source_machine = find_machine_with_unused_output(machines, item_type)
                 if source_machine is None:
                     break
                 found_machine_count += 1
-                machine.connect(source_machine, input)
+                machine.consume_from(source_machine, item_type)
 
             if found_machine_count == 0:
                 pass  # TODO External input should be fixed at the edge of the construction site
@@ -306,40 +309,21 @@ def spring(
     return machines
 
 
-def find_machine_of_type(machines: List[LocatedMachine], machine_type: dict[any, None]):
-    print("looking for machine that produces " + str(machine_type))
+def find_machine_with_unused_output(machines: List[LocatedMachine], item_type):
+    '''Find a machine with excess production'''
+    print("looking for machine that has unused " + str(item_type))
 
-    def machine_produces(machine: Machine, output: Item):
-        assert isinstance(machine, Machine), f" {type(machine)} is not a Machine"
-        assert isinstance(output, Item), f" {type(output)} is not an Item"
-        if machine.recipe is None:
-            return False  # No recipe means no output
-        for recipe_output in machine.recipe.outputs:
-            if recipe_output.item == output:
-                print(f" machine {machine} produces {recipe_output}")
-                return True
-        return False
-
-    machine_list = [m for m in machines if machine_produces(m.machine, machine_type)]
-    if len(machine_list) < 1:
-        print(f" no machine produces {machine_type}")
+    # Each candidate is a pair (unused_output, machine)
+    machine_candidates = [(m.unused_output[item_type], m)
+            for m in machines
+            if m.unused_output.get(item_type, 0) > 0]
+    
+    if len(machine_candidates) == 0:
+        print(f" no machine has unused {item_type}")
         return None
-    else:
-        # Find the machine with the least available output, above 0
-        minimum = 99999
-        machine_to_connect = machine_list[0]
-        for machine in machine_list:
-            if (
-                machine.available_production < minimum
-                and machine.available_production > 0
-            ):
-                minimum = machine.available_production
-                machine_to_connect = machine
-
-        if machine_to_connect.available_production == 0:
-            # In case we never went past machine 0, which might have 0 available production
-            return None
-        return machine_to_connect
+    
+    unused_output = lambda candidate: candidate[0]
+    return min(machine_candidates, key=unused_output)[1]
 
 
 def machines_to_int(machines: List[LocatedMachine]):
