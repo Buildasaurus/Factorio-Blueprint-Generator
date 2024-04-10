@@ -457,7 +457,25 @@ def find_path(
     print(grid.grid_str(path=path, start=coordinates[0], end=coordinates[1]))
     # print(type(path))
 
-    return [(n.x, n.y) for n in path if map[n.y][n.x] < EXPENSIVE]
+    # Add inserter at both ends of path
+    sign = lambda x: 1 if x > 0 else -1
+    def step_one(ofs: Vector):
+        if abs(ofs.values[0]) > abs(ofs.values[1]):
+            # move horizontally
+            return Vector(sign(ofs.values[0]), 0)
+        else:
+            # move vertically
+            return Vector(0, sign(ofs.values[1]))
+    belt_center = lambda xy: Vector(*xy) + Vector(0.5, 0.5)
+    def step_towards(machine, origin):
+        next_pos = Vector(*origin) + step_one(machine.center() - belt_center(origin))
+        return (next_pos[0], next_pos[1])
+    xypath = [(n.x, n.y) for n in path]
+    if len(xypath) > 0:
+        xypath.insert(0, step_towards(source, xypath[0]))
+        xypath.append(step_towards(target, xypath[-1]))
+    
+    return xypath
 
 
 def is_in_bounds(x, y, map):
