@@ -368,14 +368,14 @@ def connect_machines(
         raise ValueError("Machines overlap")
     # Find an open path between machines
     pos_list = find_path(site, source, target)
+    if len(pos_list) == 0:
+        raise ValueError("No possible path")
+    assert len(pos_list) >= 3, "Path below length 3 is not supported"
     # Find proper orientation of belt cells
     dir_list = []
     for i in range(len(pos_list) - 1):
         dir_list.append(layout.direction_to(pos_list[i], pos_list[i + 1]))
-    try:
-        dir_list.append(dir_list[-1])  # repeat last direction
-    except:
-        raise ValueError("No possible path")
+    dir_list.append(dir_list[-1])  # repeat last direction
 
     # Add belt and inserters to site
     for i in range(len(dir_list)):
