@@ -45,6 +45,16 @@ class FactoryNode:
         """Returns a position at the center of the node. Coordinates may be floats."""
         return self.position + (Vector(*self.size()) / 2)
 
+    def direction_to(self, other: "FactoryNode") -> Vector:
+        """
+        :return: a vector pointing from this node, to the other node.
+        """
+        return other.center() - self.center()
+
+    def distance_to(self, other: "FactoryNode") -> float:
+        offset = self.direction_to(other)
+        return math.sqrt(offset.inner(offset))
+
     def move(self, direction: Vector):
         """Move node position the specified amount"""
         self.position += direction
@@ -153,16 +163,7 @@ class LocatedMachine(FactoryNode):
     def getUsers(self) -> List["LocatedMachine"]:
         return self.users
 
-    def directionTo(self, other_machine: "LocatedMachine") -> Vector:
-        """
-        Returns a vector pointing from this machine, to the other machine.
-        """
-        return other_machine.position - self.position
 
-    def distance_to(self, othermachine: "LocatedMachine") -> int:
-
-        summed_vectors = self.position - othermachine.position
-        return math.sqrt(summed_vectors.inner(summed_vectors))
 
 
 def random_position(min_pos, max_pos):
@@ -256,7 +257,7 @@ def spring(
                 # Force is the force the other machine is excerting on this machine
                 # positive values means that the other machine is pushing this machine away.
                 force = repelling_force - spring_force
-                force_vector = other_machine.directionTo(machine).normalize() * force
+                force_vector = other_machine.direction_to(machine).normalize() * force
 
                 resultant_forces[machine_index] += force_vector
 
