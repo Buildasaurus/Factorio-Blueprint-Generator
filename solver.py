@@ -30,14 +30,18 @@ import layout
 class FactoryNode:
     """An abstraction of machines and ports used to find rough layout."""
 
-    def __init__(self, position=None):
+    def __init__(self, position=None, item_input={}, item_output={}):
         """Create a FactoryNode
 
         :param position:  Upper left position of node
+        :param item_input:  Dict of requested input flow
+        :param item_output:  Dict of requested output flow
         """
         self.position = position
         self.input_nodes = []
         self.output_nodes = []
+        self.missing_input = dict(item_input)
+        self.unused_output = dict(item_output)
 
     def size(self):
         """Returns a tuple representing the size"""
@@ -101,24 +105,23 @@ class LocatedMachine(FactoryNode):
     "A data class to store a machine and its position"
 
     def __init__(self, machine: Machine, position=None):
-        super().__init__(position)
-        self.machine = machine
         # Items pr second - True to make it calculate actual value.
         flow_by_item = machine.flows(True).byItem
 
-        # Input to machine
-        self.missing_input = {
-            key: value.rateIn
-            for key, value in flow_by_item.items()
-            if value.rateIn != 0
-        }
-
-        # Output from machine
-        self.unused_output = {
-            key: value.rateOut
-            for key, value in flow_by_item.items()
-            if value.rateOut != 0
-        }
+        super().__init__(
+            position=position,
+            item_input={
+                key: value.rateIn
+                for key, value in flow_by_item.items()
+                if value.rateIn != 0
+            },
+            item_output={
+                key: value.rateOut
+                for key, value in flow_by_item.items()
+                if value.rateOut != 0
+            }
+        )
+        self.machine = machine
 
     def size(self):
         return layout.entity_size(self.machine.name)
