@@ -114,13 +114,6 @@ class LocatedMachine(FactoryNode):
         corner_range = [site_size[i] - my_size[i] for i in range(2)]
         self.position = random_position(top_left, corner_range)
 
-    def to_int(self):
-        """Converts the stored position to integers.
-        Truncates towards zero to avoid placement outside site."""
-        self.position = Vector(
-            int(self.position.values[0]), int(self.position.values[1])
-        )
-
     def __str__(self) -> str:
         "Converts the LocatedMachine to a nicely formatted string"
         return str(self.machine) + " at " + str(self.position)
@@ -327,7 +320,7 @@ def find_machine_with_unused_output(machines: List[LocatedMachine], item_type):
 def machines_to_int(machines: List[LocatedMachine]):
     "Assumes that the machines are not overlapping in any way"
     for machine in machines:
-        machine.to_int()
+        machine.position = machine.position.as_int()
 
 
 def place_on_site(site, machines: List[LocatedMachine]):
