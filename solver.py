@@ -23,9 +23,18 @@ import layout
 
 
 #
-#  classes
+#  Helper functions
 #
 
+def change_key_value(dict, key, value):
+    if key not in dict:
+        dict[key] = 0
+    dict[key] += value
+    assert dict[key] >= 0
+
+#
+#  classes
+#
 
 class FactoryNode:
     """An abstraction of machines and ports used to find rough layout."""
@@ -78,6 +87,50 @@ class FactoryNode:
 
     def getUsers(self) -> List['FactoryNode']:
         return self.output_nodes
+
+    def change_flow_request(self, direction, item_type, delta_rate):
+        '''Change requested flow of a particular item type through node.
+        
+        :param direction:  'input' for input flow, 'output' for output flow
+        :param item_type:  The item flow to address
+        :param delta_rate:  Change of flow measured in items per second. Negative to reduce flow'''
+        if item_type is None or delta_rate == 0:
+            return
+        if direction == 'input':
+            flow = self.missing_input
+        elif direction == 'output':
+            flow = self.unused_output
+        else:
+            raise ValueError('direction must be either "input" or "output"')
+        change_key_value(flow, item_type, delta_rate)
+
+    def consume_from(self, other: "FactoryNode", item_type):
+        """Set up a connection from other node to this node
+
+        :param other:  source of items
+        :param item_type:  item type to get from source
+        """
+        assert isinstance(other, FactoryNode)
+
+        # Rename parameters
+        source = other
+        target = self
+
+        # Link nodes
+        target.input_nodes.append(source)
+        source.output_nodes.append(target)
+
+        # Compute how much flow is still not accounted for
+        output_items = set(source.unused_output.keys())
+        input_items = set(target.missing_input.keys())
+        flow_sum = 0
+        for item_type in output_items.intersection(input_items):
+            flow_rate = min(source.unused_output[item_type], 
+                            target.missing_input[item_type])
+            flow_sum += flow_rate
+            source.change_flow_request('output', item_type, -flow_rate)
+            target.change_flow_request('input', item_type, -flow_rate)
+        assert flow_sum > 0
 
 
 class Port(FactoryNode):
@@ -136,35 +189,6 @@ class LocatedMachine(FactoryNode):
     def __str__(self) -> str:
         "Converts the LocatedMachine to a nicely formatted string"
         return str(self.machine) + " at " + str(self.position)
-
-    def consume_from(self, other: "LocatedMachine", item_type):
-        """Set up a connection from other machine to this machine
-
-        :param other:  source of items
-        :param item_type:  item type to get from source
-        """
-        assert isinstance(other, LocatedMachine)
-
-        # Rename parameters
-        source = other
-        target = self
-
-        # Link machines
-        target.input_nodes.append(source)
-        source.output_nodes.append(target)
-
-        # Compute how much flow is still not accounted for
-        output_items = set(source.unused_output.keys())
-        input_items = set(target.missing_input.keys())
-        def decrease_flow(dict, key, value):
-            dict[key] -= value
-            if dict[key] == 0:
-                del dict[key]
-        for item_type in output_items.intersection(input_items):
-            flow_rate = min(source.unused_output[item_type], 
-                            target.missing_input[item_type])
-            decrease_flow(source.unused_output, item_type, flow_rate)
-            decrease_flow(target.missing_input, item_type, flow_rate)
 
 
 def random_position(min_pos, max_pos):
