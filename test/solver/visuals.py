@@ -47,11 +47,11 @@ class ForceAlgorithmVisuals:
         self.ax.set_xlim(0, self.width)
         self.ax.set_ylim(0, self.height)
         color_legend = {}
-        for i in range(len(self.machines)):
+        for i, m in enumerate(self.machines):
 
             color = self.machine_colour(i)
             machine_shape = matplotlib.patches.Rectangle(
-                self.machines[i].position.values,
+                m.position.values,
                 width=3,
                 height=3,
                 color=color,
