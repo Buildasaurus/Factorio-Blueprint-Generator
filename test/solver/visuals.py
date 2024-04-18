@@ -50,10 +50,11 @@ class ForceAlgorithmVisuals:
         for i, m in enumerate(self.machines):
 
             color = self.machine_colour(i)
+            size = m.size()
             machine_shape = matplotlib.patches.Rectangle(
                 m.position.values,
-                width=3,
-                height=3,
+                width=size[0],
+                height=size[1],
                 color=color,
             )
 
