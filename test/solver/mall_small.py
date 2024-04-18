@@ -49,6 +49,7 @@ class TestSmallMall(unittest.TestCase):
                 visuals.show_frame,
                 borders=((0, 0), site.size()),
                 max_iterations=200)
+        visuals.close()
         solver.machines_to_int(machines)
         solver.place_on_site(site, machines)
         print(f'site dimensions: {site.size()}')
