@@ -57,9 +57,9 @@ class ForceAlgorithmVisuals:
         # Draw connections between machines
         color = (0.5, 0.1, 0.1)
         for m1 in self.machines:
-            x1, y1 = m1.position.values
+            x1, y1 = m1.center().values
             for m2 in m1.getConnections():
-                x2, y2 = m2.position.values
+                x2, y2 = m2.center().values
                 self.ax.plot([x1, x2], [y1, y2], color=color)
 
         # Create a custom legend using the color and label pairs in the dictionary
