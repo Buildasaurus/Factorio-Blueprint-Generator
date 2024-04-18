@@ -23,8 +23,20 @@ class ForceAlgorithmVisuals:
     def set_machines(self, machines):
         self.machines = machines
 
+    def machine_name(self, inx):
+        node = self.machines[inx]
+        if hasattr(node, 'machine'):
+            return f'build {node.machine.recipe.alias}'
+        if len(node.missing_input) > 0:
+            item_type = list(node.missing_input.keys())[0]
+            return f'provide {item_type}'
+        if len(node.unused_output) > 0:
+            item_type = list(node.unused_output.keys())[0]
+            return f'request {item_type}'
+        return hex(node.__hash__)
+
     def machine_colour(self, inx):
-        hash_value = self.machines[inx].machine.recipe.alias.__hash__()
+        hash_value = self.machine_name(inx).__hash__()
         r = ((hash_value >> 16) & 255) / 255.0
         g = ((hash_value >> 8) & 255) / 255.0
         b = (hash_value & 255) / 255.0
@@ -48,9 +60,9 @@ class ForceAlgorithmVisuals:
             self.ax.add_patch(machine_shape)
 
             # Add the color and its label to the dictionary
-            color_legend[self.machines[i].machine.recipe.alias] = (
+            color_legend[self.machine_name(i)] = (
                 matplotlib.patches.Patch(
-                    color=color, label=self.machines[i].machine.recipe.alias
+                    color=color, label=self.machine_name(i)
                 )
             )
 
