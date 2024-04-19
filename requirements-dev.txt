@@ -1,0 +1,12 @@
+# These dependencies are for developers working on the project
+# If the project matures to a package on pypi they should be extras
+
+# Include normal requirements
+-r requirements.txt
+
+# [test] Show layout graph while nodes move around
+matplotlib
+PyQt5
+
+# [doc] API reference
+sphinx

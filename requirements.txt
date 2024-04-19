@@ -7,9 +7,3 @@ networkx
 # Pathfinding - A* algorithm
 Pathfinding
 
-# Extra: Development - Test will show graph layout while it is built
-matplotlib[dev]
-PyQt5[dev]
-
-# Extra: Documentation
-sphinx[doc]
