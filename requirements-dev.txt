@@ -8,5 +8,8 @@
 matplotlib
 PyQt5
 
+# [test] Show progress bar during iterations
+tqdm
+
 # [doc] API reference
 sphinx

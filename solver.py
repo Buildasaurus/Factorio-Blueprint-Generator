@@ -241,8 +241,6 @@ def spring(
 
     resultant_forces = [Vector() for i in range(len(machines))]
     for iteration_no in range(max_iterations):
-        if iteration_no / max_iterations * 100 % 10 == 0:
-            print(f"{iteration_no} of at most {max_iterations}")
         # lots of small iterations with small movement in each - high resolution
         for machine_index, machine in enumerate(machines):
             # calculating how all other machines affect this machine
@@ -301,7 +299,7 @@ def spring(
             max_dist = max(max_dist, move_step.norm())
 
         if iteration_visitor:
-            iteration_visitor()
+            iteration_visitor(movement=max_dist, iteration=iteration_no, iteration_limit=max_iterations)
 
         if max_dist < iteration_threshold:
             break

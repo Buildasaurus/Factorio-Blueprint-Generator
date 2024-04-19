@@ -42,7 +42,12 @@ class ForceAlgorithmVisuals:
         b = (hash_value & 255) / 255.0
         return r, g, b
 
-    def show_frame(self):
+    def show_frame(self, movement=None, iteration=None, iteration_limit=None):
+        if not hasattr(self, 'progress_bar'):
+            import tqdm
+            self.progress_bar = tqdm.tqdm(total=iteration_limit)
+        self.progress_bar.set_description(f'movement={movement:.3f} ')
+        self.progress_bar.update()
         self.ax.clear()
         self.ax.set_xlim(0, self.width)
         self.ax.set_ylim(0, self.height)
@@ -85,5 +90,7 @@ class ForceAlgorithmVisuals:
         plt.pause(self.frame_duration)
 
     def close(self):
+        if hasattr(self, 'progress_bar'):
+            self.progress_bar.close()
         print("Closing plot")
         plt.close()
