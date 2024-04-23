@@ -7,7 +7,10 @@ The intention is that the tool can integrate with solvers, so the solver provide
 This tool will then lay out the recipies to an acctual blueprint.
 
 
-# Installation
+
+# Quick start
+
+## Installation
 ```
 clone Factorio-Bklueprint-Genrator
 python -m venv .fbg
@@ -15,12 +18,13 @@ python -m venv .fbg
 pip install -r requirements.txt
 ```
 
-# Run test
+## Run test
 ```
+pip install -r requirements-dev.txt
 python -m unittest
 ```
 
-# Build documentation
+## Build documentation
 ```
 cd doc
 make clean html
