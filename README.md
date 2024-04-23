@@ -8,14 +8,20 @@ This tool will then lay out the recipies to an acctual blueprint.
 
 
 # Installation
+```
 clone Factorio-Bklueprint-Genrator
 python -m venv .fbg
 .fbg\Scripts\activate.bat
 pip install -r requirements.txt
+```
 
 # Run test
+```
 python -m unittest
+```
 
 # Build documentation
+```
 cd doc
 make clean html
+```
