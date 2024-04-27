@@ -439,6 +439,9 @@ def find_path(
             y = pos[1] - 1
             add_entry_if_free((x, y), (0, -1), coordinates[i])
 
+        if len(coordinates[i]) == 0:
+            return None
+
     grid = Grid(matrix=map)
 
     finder = AStarFinder(diagonal_movement=DiagonalMovement.never)
