@@ -17,6 +17,12 @@ def __init__(self, site: ConstructionSite, start_positions: List['tuple'], end_p
     self.end_positions = end_positions
     self.underground_belts = False
 
+    '''Stores the current calculated expense to reach a node'''
+    self.node_costs = [[float('inf') for i in range(site.size())] for i in range(site.size())]
+
+
+    self.visited = [[False for i in range(site.size())] for i in range(site.size())]
+
 
 def find_path(self, underground_belts = False):
     '''
@@ -26,9 +32,16 @@ def find_path(self, underground_belts = False):
 
 def heuristic_function(self, node):
     '''
-    function to calculate how expensive it is to travel to a node.
-    Should put extra expense on using undergroundbelts, to avoid unessecary use.
+    function to describe how close a node is to the end node
     '''
+    pass
+
+def weight_between_nodes(self, start_node, end_node):
+    '''
+    Will calculate the weight between the given nodes.
+    In most cases just a constant, but more expensive with undergroundbelts, to avoid unessecary use.
+    '''
+    pass
 
 def get_neighbors(self):
     '''
