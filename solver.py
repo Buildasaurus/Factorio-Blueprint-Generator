@@ -36,6 +36,8 @@ class FactoryNode:
         :param position:  Upper left position of node
         """
         self.position = position
+        self.input_nodes = []
+        self.output_nodes = []
 
     def size(self):
         """Returns a tuple representing the size"""
@@ -66,6 +68,12 @@ class FactoryNode:
             abs(self.center()[0] - other.center()[0]) < min_dist[0]
             and abs(self.center()[1] - other.center()[1]) < min_dist[1]
         )
+
+    def getConnections(self) -> List['FactoryNode']:
+        return self.input_nodes
+
+    def getUsers(self) -> List['FactoryNode']:
+        return self.output_nodes
 
 
 class Port(FactoryNode):
@@ -99,7 +107,6 @@ class LocatedMachine(FactoryNode):
         flow_by_item = machine.flows(True).byItem
 
         # Input to machine
-        self.connections = []
         self.missing_input = {
             key: value.rateIn
             for key, value in flow_by_item.items()
@@ -107,7 +114,6 @@ class LocatedMachine(FactoryNode):
         }
 
         # Output from machine
-        self.users = []
         self.unused_output = {
             key: value.rateOut
             for key, value in flow_by_item.items()
@@ -141,8 +147,8 @@ class LocatedMachine(FactoryNode):
         target = self
 
         # Link machines
-        target.connections.append(source)
-        source.users.append(target)
+        target.input_nodes.append(source)
+        source.output_nodes.append(target)
 
         # Compute how much flow is still not accounted for
         output_items = set(source.unused_output.keys())
@@ -156,14 +162,6 @@ class LocatedMachine(FactoryNode):
                             target.missing_input[item_type])
             decrease_flow(source.unused_output, item_type, flow_rate)
             decrease_flow(target.missing_input, item_type, flow_rate)
-
-    def getConnections(self) -> List["LocatedMachine"]:
-        return self.connections
-
-    def getUsers(self) -> List["LocatedMachine"]:
-        return self.users
-
-
 
 
 def random_position(min_pos, max_pos):
