@@ -132,7 +132,7 @@ class A_star:
                         nx, ny = (node.position[0] + dx*under_ground_distance,
                                                 node.position[1] + dy*under_ground_distance)
                         # each possible distance to the underground exit
-                        if not self.site.is_reserved(nx,ny):
+                        if not self.site.is_reserved(nx,ny) and self.is_in_bounds(nx,ny,self.nodes):
                             neighbors.append(self.nodes[ny][nx])
                             self.nodes[ny][nx].is_observed_as_underground_exit = True
 
@@ -140,6 +140,9 @@ class A_star:
 
 
         return neighbors
+
+    def is_in_bounds(self, x, y, map):
+        return x >= 0 and y >= 0 and x < len(map[0]) and y < len(map)
 
     def backtrace(self, node):
         """
