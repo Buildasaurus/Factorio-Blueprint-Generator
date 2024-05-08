@@ -13,6 +13,7 @@ from factoriocalc import Machine, Item
 
 # First party imports
 from vector import Vector
+from a_star_factorio import A_star
 
 # Guide at https://github.com/brean/python-pathfinding/blob/main/docs/01_basic_usage.md
 from pathfinding_extensions import *
@@ -90,7 +91,7 @@ class FactoryNode:
 
     def change_flow_request(self, direction, item_type, delta_rate):
         '''Change requested flow of a particular item type through node.
-        
+
         :param direction:  'input' for input flow, 'output' for output flow
         :param item_type:  The item flow to address
         :param delta_rate:  Change of flow measured in items per second. Negative to reduce flow'''
@@ -125,7 +126,7 @@ class FactoryNode:
         input_items = set(target.missing_input.keys())
         flow_sum = 0
         for item_type in output_items.intersection(input_items):
-            flow_rate = min(source.unused_output[item_type], 
+            flow_rate = min(source.unused_output[item_type],
                             target.missing_input[item_type])
             flow_sum += flow_rate
             source.change_flow_request('output', item_type, -flow_rate)
@@ -334,11 +335,11 @@ def find_machine_with_unused_output(machines: List[LocatedMachine], item_type):
     machine_candidates = [(m.unused_output[item_type], m)
             for m in machines
             if m.unused_output.get(item_type, 0) > 0]
-    
+
     if len(machine_candidates) == 0:
         print(f" no machine has unused {item_type}")
         return None
-    
+
     unused_output = lambda candidate: candidate[0]
     return min(machine_candidates, key=unused_output)[1]
 
@@ -426,7 +427,7 @@ def find_path(
     # Make source and target machines expensive, but not impossible to travel
     # For each direction in the two dimensions, create starting squares
     # x and y are the inserter coordinates
-    def add_entry_if_free(inserter_pos, step, entry_list):
+    def add_entry_if_free(inserter_pos, step, entry_list, entry_list_2):
         x, y = inserter_pos
         if not is_in_bounds(x, y, map) or map[y][x] == BLOCKED:
             return
@@ -434,10 +435,12 @@ def find_path(
         if not is_in_bounds(x, y, map) or map[y][x] == BLOCKED:
             return
         entry_list.append(GridNode(x, y))
+        entry_list_2.append((x,y))
         x, y = inserter_pos
         map[y][x] = BLOCKED
 
     coordinates = [[] for i in range(2)]
+    fac_coordinates = [[] for i in range(2)]
     for i, m in enumerate([source, target]):
         pos = m.position.as_int()
 
@@ -446,34 +449,40 @@ def find_path(
             # right side
             x = pos[0] + m.size()[0]
             y = pos[1] + row
-            add_entry_if_free((x, y), (1, 0), coordinates[i])
+            add_entry_if_free((x, y), (1, 0), coordinates[i],fac_coordinates[i])
 
             # left side
             x = pos[0] - 1
             y = pos[1] + row
-            add_entry_if_free((x, y), (-1, 0), coordinates[i])
+            add_entry_if_free((x, y), (-1, 0), coordinates[i],fac_coordinates[i])
 
         for column in range(m.size()[0]):
 
             # downwards side
             x = pos[0] + column
             y = pos[1] + m.size()[1]
-            add_entry_if_free((x, y), (0, 1), coordinates[i])
+            add_entry_if_free((x, y), (0, 1), coordinates[i],fac_coordinates[i])
 
             # upwards side
             x = pos[0] + column
             y = pos[1] - 1
-            add_entry_if_free((x, y), (0, -1), coordinates[i])
+            add_entry_if_free((x, y), (0, -1), coordinates[i], fac_coordinates[i])
 
         if len(coordinates[i]) == 0:
             return None
 
     grid = Grid(matrix=map)
 
+    fac_finder = A_star(site,fac_coordinates[0],fac_coordinates[1])
+    fac_path = fac_finder.find_path()
+    print("nodecount: " + str(len(fac_path)))
+    for node in fac_path:
+        print(node)
+
     finder = AStarFinder(diagonal_movement=DiagonalMovement.never)
     path, runs = finder.find_path(coordinates[0], coordinates[1], grid)
 
-    print("operations:", runs, "path length:", len(path))
+    print("operations:", runs, "path length:", len(path), " path: ", path)
     print(grid.grid_str(path=path, start=coordinates[0], end=coordinates[1]))
     # print(type(path))
 
@@ -490,11 +499,11 @@ def find_path(
     def step_towards(machine, origin):
         next_pos = Vector(*origin) + step_one(machine.center() - belt_center(origin))
         return (next_pos[0], next_pos[1])
-    xypath = [(n.x, n.y) for n in path]
+    xypath = fac_path
     if len(xypath) > 0:
         xypath.insert(0, step_towards(source, xypath[0]))
         xypath.append(step_towards(target, xypath[-1]))
-    
+
     return xypath
 
 
