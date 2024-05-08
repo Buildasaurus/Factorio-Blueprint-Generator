@@ -467,7 +467,7 @@ def find_path(
             return None
 
     fac_finder = A_star(site,fac_coordinates[0],fac_coordinates[1])
-    fac_path = fac_finder.find_path()
+    fac_path = fac_finder.find_path(True)
     print("nodecount: " + str(len(fac_path)))
     for node in fac_path:
         print(node)

@@ -62,7 +62,8 @@ class A_star:
         while open_list:
             # Get the node in the open list with the lowest f score (f = g + h)
             current_node = min(open_list, key=lambda node: node.cost_to_node + node.heuristic_function(self.end_positions))
-
+            if current_node.is_underground_exit:
+                print("Underground used")
             # Move the current node from the open list to the closed list
             open_list.remove(current_node)
             closed_list.append(current_node)
@@ -86,9 +87,11 @@ class A_star:
                     # This is not a better path, so ignore this neighbor
                     continue
 
-                # This path is the best so far, so record it
-                neighbor.set_parent(current_node)
+                # This path is the best so far, so record it. Also record if the
+                # Node was a underground node, then tell it to store it.
+                neighbor.set_parent(current_node, neighbor.is_observed_as_underground_exit)
                 neighbor.cost_to_node = cost_to_neighbor
+
 
         return None  # No path was found
 
@@ -119,6 +122,9 @@ class A_star:
             if not self.site.is_reserved(x,y):
                 # Normal neighbors
                 neighbors.append(self.nodes[y][x])
+                # Some nodes might previously have been set to underground neighbors
+                # But if we can see them normally now, then they shouldn't be.
+                self.nodes[y][x].is_observed_as_underground_exit = False
 
                 # Underground neighbors (also require that the adjacent neighbor is empty for underground entry)
                 if(self.underground_belts):
@@ -128,6 +134,7 @@ class A_star:
                         # each possible distance to the underground exit
                         if not self.site.is_reserved(nx,ny):
                             neighbors.append(self.nodes[ny][nx])
+                            self.nodes[ny][nx].is_observed_as_underground_exit = True
 
 
 

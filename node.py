@@ -12,6 +12,8 @@ class Node:
         self.cost_to_node = 999999999
         self.stored_heuristic = -1
         self.parent = None
+        self.is_underground_exit = False
+        self.is_observed_as_underground_exit = False
 
     def heuristic_function(self, end_node: List["tuple"]):
         """
@@ -28,11 +30,12 @@ class Node:
             self.stored_heuristic = min_distance
             return self.stored_heuristic
 
-    def set_parent(self, parent_node):
+    def set_parent(self, parent_node, is_underground_exit):
         """
         For later backtracing
         """
         self.parent = parent_node
+        self.is_underground_exit = is_underground_exit
 
     def weight_between_nodes(self, start_node: 'Node', end_node: 'Node'):
         """
