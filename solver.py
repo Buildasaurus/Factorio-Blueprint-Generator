@@ -15,9 +15,6 @@ from factoriocalc import Machine, Item
 from vector import Vector
 from a_star_factorio import A_star
 
-# Guide at https://github.com/brean/python-pathfinding/blob/main/docs/01_basic_usage.md
-from pathfinding_extensions import *
-
 from layout import ConstructionSite
 
 import layout
@@ -414,6 +411,7 @@ def find_path(
     :param target: Target machine
     :returns: a list of site coordinates between the two machines
     """
+    #TODO - rewrite this, as we don't need an entire map anymore
     map = []
     BLOCKED = 0
     NORMAL = 1
@@ -427,19 +425,16 @@ def find_path(
     # Make source and target machines expensive, but not impossible to travel
     # For each direction in the two dimensions, create starting squares
     # x and y are the inserter coordinates
-    def add_entry_if_free(inserter_pos, step, entry_list, entry_list_2):
+    def add_entry_if_free(inserter_pos, step, entry_list):
         x, y = inserter_pos
         if not is_in_bounds(x, y, map) or map[y][x] == BLOCKED:
             return
         x, y = (Vector(*inserter_pos) + Vector(*step)).values
         if not is_in_bounds(x, y, map) or map[y][x] == BLOCKED:
             return
-        entry_list.append(GridNode(x, y))
-        entry_list_2.append((x,y))
+        entry_list.append((x,y))
         x, y = inserter_pos
-        map[y][x] = BLOCKED
 
-    coordinates = [[] for i in range(2)]
     fac_coordinates = [[] for i in range(2)]
     for i, m in enumerate([source, target]):
         pos = m.position.as_int()
@@ -449,41 +444,33 @@ def find_path(
             # right side
             x = pos[0] + m.size()[0]
             y = pos[1] + row
-            add_entry_if_free((x, y), (1, 0), coordinates[i],fac_coordinates[i])
+            add_entry_if_free((x, y), (1, 0), fac_coordinates[i])
 
             # left side
             x = pos[0] - 1
             y = pos[1] + row
-            add_entry_if_free((x, y), (-1, 0), coordinates[i],fac_coordinates[i])
+            add_entry_if_free((x, y), (-1, 0), fac_coordinates[i])
 
         for column in range(m.size()[0]):
 
             # downwards side
             x = pos[0] + column
             y = pos[1] + m.size()[1]
-            add_entry_if_free((x, y), (0, 1), coordinates[i],fac_coordinates[i])
+            add_entry_if_free((x, y), (0, 1), fac_coordinates[i])
 
             # upwards side
             x = pos[0] + column
             y = pos[1] - 1
-            add_entry_if_free((x, y), (0, -1), coordinates[i], fac_coordinates[i])
+            add_entry_if_free((x, y), (0, -1), fac_coordinates[i])
 
-        if len(coordinates[i]) == 0:
+        if len(fac_coordinates[i]) == 0:
             return None
-
-    grid = Grid(matrix=map)
 
     fac_finder = A_star(site,fac_coordinates[0],fac_coordinates[1])
     fac_path = fac_finder.find_path()
     print("nodecount: " + str(len(fac_path)))
     for node in fac_path:
         print(node)
-
-    finder = AStarFinder(diagonal_movement=DiagonalMovement.never)
-    path, runs = finder.find_path(coordinates[0], coordinates[1], grid)
-
-    print("operations:", runs, "path length:", len(path), " path: ", path)
-    print(grid.grid_str(path=path, start=coordinates[0], end=coordinates[1]))
     # print(type(path))
 
     # Add inserter at both ends of path

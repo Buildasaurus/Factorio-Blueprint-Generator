@@ -4,6 +4,3 @@ factoriocalc
 # Graph representation
 networkx
 
-# Pathfinding - A* algorithm
-Pathfinding
-
