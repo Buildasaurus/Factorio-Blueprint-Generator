@@ -49,7 +49,7 @@ class ConstructionSite:
             result.append('\n')
         return ''.join(result)
 
-    def add_entity(self, kind, pos, direction, recipe=None):
+    def add_entity(self, kind, pos, direction, recipe=None, type=None):
         '''Add an entity to the construction site
 
         :param kind:  Entity type name
@@ -57,6 +57,7 @@ class ConstructionSite:
             Note: This is different from how Factorio blueprints works
         :param direction:  Entity direction
         :param recipe:  What recipe should the machine produce
+        :param type:  Must be set to "input" or "output" for underground belts.
         '''
         x, y = pos
         if not (
@@ -70,6 +71,16 @@ class ConstructionSite:
             raise ValueError(f"I'm not aware that a {kind} can have a recipie")
         if recipe is not None and not isinstance(recipe, str):
             raise ValueError(f"The recipe must be a string, but was a {type(recipe)}")
+        
+        # Type is used for underground belt
+        UNDERGROUND_KIND = ['underground-belt', 'fast-underground-belt', 'express-underground-belt']
+        if kind in UNDERGROUND_KIND:
+            VALID_TYPE = ['input', 'output']
+            if type not in VALID_TYPE:
+                raise ValueError(f"Underground belt must have a type specified, either input or output")
+        else:
+            if type is not None:
+                raise ValueError('"type" parameter is only valid for underground belt')
 
         # Place machine
         for ofs in iter_entity_area(kind):
@@ -79,6 +90,8 @@ class ConstructionSite:
         entity = dict(kind=kind, pos=pos[:], direction=direction)
         if recipe:
             entity['recipe'] = recipe
+        if type:
+            entity['type'] = type
         self.entities.append(entity)
 
     def get_entity_list(self):
@@ -96,10 +109,15 @@ class ConstructionSite:
             ))
             if 'recipe' in e:
                 result[-1]['recipe'] = e['recipe']
+            if 'type' in e:
+                result[-1]['type'] = e['type']
         return result
 
 ENTITY_SIZE = {
     'transport-belt': (1,1),
+    'underground-belt': (1,1),
+    'fast-underground-belt': (1,1),
+    'express-underground-belt': (1,1),
     'small-electric-pole': (1,1),
     'medium-electric-pole': (1,1),
     'inserter': (1,1),
