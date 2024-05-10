@@ -399,13 +399,57 @@ def connect_machines(
         dir_list.append(layout.direction_to(pos_list[i], pos_list[i + 1]))
     dir_list.append(dir_list[-1])  # repeat last direction
 
+    # Find entity kind
+    underground_belt = (
+        'underground-belt'  if belt == 'transport-belt'
+        else 'fast-underground-belt' if belt == 'fast-transport-belt'
+        else 'express-underground-belt' if belt == 'express-transport-belt'
+        else '<undefined-underground-belt>')
+    #underground_belt = 'express-underground-belt'
+    max_underground_length = {
+        'underground-belt': 4,
+        'fast-underground-belt': 6,
+        'express-underground-belt': 8,
+    }
+    def pos_distance(i,j):
+        return ( abs(pos_list[j][0] - pos_list[i][0]) 
+               + abs(pos_list[j][1] - pos_list[i][1]) )
+    def step_size(i):
+        return pos_distance(i-1, i)
+    # First and last is inserter, rest is transport belt
+    kind_list = [inserter if i == 0 or i + 1 == len(dir_list) else belt
+            for i, _ in enumerate(pos_list)]
+    # Convert kind to underground input or output when there is a gap
+    for i, kind in enumerate(kind_list):
+        if kind == inserter: continue
+        underground_length = step_size(i) - 1
+        if underground_length > 0:
+            # Check max length underground
+            if underground_length > max_underground_length[underground_belt]:
+                raise ValueError(f'{underground_belt} cannot go {underground_length} tiles under ground'
+                                 +f' from {pos_list[i-1]} to {pos_list[i]}')
+            # Check that input belt is aligned with underground belts
+            if kind_list[i-2] == belt and dir_list[i-2] != dir_list[i-1]:
+                raise ValueError(f'Underground belt from {pos_list[i-1]} to {pos_list[i]} was preceeded by a belt at {pos_list[i-2]}')
+            # Check that output belt is aligned with underground belt
+            if kind_list[i+1] == belt and dir_list[i-1] != dir_list[i]:
+                raise ValueError(f'Underground belt from {pos_list[i-1]} to {pos_list[i]} was follwed by a belt at {pos_list[i+1]}')
+            # Convert to underground section
+            kind_list[i-1] = underground_belt
+            kind_list[i] = underground_belt
+            dir_list[i] = dir_list[i-1] # if inserter on the side
+
     # Add belt and inserters to site
     for i in range(len(dir_list)):
-        kind = inserter if i == 0 or i + 1 == len(dir_list) else belt
+        kind = kind_list[i]
         dir = dir_list[i]
+        kwarg = dict()
         if kind == inserter:
             dir = (dir + 4) % 8
-        site.add_entity(kind, pos_list[i], dir, None)
+        if kind == underground_belt:
+            kwarg['type'] = 'input' if step_size(i) == 1 else 'output'
+        log.debug(f'{kind} at {pos_list[i]} dir {dir} type {kwarg.get("type")}')
+        site.add_entity(kind, pos_list[i], dir, **kwarg)
 
 
 def find_path(
