@@ -96,7 +96,7 @@ class A_star:
                     continue
 
                 # This path is the best so far, so record it. Also record if the
-                # Node was a underground node, then tell it to store it.
+                # Node was an underground node, then tell it to store it.
                 neighbor.set_parent(current_node, neighbor.is_observed_as_underground_exit)
                 neighbor.cost_to_node = cost_to_neighbor
 
@@ -110,9 +110,9 @@ class A_star:
         Asks the Constructionside whether non-visited tiles directly around it has been visited.
 
         Also uses self.undergroundbelts to possibly check neighbors further away. A possible underground
-        neighbor, is a neighbor at a distance [(2)3; 6] blocks away from current node in a straight line. The node
+        neighbor, is a neighbor at a distance [(2)3-6] blocks away from current node in a straight line. The node
         directly next to the current node, must be empty in that direction, as must the exit node.
-        Note - while a underground to a node two nodes away is possible, it is a waste of underground, as the result
+        Note - while an underground to a node two nodes away is possible, it is a waste of underground, as the result
         would be the same as just two normal belts
         An underground belt will start one node away from the current node, and terminate up to 6 nodes away.
 
@@ -120,7 +120,7 @@ class A_star:
 
         c i x x x x o
 
-        where c is the current node, i is undergruondbelt in, x is any block, o is underground belt out.
+        where c is the current node, i is underground belt in, x is any block, o is underground belt out.
         """
 
         neighbors = []
@@ -154,7 +154,7 @@ class A_star:
 
     def backtrace(self, node):
         """
-        Backtraces a path from the end position to the start position
+        Backtrace a path from the end position to the start position
 
         Note for implementation (delete later):
         Goes to the parent of each node, and saves it to a list
