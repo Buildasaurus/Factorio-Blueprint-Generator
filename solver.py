@@ -4,6 +4,7 @@ amount of space in Factorio.
 """
 
 # Standard imports
+import logging
 import math
 import random
 from typing import List
@@ -18,6 +19,12 @@ from a_star_factorio import A_star
 from layout import ConstructionSite
 
 import layout
+
+
+#
+#  Logging
+#
+log = logging.getLogger(__name__)
 
 
 #
@@ -326,7 +333,7 @@ def spring(
 
 def find_machine_with_unused_output(machines: List[LocatedMachine], item_type):
     '''Find a machine with excess production'''
-    print("looking for machine that has unused " + str(item_type))
+    log.debug("looking for machine that has unused " + str(item_type))
 
     # Each candidate is a pair (unused_output, machine)
     machine_candidates = [(m.unused_output[item_type], m)
@@ -334,7 +341,7 @@ def find_machine_with_unused_output(machines: List[LocatedMachine], item_type):
             if m.unused_output.get(item_type, 0) > 0]
 
     if len(machine_candidates) == 0:
-        print(f" no machine has unused {item_type}")
+        log.debug(f" no machine has unused {item_type}")
         return None
 
     unused_output = lambda candidate: candidate[0]
@@ -468,10 +475,9 @@ def find_path(
 
     fac_finder = A_star(site,fac_coordinates[0],fac_coordinates[1])
     fac_path = fac_finder.find_path(True)
-    print("nodecount: " + str(len(fac_path)))
+    log.debug("nodecount: " + str(len(fac_path)))
     for node in fac_path:
-        print(node)
-    # print(type(path))
+        log.debug(node)
 
     # Add inserter at both ends of path
     sign = lambda x: 1 if x > 0 else -1

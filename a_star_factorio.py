@@ -1,4 +1,5 @@
 # Standard imports
+import logging
 import math
 import random
 from typing import List
@@ -9,6 +10,13 @@ from vector import Vector
 from layout import ConstructionSite
 
 from node import Node
+
+
+
+#
+#  Logging
+#
+log = logging.getLogger(__name__)
 
 
 
@@ -38,21 +46,21 @@ class A_star:
         width = site.size()[0]
         self.nodes = [
             [Node((x, y)) for x in range(width)] for y in range(height)]
-        print("Nodes initialized")
+        log.debug("Nodes initialized")
         for position in start_positions:
             self.nodes[position[1]][position[0]].set_as_start_node()
             self.queue.append(self.nodes[position[1]][position[0]])
-        print("Start nodes initialized")
+        log.debug("Start nodes initialized")
 
         for position in end_positions:
             self.nodes[position[1]][position[0]].set_as_end_node()
-        print("End nodes initialized")
+        log.debug("End nodes initialized")
 
     def find_path(self, underground_belts=False) -> List['Node']:
         """
         Runs the A* algorithm
         """
-        print("finding path")
+        log.debug("finding path")
         self.underground_belts = underground_belts
 
         # Initialize the open and closed lists
@@ -63,7 +71,7 @@ class A_star:
             # Get the node in the open list with the lowest f score (f = g + h)
             current_node = min(open_list, key=lambda node: node.cost_to_node + node.heuristic_function(self.end_positions))
             if current_node.is_underground_exit:
-                print("Underground used")
+                log.debug("Underground used")
             # Move the current node from the open list to the closed list
             open_list.remove(current_node)
             closed_list.append(current_node)
