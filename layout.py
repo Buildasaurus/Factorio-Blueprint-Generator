@@ -114,6 +114,8 @@ class ConstructionSite:
         return result
 
 ENTITY_SIZE = {
+    'wooden-chest': (1,1),
+    'iron-chest': (1,1),
     'transport-belt': (1,1),
     'underground-belt': (1,1),
     'fast-underground-belt': (1,1),
