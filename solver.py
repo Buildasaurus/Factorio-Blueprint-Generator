@@ -163,7 +163,7 @@ class Port(FactoryNode):
 
     def size(self):
         return (1, 1)
-    
+
     @property
     def name(self):
         '''Return the factoro entity name'''
@@ -265,7 +265,7 @@ def add_connections(machines: List[LocatedMachine]):
         port = find_port(item_type, pos)
         port.change_flow_request('input', item_type, rate)
         return port
-    
+
     # Connect all machines to suppliers
     for target_machine in machines:
         for item_type in target_machine.machine.inputs:
@@ -285,7 +285,7 @@ def add_connections(machines: List[LocatedMachine]):
                 pos = machine.position + random_position((-1, -1), (1, 1))
                 port = find_output_port(item_type, rate, pos)
                 port.consume_from(machine, item_type)
-    
+
     # Add found ports to machine list
     machines.extend(new_ports)
 
@@ -468,7 +468,7 @@ def connect_machines(
         'express-underground-belt': 8,
     }
     def pos_distance(i,j):
-        return ( abs(pos_list[j][0] - pos_list[i][0]) 
+        return ( abs(pos_list[j][0] - pos_list[i][0])
                + abs(pos_list[j][1] - pos_list[i][1]) )
     def step_size(i):
         return pos_distance(i-1, i)
@@ -609,4 +609,4 @@ if __name__ == "__main__":
     import test.solver
     import unittest
 
-    unittest.main(defaultTest="test.solver", verbosity=2)
+    unittest.main(defaultTest="test.solver.electronic_circuit", verbosity=2)
