@@ -134,6 +134,7 @@ class A_star:
         for dx, dy in directions:
             x, y = node.position[0] + dx, node.position[1] + dy
             if not self.site.is_reserved(x,y):
+            if not self.site.is_reserved(x,y) and self.is_in_bounds(x,y,self.nodes):
                 # Normal neighbors
                 neighbors.append(self.nodes[y][x])
                 # Some nodes might previously have been set to underground neighbors
