@@ -56,6 +56,12 @@ class A_star:
             self.nodes[position[1]][position[0]].set_as_end_node()
         log.debug("End nodes initialized")
 
+    def find_entrance_node(self, current_node: 'Node', exit_node: 'Node') -> 'Node':
+        distance = (exit_node.position[0]- current_node.position[0], exit_node.position[1]-current_node.position[1])
+        normalized_distance = (distance[0]//abs(distance[0]) if distance[0] != 0 else 0, distance[1]//abs(distance[1]) if distance[1] != 0 else 0)
+        return self.nodes[current_node.position[1] + normalized_distance[1]][current_node.position[0] + normalized_distance[0]]
+
+
     def find_path(self, underground_belts=False) -> List['Node']:
         """
         Runs the A* algorithm
