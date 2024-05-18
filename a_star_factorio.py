@@ -75,8 +75,11 @@ class A_star:
         # Initialize the open and closed lists
         open_list = self.queue.copy()
         closed_list = []
-        visualizer.set_closed_list(closed_list)
-        visualizer.set_open_list(open_list)
+        if visualizer != None:
+            visualizer.set_closed_list(closed_list)
+            visualizer.set_open_list(open_list)
+            visualizer.set_start_squares(self.start_positions)
+            visualizer.set_end_squares(self.end_positions)
         while open_list:
             # Get the node in the open list with the lowest f score (f = g + h)
             current_node = min(open_list, key=lambda node: node.cost_to_node + node.heuristic_function(self.end_positions))

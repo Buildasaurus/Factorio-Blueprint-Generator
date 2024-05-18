@@ -71,7 +71,7 @@ class TestElectronicCircuit(unittest.TestCase):
         print("Machines are at: " + str([machine.position for machine in machines]))
         solver.machines_to_int(machines)
         print("Machines are at: " + str([machine.position for machine in machines]))
-        spring_visuals = PathFindingVisuals(WIDTH, HEIGHT, fps=4)
+        spring_visuals = PathFindingVisuals(WIDTH, HEIGHT, fps=0.2)
         solver.place_on_site(site, machines, spring_visuals)
         print(site)
         print(layout.site_as_blueprint_string(site, label="test of blueprint code"))
