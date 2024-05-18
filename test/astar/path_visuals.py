@@ -13,6 +13,7 @@ class PathFindingVisuals:
         self.frame_duration = 1 / fps
         plt.axis([0, self.width, 0, self.height])
         self.ax = plt.gca()
+        self.ax.set_aspect("equal")
         self.ax.figure.canvas.mpl_connect("close_event", lambda event: self.max_speed())
         self.open_list = None
         self.closed_list = None
@@ -34,7 +35,7 @@ class PathFindingVisuals:
     def set_end_squares(self, end_coordinates: List["tuple"]):
         self.end_squares = end_coordinates
 
-    def show_frame(self):
+    def show_frame(self, back_trace_steps: List['tuple'] = None):
         self.ax.clear()
         self.ax.set_xlim(0, self.width)
         self.ax.set_ylim(0, self.height)
@@ -65,6 +66,9 @@ class PathFindingVisuals:
         for start in self.start_squares:
             drawsquare(start, (0.5, 0.5, 0.5))  # Start squares are gray
 
+        if back_trace_steps != None:
+            for step in back_trace_steps:
+                drawsquare(step, (1, 0.55, 0))  # backtracing is dark orange
 
 
         # Create a custom legend using the color and label pairs in the dictionary

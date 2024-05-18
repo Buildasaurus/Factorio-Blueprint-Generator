@@ -91,7 +91,7 @@ class A_star:
 
             # If the current node is an end node, we've found a path
             if current_node.is_end_node:
-                return self.backtrace(current_node)
+                return self.backtrace(current_node, path_visualizer=visualizer)
 
             neighbors = self.get_neighbors(current_node, closed_list)
             for neighbor in neighbors:
@@ -180,7 +180,7 @@ class A_star:
     def is_in_bounds(self, x, y, map):
         return x >= 0 and y >= 0 and x < len(map[0]) and y < len(map)
 
-    def backtrace(self, node):
+    def backtrace(self, node, path_visualizer = None):
         """
         Backtrace a path from the end position to the start position
 
@@ -189,6 +189,8 @@ class A_star:
         """
         path = []
         while node is not None:
+            if path_visualizer != None:
+                path_visualizer.show_frame(path)
             path.append((node.position[0], node.position[1]))
             node = node.parent
         return path[::-1]  #Reversed reversed path = normal path
