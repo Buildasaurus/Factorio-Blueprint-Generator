@@ -8,6 +8,7 @@ import factoriocalc.presets as fcc
 import layout
 import solver
 from test.solver.visuals import ForceAlgorithmVisuals
+from test.astar.path_visuals import PathFindingVisuals
 
 #
 #  Test
@@ -51,7 +52,8 @@ class TestSmallMall(unittest.TestCase):
                 max_iterations=200)
         visuals.close()
         solver.machines_to_int(machines)
-        solver.place_on_site(site, machines)
+        spring_visuals = PathFindingVisuals(WIDTH, HEIGHT,site, fps=0.5)
+        solver.place_on_site(site, machines, spring_visuals)
         print(f'site dimensions: {site.size()}')
         print(site)
         #log.debug(f'site entity list (will be blueprint)\n{site.get_entity_list()}')

@@ -610,4 +610,4 @@ if __name__ == "__main__":
     import test.solver
     import unittest
 
-    unittest.main(defaultTest="test.solver.electronic_circuit", verbosity=2)
+    unittest.main(defaultTest="test.solver.mall_small", verbosity=2)
