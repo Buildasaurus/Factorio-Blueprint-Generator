@@ -71,7 +71,7 @@ class ConstructionSite:
             raise ValueError(f"I'm not aware that a {kind} can have a recipie")
         if recipe is not None and not isinstance(recipe, str):
             raise ValueError(f"The recipe must be a string, but was a {type(recipe)}")
-        
+
         # Type is used for underground belt
         UNDERGROUND_KIND = ['underground-belt', 'fast-underground-belt', 'express-underground-belt']
         if kind in UNDERGROUND_KIND:
@@ -160,7 +160,7 @@ def center_position(entity_name, direc: Direction, top_left_pos):
 def iter_area(size):
     '''Iterate over all possible offsets for a given entity size,
     relative to the upper left corner.
-    
+
     :param size: Tuple (width, height) with two integer values
     :return: (offset x, offset y) tuples
     '''
@@ -306,4 +306,3 @@ def belt_path(site: ConstructionSite, point_list, belt_type='transport-belt'):
             site.add_entity(belt_type, s, d)
             s[0] += step[0]
             s[1] += step[1]
-        

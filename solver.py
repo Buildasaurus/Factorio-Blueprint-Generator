@@ -407,7 +407,7 @@ def machines_to_int(machines: List[LocatedMachine]):
         machine.position = machine.position.as_int()
 
 
-def place_on_site(site, machines: List[LocatedMachine]):
+def place_on_site(site, machines: List[LocatedMachine], path_visiualizer = None):
     """
     Place machines on the construction site
 
@@ -422,13 +422,14 @@ def place_on_site(site, machines: List[LocatedMachine]):
             site.add_entity(lm.name, lm.position, 0)
     for target in machines:
         for source in target.getConnections():
-            connect_machines(site, source, target)
+            connect_machines(site, source, target, visualizer=path_visiualizer)
 
 
 def connect_machines(
     site: ConstructionSite,
     source: FactoryNode,
     target: FactoryNode,
+    visualizer = None,
     inserter="inserter",
     belt="transport-belt",
 ):
@@ -445,7 +446,7 @@ def connect_machines(
     if target.overlaps(source):
         raise ValueError("Machines overlap")
     # Find an open path between machines
-    pos_list = find_path(site, source, target)
+    pos_list = find_path(site, source, target, path_visualizer = visualizer)
     if len(pos_list) == 0:
         raise ValueError("No possible path")
     assert len(pos_list) >= 3, "Path below length 3 is not supported"
@@ -509,7 +510,7 @@ def connect_machines(
 
 
 def find_path(
-    site: ConstructionSite, source: FactoryNode, target: FactoryNode
+    site: ConstructionSite, source: FactoryNode, target: FactoryNode, path_visualizer = None
 ) -> List[tuple]:
     """Generates a list of coordinates, to walk from one machine to the other
 
@@ -574,7 +575,7 @@ def find_path(
             return None
 
     fac_finder = A_star(site,fac_coordinates[0],fac_coordinates[1])
-    fac_path = fac_finder.find_path(True)
+    fac_path = fac_finder.find_path(True, path_visualizer)
     log.debug("nodecount: " + str(len(fac_path)))
     for node in fac_path:
         log.debug(node)

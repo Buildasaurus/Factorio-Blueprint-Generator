@@ -65,7 +65,7 @@ class A_star:
         return (distance[0]//abs(distance[0]) if distance[0] != 0 else 0, distance[1]//abs(distance[1]) if distance[1] != 0 else 0)
 
 
-    def find_path(self, underground_belts=False) -> List['Node']:
+    def find_path(self, underground_belts=False, visualizer = None) -> List['Node']:
         """
         Runs the A* algorithm
         """
@@ -75,7 +75,8 @@ class A_star:
         # Initialize the open and closed lists
         open_list = self.queue.copy()
         closed_list = []
-
+        visualizer.set_closed_list(closed_list)
+        visualizer.set_open_list(open_list)
         while open_list:
             # Get the node in the open list with the lowest f score (f = g + h)
             current_node = min(open_list, key=lambda node: node.cost_to_node + node.heuristic_function(self.end_positions))
@@ -117,6 +118,7 @@ class A_star:
                 if neighbor not in open_list:
                     # This neighbor hasn't been evaluated yet, so add it to the open list
                     open_list.append(neighbor)
+            visualizer.show_frame()
 
         return None  # No path was found
 

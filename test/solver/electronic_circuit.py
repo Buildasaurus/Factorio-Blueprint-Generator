@@ -9,6 +9,7 @@ import factoriocalc.presets as fcc
 import layout
 import solver
 from test.solver.visuals import ForceAlgorithmVisuals
+from test.astar.path_visuals import PathFindingVisuals
 
 #
 #  Logging
@@ -70,7 +71,8 @@ class TestElectronicCircuit(unittest.TestCase):
         print("Machines are at: " + str([machine.position for machine in machines]))
         solver.machines_to_int(machines)
         print("Machines are at: " + str([machine.position for machine in machines]))
-        solver.place_on_site(site, machines)
+        spring_visuals = PathFindingVisuals(WIDTH, HEIGHT, fps=4)
+        solver.place_on_site(site, machines, spring_visuals)
         print(site)
         print(layout.site_as_blueprint_string(site, label="test of blueprint code"))
         print("End of test")
