@@ -1,12 +1,13 @@
 import matplotlib.patches
 import matplotlib.pyplot as plt
 from typing import List
+from layout import ConstructionSite
 
 
 class PathFindingVisuals:
     """Show path algorithm as the pathfinder looks for direction."""
 
-    def __init__(self, width, height, fps) -> None:
+    def __init__(self, width, height, site: "ConstructionSite", fps) -> None:
         self.width = width
         self.height = height
         self.frame_duration = 1 / fps
@@ -15,7 +16,8 @@ class PathFindingVisuals:
         self.ax.figure.canvas.mpl_connect("close_event", lambda event: self.max_speed())
         self.open_list = None
         self.closed_list = None
-        self.rect_size = 1  # pixels width
+        self.site = site
+        self.rect_size = 0.7  # pixel width of square
 
     def max_speed(self):
         self.frame_duration = 0
@@ -26,10 +28,10 @@ class PathFindingVisuals:
     def set_closed_list(self, closed_list):
         self.closed_list = closed_list
 
-    def set_start_squares(self, start_coordinates: List['tuple']):
+    def set_start_squares(self, start_coordinates: List["tuple"]):
         self.start_squares = start_coordinates
 
-    def set_end_squares(self, end_coordinates: List['tuple']):
+    def set_end_squares(self, end_coordinates: List["tuple"]):
         self.end_squares = end_coordinates
 
     def show_frame(self):
@@ -48,19 +50,22 @@ class PathFindingVisuals:
 
             self.ax.add_patch(machine_shape)
 
+        for reserved_position in self.site.reserved:
+            drawsquare(reserved_position, (0, 0, 0))  # Machines and obstacles are black
 
 
 
         for counter, open in enumerate(self.open_list):
             drawsquare(open.position, (0, 0, 1))  # Blue meaning open
-
         for counter, closed in enumerate(self.closed_list):
             drawsquare(closed.position, (1, 0, 0))  # Red meaning closed
 
         for end in self.end_squares:
             drawsquare(end, (0, 1, 0))  # Target squares are green
         for start in self.start_squares:
-            drawsquare(start, (0, 0, 0))  # Start squares are black
+            drawsquare(start, (0.5, 0.5, 0.5))  # Start squares are gray
+
+
 
         # Create a custom legend using the color and label pairs in the dictionary
         self.ax.legend(
