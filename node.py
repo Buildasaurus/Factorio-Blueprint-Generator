@@ -50,7 +50,7 @@ class Node:
         if distance <= 1:
             return 1
         else:
-            return 10
+            return 7
 
     def distance(self, node1: 'tuple', node2: 'tuple'):
         '''

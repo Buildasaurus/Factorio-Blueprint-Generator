@@ -73,8 +73,8 @@ class A_star:
         self.underground_belts = underground_belts
 
         # Initialize the open and closed lists
-        open_list = self.queue.copy()
-        closed_list = []
+        open_list: List['Node'] = self.queue.copy()
+        closed_list: List['Node'] = []
         if visualizer != None:
             visualizer.set_closed_list(closed_list)
             visualizer.set_open_list(open_list)
@@ -100,14 +100,25 @@ class A_star:
 
                 # Calculate the tentative g score for the neighbor
                 if neighbor.is_observed_as_underground_exit:
-                    underground_entry_node = self.find_entrance_node(current_node,neighbor)
-                    cost_to_neighbor = underground_entry_node.cost_to_node + underground_entry_node.weight_between_nodes(underground_entry_node, neighbor)
-                    if cost_to_neighbor <= neighbor.cost_to_node:
-                        # This path is the best so far, so record it. Also record if the
-                        # Node was an underground node, then tell it to store it.
-                        neighbor.set_parent(underground_entry_node, True)
-                        underground_entry_node.set_parent(current_node, False)
-                        neighbor.cost_to_node = cost_to_neighbor
+                    # start node have weird underground neigbors - look at the neighbor function
+                    if current_node.is_start_node and neighbor.distance(neighbor.position, current_node.position) < 6:
+                        # if the distance is 6, it is too far for direct underground, thus this must be the edge case described
+                        # by the neighbor function
+                        cost_to_neighbor = current_node.cost_to_node + current_node.weight_between_nodes(current_node, neighbor)
+                        if cost_to_neighbor <= neighbor.cost_to_node:
+                            # This path is the best so far, so record it. Also record if the
+                            # Node was an underground node, then tell it to store it.
+                            neighbor.set_parent(current_node, True)
+                            neighbor.cost_to_node = cost_to_neighbor
+                    else:
+                        underground_entry_node = self.find_entrance_node(current_node,neighbor)
+                        cost_to_neighbor = underground_entry_node.cost_to_node + underground_entry_node.weight_between_nodes(underground_entry_node, neighbor)
+                        if cost_to_neighbor <= neighbor.cost_to_node:
+                            # This path is the best so far, so record it. Also record if the
+                            # Node was an underground node, then tell it to store it.
+                            neighbor.set_parent(underground_entry_node, True)
+                            underground_entry_node.set_parent(current_node, False)
+                            neighbor.cost_to_node = cost_to_neighbor
 
                 else:
                     cost_to_neighbor = current_node.cost_to_node + current_node.weight_between_nodes(current_node, neighbor)
@@ -143,17 +154,29 @@ class A_star:
         c i x x x x o
 
         where c is the current node, i is underground belt in, x is any block, o is underground belt out.
+
+
+        If a node is a startnode, so where the path starts, a direct underground is allowed in the following fashion:
+        i x x x x o
+
+        As we then don't need to worry about the parent of the belt being in the right spot, as there is no parent.
+        It is however still possible for a startnode to reach nodes 1 further away than the underground belts distance
+        by using the same technique above. So start nodes have all the following underground neighbors.
+        i x n n n n n
+        Desipite the last neigbour being too far away, since it then could reach it by placing a normal belt fist.
         """
 
         neighbors = []
         if node.is_underground_exit:
             direction = self.find_normalized_direction(node, node.parent)
             x, y = node.position[0] + direction[0], node.position[1] + direction[1]
+            self.nodes[y][x].is_observed_as_underground_exit = False
             neighbors.append(self.nodes[y][x])
         else:
             directions = [(0, 1), (1, 0), (0, -1), (-1, 0)]  # Up, Right, Down, Left
             for dx, dy in directions:
                 x, y = node.position[0] + dx, node.position[1] + dy
+
                 if not self.site.is_reserved(x,y) and self.is_in_bounds(x,y,self.nodes):
                     # Normal neighbors
                     neighbors.append(self.nodes[y][x])
@@ -161,10 +184,11 @@ class A_star:
                     # But if we can see them normally now, then they shouldn't be.
                     self.nodes[y][x].is_observed_as_underground_exit = False
 
-                    # Underground neighbors (also require that the adjacent neighbor is empty for underground entry)
+                    # Underground neighbors
+                    # Requires that the adjacent neighbor is empty for underground entry
                     # Also required taht the neighbor isn't the parent of the current node. Otherwise infinite loops
                     # will be created as that node again now will be the child of this node, which will eat all your ram.
-                    if(self.underground_belts):
+                    if self.underground_belts and not node.is_start_node: # start nodes handled below
                         for underground_distance in [3,4,5,6]:
                             nx, ny = (node.position[0] + dx*underground_distance,
                                                     node.position[1] + dy*underground_distance)
@@ -173,6 +197,25 @@ class A_star:
                             if not self.site.is_reserved(nx,ny) and self.is_in_bounds(nx,ny,self.nodes) and not illegal_nodes.__contains__(self.nodes[y][x]) and not self.site.is_reserved(x,y):
                                 neighbors.append(self.nodes[ny][nx])
                                 self.nodes[ny][nx].is_observed_as_underground_exit = True
+
+                # Start node underground nodes
+                if self.underground_belts and node.is_start_node: # if we are at a start node, it is allowed and preferred to do a direct underground
+                    # This must therefore also be checked when using neighbors
+                    for underground_distance in [2,3,4,5]:
+                        nx, ny = (node.position[0] + dx*underground_distance,
+                                                node.position[1] + dy*underground_distance)
+                        # each possible distance to the underground exit
+                        # The entry and exit should be empty. The entry and exit must not be illegal (in closed list)
+                        if not self.site.is_reserved(nx,ny) and self.is_in_bounds(nx,ny,self.nodes):
+                            neighbors.append(self.nodes[ny][nx])
+                            self.nodes[ny][nx].is_observed_as_underground_exit = True
+
+                    nx, ny = (node.position[0] + dx*6, node.position[1] + dy*6)
+                    # Add 6th distance as usual
+                    if not self.site.is_reserved(nx,ny) and self.is_in_bounds(nx,ny,self.nodes) and not illegal_nodes.__contains__(self.nodes[y][x]) and not self.site.is_reserved(x,y):
+                            neighbors.append(self.nodes[ny][nx])
+                            self.nodes[ny][nx].is_observed_as_underground_exit = True
+
 
 
 

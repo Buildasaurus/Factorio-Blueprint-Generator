@@ -52,7 +52,7 @@ class TestSmallMall(unittest.TestCase):
                 max_iterations=200)
         visuals.close()
         solver.machines_to_int(machines)
-        spring_visuals = PathFindingVisuals(WIDTH, HEIGHT,site, fps=2)
+        spring_visuals = PathFindingVisuals(WIDTH, HEIGHT,site, fps=60)
         solver.place_on_site(site, machines, spring_visuals)
         print(f'site dimensions: {site.size()}')
         print(site)

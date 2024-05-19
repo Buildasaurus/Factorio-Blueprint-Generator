@@ -13,6 +13,7 @@ import unittest
 import layout
 import solver
 from vector import Vector
+from test.astar.path_visuals import PathFindingVisuals
 
 #
 #  Logging
@@ -82,6 +83,7 @@ class Test_must_have_underground(unittest.TestCase):
                     site.add_entity(BELT, (2+1+2+b, row), 0)
             log.debug(f'On site that looks like this:\n{site}')
             log.debug(f'Find path from {source.position} to {target.position}')
-            pos_list = solver.find_path(site, source, target)
+            spring_visuals = PathFindingVisuals(dim[0], dim[1], site, fps=10)
+            pos_list = solver.find_path(site, source, target,spring_visuals)
             log.debug(pos_list)
             self.assertEqual(len(pos_list), 2+(expected_dips+1)*2)
