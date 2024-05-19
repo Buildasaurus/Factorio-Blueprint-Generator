@@ -105,7 +105,7 @@ class A_star:
                     if cost_to_neighbor <= neighbor.cost_to_node:
                         # This path is the best so far, so record it. Also record if the
                         # Node was an underground node, then tell it to store it.
-                        neighbor.set_parent(underground_entry_node, neighbor.is_observed_as_underground_exit)
+                        neighbor.set_parent(underground_entry_node, True)
                         underground_entry_node.set_parent(current_node, False)
                         neighbor.cost_to_node = cost_to_neighbor
 
@@ -114,7 +114,8 @@ class A_star:
                     if cost_to_neighbor <= neighbor.cost_to_node:
                         # This path is the best so far, so record it. Also record if the
                         # Node was an underground node, then tell it to store it.
-                        neighbor.set_parent(current_node,neighbor.is_observed_as_underground_exit)
+
+                        neighbor.set_parent(current_node, False)
                         neighbor.cost_to_node = cost_to_neighbor
 
 
