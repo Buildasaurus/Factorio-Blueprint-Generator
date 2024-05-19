@@ -62,8 +62,8 @@ class Test_find_underground_entry(unittest.TestCase):
         site = layout.ConstructionSite(50, 50)
         finder = A_star(site, [(0, 0)], [(1, 1)])
         start_position = (5, 5)
-        end_positions = [(3, 5), (7, 5), (5, 3), (5, 7)]
-        correct_directions = [(4, 5), (6, 5), (5,4), (5,6)]
+        end_positions = [(2, 5), (8, 5), (5, 1), (5, 9)]
+        correct_directions = [(4, 5), (6, 5), (5, 4), (5, 6)]
         counter = 0
         for end in end_positions:
             node = finder.find_entrance_node(
@@ -71,4 +71,28 @@ class Test_find_underground_entry(unittest.TestCase):
                 finder.nodes[end[1]][end[0]],
             )
             self.assertEqual(node.position, correct_directions[counter])
+            counter += 1
+
+    def test_normalized_direction(self):
+        """
+        A main belt may be so wide that you need to surface to cross it
+        in this configuration:
+        0 1 2 3 4 5 6
+        e x x x x x o
+        the output should be the node at index 1
+        """
+        log.debug(f"test")
+
+        site = layout.ConstructionSite(50, 50)
+        finder = A_star(site, [(0, 0)], [(1, 1)])
+        start_position = (5, 5)
+        end_positions = [(3, 5), (7, 5), (5, 3), (5, 7)]
+        correct_directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+        counter = 0
+        for end in end_positions:
+            direction = finder.find_normalized_direction(
+                finder.nodes[start_position[1]][start_position[0]],
+                finder.nodes[end[1]][end[0]],
+            )
+            self.assertEqual(direction, correct_directions[counter])
             counter += 1

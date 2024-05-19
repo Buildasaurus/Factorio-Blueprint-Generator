@@ -168,7 +168,7 @@ class A_star:
 
         neighbors = []
         if node.is_underground_exit:
-            direction = self.find_normalized_direction(node, node.parent)
+            direction = self.find_normalized_direction(node.parent, node)
             x, y = node.position[0] + direction[0], node.position[1] + direction[1]
             self.nodes[y][x].is_observed_as_underground_exit = False
             neighbors.append(self.nodes[y][x])
