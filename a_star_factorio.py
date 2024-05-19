@@ -122,7 +122,8 @@ class A_star:
                 if neighbor not in open_list:
                     # This neighbor hasn't been evaluated yet, so add it to the open list
                     open_list.append(neighbor)
-            visualizer.show_frame()
+            if visualizer:
+                visualizer.show_frame()
 
         return None  # No path was found
 
