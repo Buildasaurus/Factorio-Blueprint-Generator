@@ -433,10 +433,12 @@ def place_on_site(site: 'ConstructionSite', machines: List[LocatedMachine], path
             try:
                 before_string = layout.site_to_test(site, source, target)
                 connect_machines(site, source, target, visualizer=path_visiualizer)
-            except:
+            except Exception as ex:
+                log.error(ex)
                 log.debug("Error was thrown at place on site, this is the scenario")
-                print(before_string)
-                raise ValueError("some error")
+                log.debug(before_string)
+                log.debug('This is the exception traceback', exc_info=True)
+                raise
 
 
 
