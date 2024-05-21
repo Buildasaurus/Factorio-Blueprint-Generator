@@ -138,6 +138,14 @@ class FactoryNode:
         assert flow_sum > 0
 
 
+class FakeMachine(FactoryNode):
+    def __init__(self, position, size):
+        super().__init__(position)
+        self.stored_size = size
+
+    def size(self):
+        return self.stored_size
+
 class Port(FactoryNode):
     """A point where a factory exchanges items with its surroundings.
     This is usually a transport-belt tile, but can also be a provider chest
