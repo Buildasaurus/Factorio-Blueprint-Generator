@@ -415,7 +415,7 @@ def machines_to_int(machines: List[LocatedMachine]):
         machine.position = machine.position.as_int()
 
 
-def place_on_site(site, machines: List[LocatedMachine], path_visiualizer = None):
+def place_on_site(site: 'ConstructionSite', machines: List[LocatedMachine], path_visiualizer = None):
     """
     Place machines on the construction site
 
@@ -430,7 +430,14 @@ def place_on_site(site, machines: List[LocatedMachine], path_visiualizer = None)
             site.add_entity(lm.name, lm.position, 0)
     for target in machines:
         for source in target.getConnections():
-            connect_machines(site, source, target, visualizer=path_visiualizer)
+            try:
+                before_string = layout.site_to_test(site, source, target)
+                connect_machines(site, source, target, visualizer=path_visiualizer)
+            except:
+                log.debug("Error was thrown at place on site, this is the scenario")
+                print(before_string)
+                raise ValueError("some error")
+
 
 
 def connect_machines(
@@ -612,10 +619,11 @@ def find_path(
 def is_in_bounds(x, y, map):
     return x >= 0 and y >= 0 and x < len(map[0]) and y < len(map)
 
-
 if __name__ == "__main__":
     """Test code executed if run from command line"""
     import test.solver
+    import test.layout
     import unittest
 
-    unittest.main(defaultTest="test.solver.mall_small", verbosity=2)
+    #unittest.main(defaultTest="test.solver.electronic_circuit", verbosity=2)
+    unittest.main(defaultTest="test.layout.route_finding", verbosity=2)

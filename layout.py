@@ -306,3 +306,45 @@ def belt_path(site: ConstructionSite, point_list, belt_type='transport-belt'):
             site.add_entity(belt_type, s, d)
             s[0] += step[0]
             s[1] += step[1]
+
+def site_to_test(site: 'ConstructionSite', source, target) -> 'str':
+    coordinates = []
+    for y in range(site.dim_y):
+        for x in range(site.dim_x):
+            if site.is_reserved(x, y):
+                coordinates.append((x,y))
+
+    start = source.position
+    end = target.position
+    start_type = type(source)
+    end_type = type(target)
+    try:
+        start_type = source.machine
+    except:
+        pass
+    try:
+        end_type = target.machine
+    except:
+        pass
+
+    final_string = f"""
+        print("{start_type} and {end_type}")
+        width = {site.dim_x}
+        height = {site.dim_y}
+        site = layout.ConstructionSite(width, height)
+        source = solver.FakeMachine(Vector{str(start)}, (3,3))
+        target = solver.FakeMachine(Vector{str(end)}, (3,3))
+
+        # Drawing flipped on its head
+        coordinates = {str(coordinates)}
+        for coordinat in coordinates:
+            site.add_entity(INSERTER, (coordinat[0], coordinat[1]), 0)
+
+        log.debug(f"On site that looks like this:\\n {"{"}site{"}"} ")
+        log.debug(f"Find path from {str(start)} to {str(end)}")
+        spring_visuals = PathFindingVisuals(width, height, site, fps=60 )
+        pos_list = solver.connect_machines(site, source, target, spring_visuals)
+        log.debug(pos_list)
+        """
+
+    return final_string
