@@ -3,6 +3,8 @@ import matplotlib.pyplot as plt
 from typing import List
 from layout import ConstructionSite
 
+enabled = False
+
 
 class PathFindingVisuals:
     """Show path algorithm as the pathfinder looks for direction."""
@@ -11,10 +13,11 @@ class PathFindingVisuals:
         self.width = width
         self.height = height
         self.frame_duration = 1 / fps
-        plt.axis([0, self.width, 0, self.height])
-        self.ax = plt.gca()
-        self.ax.set_aspect("equal")
-        self.ax.figure.canvas.mpl_connect("close_event", lambda event: self.max_speed())
+        if enabled:
+            plt.axis([0, self.width, 0, self.height])
+            self.ax = plt.gca()
+            self.ax.set_aspect("equal")
+            self.ax.figure.canvas.mpl_connect("close_event", lambda event: self.max_speed())
         self.open_list = None
         self.closed_list = None
         self.site = site
@@ -36,6 +39,8 @@ class PathFindingVisuals:
         self.end_squares = end_coordinates
 
     def show_frame(self, back_trace_steps: List['tuple'] = None):
+        if not enabled:
+            return
         self.ax.clear()
         self.ax.set_xlim(0, self.width)
         self.ax.set_ylim(0, self.height)
