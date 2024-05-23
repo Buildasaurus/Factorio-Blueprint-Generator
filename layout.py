@@ -338,7 +338,7 @@ def site_to_test(site: 'ConstructionSite', source, target) -> 'str':
         # Drawing flipped on its head
         coordinates = {str(coordinates)}
         for coordinat in coordinates:
-            site.add_entity(INSERTER, (coordinat[0], coordinat[1]), 0)
+            site.add_entity(INSERTER, coordinat, 0)
 
         log.debug(f"On site that looks like this:\\n {"{"}site{"}"} ")
         log.debug(f"Find path from {str(start)} to {str(end)}")
