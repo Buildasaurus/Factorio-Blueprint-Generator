@@ -150,7 +150,7 @@ class TestRouteFinding(unittest.TestCase):
         is right next to the end squares for the other machine. So the path just goes from 4th row (0 indexed) to the 3rd.
         But that is the spot for the inserter, so that movement is not allowed.
         '''
-        print("AssemblingMachine2(copper_cable) and AssemblingMachine2(electronic_circuit)")
+        log.debug("AssemblingMachine2(copper_cable) and AssemblingMachine2(electronic_circuit)")
         width = 96
         height = 96
         site = layout.ConstructionSite(width, height)
