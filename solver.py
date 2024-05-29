@@ -7,7 +7,7 @@ amount of space in Factorio.
 import logging
 import math
 import random
-from typing import List
+from typing import List, Dict
 
 # Third party imports
 from factoriocalc import Machine, Item
@@ -550,7 +550,7 @@ def find_path(
     # Make source and target machines expensive, but not impossible to travel
     # For each direction in the two dimensions, create starting squares
     # x and y are the inserter coordinates
-    def add_entry_if_free(inserter_pos, step, entry_list):
+    def add_entry_if_free(inserter_pos, step, entry_list, illegal_coordinate_dictionary: Dict['tuple',List['tuple']]):
         x, y = inserter_pos
         if not is_in_bounds(x, y, map) or map[y][x] == BLOCKED:
             return
@@ -558,9 +558,13 @@ def find_path(
         if not is_in_bounds(x, y, map) or map[y][x] == BLOCKED:
             return
         entry_list.append((x,y))
-        x, y = inserter_pos
+        if illegal_coordinate_dictionary.get((x,y)):
+            illegal_coordinate_dictionary[(x,y)].append(inserter_pos)
+        else:
+            illegal_coordinate_dictionary[(x,y)] = [inserter_pos]
 
     fac_coordinates = [[] for i in range(2)]
+    illegal_coordinates_dicts = [{} for i in range(2)]
     for i, m in enumerate([source, target]):
         pos = m.position.as_int()
 
@@ -569,29 +573,29 @@ def find_path(
             # right side
             x = pos[0] + m.size()[0]
             y = pos[1] + row
-            add_entry_if_free((x, y), (1, 0), fac_coordinates[i])
+            add_entry_if_free((x, y), (1, 0), fac_coordinates[i], illegal_coordinates_dicts[i])
 
             # left side
             x = pos[0] - 1
             y = pos[1] + row
-            add_entry_if_free((x, y), (-1, 0), fac_coordinates[i])
+            add_entry_if_free((x, y), (-1, 0), fac_coordinates[i], illegal_coordinates_dicts[i])
 
         for column in range(m.size()[0]):
 
             # downwards side
             x = pos[0] + column
             y = pos[1] + m.size()[1]
-            add_entry_if_free((x, y), (0, 1), fac_coordinates[i])
+            add_entry_if_free((x, y), (0, 1), fac_coordinates[i], illegal_coordinates_dicts[i])
 
             # upwards side
             x = pos[0] + column
             y = pos[1] - 1
-            add_entry_if_free((x, y), (0, -1), fac_coordinates[i])
+            add_entry_if_free((x, y), (0, -1), fac_coordinates[i], illegal_coordinates_dicts[i])
 
         if len(fac_coordinates[i]) == 0:
             return None
 
-    fac_finder = A_star(site,fac_coordinates[0],fac_coordinates[1])
+    fac_finder = A_star(site,fac_coordinates[0],fac_coordinates[1], illegal_coordinates_dicts[0], illegal_coordinates_dicts[1])
     fac_path = fac_finder.find_path(True, path_visualizer)
     log.debug("nodecount: " + str(len(fac_path)))
     for node in fac_path:
@@ -628,4 +632,4 @@ if __name__ == "__main__":
     import unittest
 
     #unittest.main(defaultTest="test.solver.electronic_circuit", verbosity=2)
-    unittest.main(defaultTest="test.layout.route_finding", verbosity=2)
+    unittest.main(defaultTest="test.layout.route_finding.TestRouteFinding.test_automated_2", verbosity=2)

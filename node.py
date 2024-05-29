@@ -14,6 +14,7 @@ class Node:
         self.parent = None
         self.is_underground_exit = False
         self.is_observed_as_underground_exit = False
+        self.illegal_neighbors = []
 
     def heuristic_function(self, end_node: List["tuple"]):
         """
@@ -62,6 +63,12 @@ class Node:
         self.is_start_node = True
         self.cost_to_node = 0
         pass
+
+    def add_illegal_neighbor(self, neighbor: 'tuple'):
+        self.illegal_neighbors.append(neighbor)
+
+    def get_illegal_neighbors(self) -> List['tuple']:
+        return self.illegal_neighbors
 
     def set_as_end_node(self):
         self.is_end_node = True

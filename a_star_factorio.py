@@ -2,7 +2,7 @@
 import logging
 import math
 import random
-from typing import List
+from typing import List, Dict
 
 # First party imports
 from vector import Vector
@@ -26,6 +26,8 @@ class A_star:
         site: ConstructionSite,
         start_positions: List["tuple"],
         end_positions: List["tuple"],
+        start_node_illegal_neighbors: Dict["tuple", "tuple"] = None,
+        end_node_illegal_neighbors: Dict["tuple", List["tuple"]] = None,
     ):
         if not isinstance(site, ConstructionSite):
             raise TypeError("site must be an instance of ConstructionSite")
@@ -37,6 +39,10 @@ class A_star:
             isinstance(i, tuple) for i in end_positions
         ):
             raise TypeError("end_positions must be a list of tuples")
+        if not isinstance(start_node_illegal_neighbors, dict):
+            raise TypeError("start_node_illegal_neighbors must be a dictionary")
+        if not isinstance(end_node_illegal_neighbors, dict):
+            raise TypeError("start_node_illegal_neighbors must be a dictionary")
 
         self.site = site
         self.start_positions = start_positions
@@ -58,6 +64,16 @@ class A_star:
         for position in end_positions:
             self.nodes[position[1]][position[0]].set_as_end_node()
         log.debug("End nodes initialized")
+
+        if start_node_illegal_neighbors:
+            for key, value in start_node_illegal_neighbors.items():
+                for pair in value:
+                    self.nodes[key[1]][key[0]].add_illegal_neighbor(pair)
+
+        if end_node_illegal_neighbors:
+            for key, value in end_node_illegal_neighbors.items():
+                for pair in value:
+                    self.nodes[key[1]][key[0]].add_illegal_neighbor(pair)
 
     def find_entrance_node(self, current_node: "Node", exit_node: "Node") -> "Node":
         normalized_direction = self.find_normalized_direction(current_node, exit_node)
@@ -213,7 +229,7 @@ class A_star:
             for dx, dy in directions:
                 x, y = node.position[0] + dx, node.position[1] + dy
 
-                if self.node_is_empty(x,y):
+                if self.node_is_empty(x, y):
                     # Normal neighbors
                     neighbors.append(self.nodes[y][x])
                     # Some nodes might previously have been set to underground neighbors
@@ -236,10 +252,10 @@ class A_star:
                             # The entry and exit should be empty. The entry and exit must not be illegal (in closed list),
                             # which also makes sure, it's not its parent. Also the node after the exit should be clear, except for end nodes
                             if (
-                                self.node_is_empty(nx,ny)
+                                self.node_is_empty(nx, ny)
                                 and not illegal_nodes.__contains__(self.nodes[y][x])
                                 and (
-                                    self.node_is_empty(nx+dx,ny+dy)
+                                    self.node_is_empty(nx + dx, ny + dy)
                                     or self.nodes[ny][nx].is_end_node
                                 )
                             ):
@@ -266,7 +282,7 @@ class A_star:
                             and self.is_in_bounds(nx, ny, self.nodes)
                             and not illegal_nodes.__contains__(self.nodes[ny][nx])
                             and (
-                                self.node_is_empty(nx+dx,ny+dy)
+                                self.node_is_empty(nx + dx, ny + dy)
                                 or self.nodes[ny][nx].is_end_node
                             )
                         ):
@@ -281,12 +297,20 @@ class A_star:
                         and not illegal_nodes.__contains__(self.nodes[y][x])
                         and not self.site.is_reserved(x, y)
                         and (
-                            self.node_is_empty(nx+dx,ny+dy)
+                            self.node_is_empty(nx + dx, ny + dy)
                             or self.nodes[ny][nx].is_end_node
                         )
                     ):
                         neighbors.append(self.nodes[ny][nx])
                         self.nodes[ny][nx].is_observed_as_underground_exit = True
+
+        # removing all illegal neigbors specific to this node.
+        # This could be done while finding them to save performance
+        # but would require more work and code probably.
+        if node.get_illegal_neighbors():
+            for i in range(len(neighbors) - 1, 0, -1):
+                if node.get_illegal_neighbors().__contains__(neighbors[i].position):
+                    del neighbors[i]
 
         return neighbors
 
