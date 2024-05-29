@@ -19,6 +19,7 @@ class PathFindingVisuals:
         self.closed_list = None
         self.site = site
         self.rect_size = 0.7  # pixel width of square
+        self.squares = {}
 
     def max_speed(self):
         self.frame_duration = 0
@@ -37,19 +38,18 @@ class PathFindingVisuals:
 
     def show_frame(self, back_trace_steps: List['tuple'] = None):
         color_legend = {}
-        # Clear only the patches, not the entire axes
-        for patch in reversed(self.ax.patches):
-            patch.remove()
 
         def drawsquare(coordinat, color):
-            machine_shape = matplotlib.patches.Rectangle(
-                coordinat,
-                width=self.rect_size,
-                height=self.rect_size,
-                color=color,
-            )
-
-            self.ax.add_patch(machine_shape)
+            if coordinat not in self.squares:
+                self.squares[coordinat] = matplotlib.patches.Rectangle(
+                    coordinat,
+                    width=self.rect_size,
+                    height=self.rect_size,
+                    color=color,
+                )
+                self.ax.add_patch(self.squares[coordinat])
+            else:
+                self.squares[coordinat].set_color(color)
 
         for reserved_position in self.site.reserved:
             drawsquare(reserved_position, (0, 0, 0))  # Machines and obstacles are black
