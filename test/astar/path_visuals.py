@@ -36,10 +36,10 @@ class PathFindingVisuals:
         self.end_squares = end_coordinates
 
     def show_frame(self, back_trace_steps: List['tuple'] = None):
-        self.ax.clear()
-        self.ax.set_xlim(0, self.width)
-        self.ax.set_ylim(0, self.height)
         color_legend = {}
+        # Clear only the patches, not the entire axes
+        for patch in reversed(self.ax.patches):
+            patch.remove()
 
         def drawsquare(coordinat, color):
             machine_shape = matplotlib.patches.Rectangle(
@@ -54,22 +54,23 @@ class PathFindingVisuals:
         for reserved_position in self.site.reserved:
             drawsquare(reserved_position, (0, 0, 0))  # Machines and obstacles are black
 
+        if self.open_list is not None:
+            for open in self.open_list:
+                drawsquare(open.position, (0, 0, 1))  # Blue meaning open
 
-
-        for counter, open in enumerate(self.open_list):
-            drawsquare(open.position, (0, 0, 1))  # Blue meaning open
-        for counter, closed in enumerate(self.closed_list):
-            drawsquare(closed.position, (1, 0, 0))  # Red meaning closed
+        if self.closed_list is not None:
+            for closed in self.closed_list:
+                drawsquare(closed.position, (1, 0, 0))  # Red meaning closed
 
         for end in self.end_squares:
             drawsquare(end, (0, 1, 0))  # Target squares are green
+
         for start in self.start_squares:
             drawsquare(start, (0.5, 0.5, 0.5))  # Start squares are gray
 
-        if back_trace_steps != None:
+        if back_trace_steps is not None:
             for step in back_trace_steps:
                 drawsquare(step, (1, 0.55, 0))  # backtracing is dark orange
-
 
         # Create a custom legend using the color and label pairs in the dictionary
         self.ax.legend(
