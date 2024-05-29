@@ -108,6 +108,7 @@ class A_star:
             visualizer.set_open_list(open_list)
             visualizer.set_start_squares(self.start_positions)
             visualizer.set_end_squares(self.end_positions)
+            visualizer.reset()
         while open_list:
             # Get the node in the open list with the lowest f score (f = g + h)
             current_node = min(

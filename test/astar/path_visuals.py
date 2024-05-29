@@ -24,6 +24,11 @@ class PathFindingVisuals:
     def max_speed(self):
         self.frame_duration = 0
 
+    def reset(self):
+        self.squares.clear()
+        for patch in reversed(self.ax.patches):
+            patch.remove()
+
     def set_open_list(self, machines):
         self.open_list = machines
 
