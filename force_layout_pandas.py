@@ -53,8 +53,28 @@ def spring(
     preferred_border_distance = 3
 
     resultant_forces = [Vector() for i in range(len(machines))]
-    for iteration_no in range(max_iterations):
-        # lots of small iterations with small movement in each - high resolution
+
+    def compute_node_repulsion():
+        for machine_index, machine in enumerate(machines):
+            # calculating how all other machines affect this machine
+            for other_machine in machines:
+                if machine == other_machine:
+                    continue
+
+                distance = machine.distance_to(other_machine)
+
+                spring_force = 0 # computed in compute_edge_force
+
+                repelling_force = c3 / distance**2
+
+                # Force is the force the other machine is excerting on this machine
+                # positive values means that the other machine is pushing this machine away.
+                force = repelling_force - spring_force
+                force_vector = other_machine.direction_to(machine).normalize() * force
+
+                resultant_forces[machine_index] += force_vector
+
+    def compute_edge_force():
         for machine_index, machine in enumerate(machines):
             # calculating how all other machines affect this machine
             connections = machine.getConnections()
@@ -71,7 +91,7 @@ def spring(
                 else:
                     spring_force = 0
 
-                repelling_force = c3 / distance**2
+                repelling_force = 0 # computed in compute_node_repulsion
 
                 # Force is the force the other machine is excerting on this machine
                 # positive values means that the other machine is pushing this machine away.
@@ -80,6 +100,7 @@ def spring(
 
                 resultant_forces[machine_index] += force_vector
 
+    def compute_border_repulsion():
         if borders is not None:
             # Borders repell if you get too close
             min_pos = borders[0]
@@ -103,6 +124,11 @@ def spring(
                         force[d] -= past_max_border / preferred_border_distance
                 resultant_forces[machine_index] += Vector(*force)
 
+    def update_positions():
+        '''Update node positions and clear force accumulator for next iteration
+
+        :return:  Max movement performed by a node
+        '''
         # Check for no more movement
         max_dist = 0
         for i in range(len(resultant_forces)):
@@ -110,6 +136,17 @@ def spring(
             machines[i].move(move_step)
             resultant_forces[i] = Vector(0, 0)
             max_dist = max(max_dist, move_step.norm())
+
+        return max_dist
+
+    for iteration_no in range(max_iterations):
+        # lots of small iterations with small movement in each - high resolution
+
+        compute_node_repulsion()
+        compute_edge_force()
+        compute_border_repulsion()
+
+        max_dist = update_positions()
 
         if iteration_visitor:
             iteration_visitor(movement=max_dist, iteration=iteration_no, iteration_limit=max_iterations)
