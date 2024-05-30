@@ -77,13 +77,6 @@ def spring(
         return pd.DataFrame(m2m_connections, columns=['inx_a', 'inx_b'])
     
     node_connection = node_connection_as_df()
-
-    def accumulate_force(machine_index: int, force: Vector):
-        '''Accumulate force for the specified machine.
-        This function is intended for backwards compability while I convert the code
-        It should not be present in the final set of code'''
-        node_force.at[machine_index, 'x'] += force[0]
-        node_force.at[machine_index, 'y'] += force[1]
     
     def compute_node_repulsion():
         ''' Performs the following calculation on all nodes
