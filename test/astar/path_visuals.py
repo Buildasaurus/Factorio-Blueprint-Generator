@@ -28,6 +28,8 @@ class PathFindingVisuals:
         self.frame_duration = 0
 
     def reset(self):
+        if not enabled:
+            return
         self.squares.clear()
         for patch in reversed(self.ax.patches):
             patch.remove()
