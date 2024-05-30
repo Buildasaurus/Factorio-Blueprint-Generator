@@ -52,8 +52,18 @@ def spring(
     c4 = 1  # Move multiplier
     preferred_border_distance = 3
 
-    resultant_forces = [Vector() for i in range(len(machines))]
+    # Copy node positions to a DataFrame
+    machine_pos = lambda m: (m.position.values[0], m.position.values[1])
+    node_pos = pd.DataFrame([machine_pos(m) for m in machines], columns=['x', 'y'])
+    node_force = pd.DataFrame(((0.0, 0.0), ), index=np.arange(len(machines)), columns=['x', 'y'])
 
+    def accumulate_force(machine_index: int, force: Vector):
+        '''Accumulate force for the specified machine.
+        This function is intended for backwards compability while I convert the code
+        It should not be present in the final set of code'''
+        node_force.at[machine_index, 'x'] += force[0]
+        node_force.at[machine_index, 'y'] += force[1]
+    
     def compute_node_repulsion():
         for machine_index, machine in enumerate(machines):
             # calculating how all other machines affect this machine
@@ -72,7 +82,7 @@ def spring(
                 force = repelling_force - spring_force
                 force_vector = other_machine.direction_to(machine).normalize() * force
 
-                resultant_forces[machine_index] += force_vector
+                accumulate_force(machine_index, force_vector)
 
     def compute_edge_force():
         for machine_index, machine in enumerate(machines):
@@ -98,7 +108,7 @@ def spring(
                 force = repelling_force - spring_force
                 force_vector = other_machine.direction_to(machine).normalize() * force
 
-                resultant_forces[machine_index] += force_vector
+                accumulate_force(machine_index, force_vector)
 
     def compute_border_repulsion():
         if borders is not None:
@@ -122,22 +132,29 @@ def spring(
                     )
                     if past_max_border > 0:
                         force[d] -= past_max_border / preferred_border_distance
-                resultant_forces[machine_index] += Vector(*force)
+                accumulate_force(machine_index, Vector(*force))
 
     def update_positions():
         '''Update node positions and clear force accumulator for next iteration
 
         :return:  Max movement performed by a node
         '''
-        # Check for no more movement
-        max_dist = 0
-        for i in range(len(resultant_forces)):
-            move_step = resultant_forces[i] * c4
-            machines[i].move(move_step)
-            resultant_forces[i] = Vector(0, 0)
-            max_dist = max(max_dist, move_step.norm())
+        # Compute node movement from node force
+        move_step = node_force * c4
+        node_force['x'] = 0.0
+        node_force['y'] = 0.0
 
-        return max_dist
+        # Update node positions
+        nonlocal node_pos
+        node_pos += move_step
+        move_step['norm'] = np.sqrt(np.square(move_step['x']) + np.square(move_step['y']))
+        max_node_movement = move_step['norm'].max()
+
+        # Copy node positions to machines to allow visualisation every iteration
+        for i, m in enumerate(machines):
+            m.position.values = (node_pos.at[i, 'x'], node_pos.at[i, 'y'])
+
+        return max_node_movement
 
     for iteration_no in range(max_iterations):
         # lots of small iterations with small movement in each - high resolution
