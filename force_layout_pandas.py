@@ -151,28 +151,17 @@ def spring(
         node_force['y'] += attraction['y_force']
 
     def compute_border_repulsion():
-        if borders is not None:
-            # Borders repell if you get too close
-            min_pos = borders[0]
-            max_pos = borders[1]
-            for machine_index, machine in enumerate(machines):
-                force = [0, 0]
-                for d in range(2):
-                    past_min_border = (
-                        min_pos[d]
-                        - machine.position.values[d]
-                        + preferred_border_distance
-                    )
-                    if past_min_border > 0:
-                        force[d] += past_min_border / preferred_border_distance
-                    past_max_border = (
-                        machine.position.values[d]
-                        - max_pos[d]
-                        + preferred_border_distance
-                    )
-                    if past_max_border > 0:
-                        force[d] -= past_max_border / preferred_border_distance
-                accumulate_force(machine_index, Vector(*force))
+        if borders is None:
+            return
+        # Borders push you inside
+        min_pos = borders[0]
+        max_pos = borders[1]
+
+        node_force['x'] += (min_pos[0] - node_pos['x'] + preferred_border_distance).clip(lower=0.0) / preferred_border_distance
+        node_force['y'] += (min_pos[1] - node_pos['y'] + preferred_border_distance).clip(lower=0.0) / preferred_border_distance
+
+        node_force['x'] -= (node_pos['x'] - max_pos[0] + preferred_border_distance).clip(lower=0.0) / preferred_border_distance
+        node_force['y'] -= (node_pos['y'] - max_pos[1] + preferred_border_distance).clip(lower=0.0) / preferred_border_distance
 
     def update_positions():
         '''Update node positions and clear force accumulator for next iteration
