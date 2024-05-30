@@ -65,24 +65,37 @@ def spring(
         node_force.at[machine_index, 'y'] += force[1]
     
     def compute_node_repulsion():
-        for machine_index, machine in enumerate(machines):
-            # calculating how all other machines affect this machine
-            for other_machine in machines:
-                if machine == other_machine:
-                    continue
+        ''' Performs the following calculation on all nodes
+            distance = machine.distance_to(other_machine)
+            repelling_force_mag = c3 / distance**2
+            force_vector = other_machine.direction_to(machine).normalize() * repelling_force_mag
+            node_force[machine_index] += force_vector
 
-                distance = machine.distance_to(other_machine)
-
-                spring_force = 0 # computed in compute_edge_force
-
-                repelling_force = c3 / distance**2
-
-                # Force is the force the other machine is excerting on this machine
-                # positive values means that the other machine is pushing this machine away.
-                force = repelling_force - spring_force
-                force_vector = other_machine.direction_to(machine).normalize() * force
-
-                accumulate_force(machine_index, force_vector)
+        '''
+        # Compute distance between all pairs of nodes
+        node_inxpos = pd.DataFrame(node_pos)
+        node_inxpos['inx'] = node_inxpos.index
+        node_pair = pd.merge(node_inxpos, 
+                             node_inxpos, 
+                             how='cross', 
+                             suffixes=('_a', '_b'))
+        node_pair['x_d'] = node_pair['x_b'] - node_pair['x_a']
+        node_pair['y_d'] = node_pair['y_b'] - node_pair['y_a']
+        node_pair['distance_sq'] = np.square(node_pair['x_d']) + np.square(node_pair['y_d'])
+        # Remove self-distance
+        node_pair = node_pair[node_pair['inx_a'] != node_pair['inx_b']]
+        # Compute repelling force (negative values push away, positive values pull closer)
+        node_pair['force_mag'] = -c3 / node_pair['distance_sq']
+        node_pair['dist_norm'] = np.sqrt(node_pair['distance_sq'])
+        dist_xy = ['x_d', 'y_d']
+        force_xy = ['x_force', 'y_force']
+        node_pair['x_force'] = node_pair['x_d'] / node_pair['dist_norm'] * node_pair['force_mag']
+        node_pair['y_force'] = node_pair['y_d'] / node_pair['dist_norm'] * node_pair['force_mag']
+        # Add to node force
+        #log.debug('SELECT sum(x_force), sum(y_force) GROUP BY inx_a')
+        repulsion = node_pair.groupby(['inx_a'])[force_xy].sum()
+        node_force['x'] += repulsion['x_force']
+        node_force['y'] += repulsion['y_force']
 
     def compute_edge_force():
         for machine_index, machine in enumerate(machines):
