@@ -297,7 +297,7 @@ def add_connections(machines: List[LocatedMachine]):
     # Add found ports to machine list
     machines.extend(new_ports)
 
-def spring(
+def spring_1(
     machines: List[LocatedMachine],
     iteration_visitor=None,
     iteration_threshold=0.1,
@@ -391,6 +391,13 @@ def spring(
 
     return machines
 
+# Select which spring function to use
+use_old_spring = True
+if use_old_spring:
+    spring = spring_1
+else:
+    import force_layout_pandas
+    spring = force_layout_pandas.spring
 
 def find_machine_with_unused_output(machines: List[LocatedMachine], item_type):
     '''Find a machine with excess production'''

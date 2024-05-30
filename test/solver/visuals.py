@@ -1,6 +1,8 @@
 import matplotlib.patches
 import matplotlib.pyplot as plt
 
+enabled = False
+
 #
 #  Visuals for layout
 #
@@ -12,10 +14,11 @@ class ForceAlgorithmVisuals:
         self.width = width
         self.height = height
         self.frame_duration = 1/fps
-        plt.axis([0, self.width, 0, self.height])
-        self.ax = plt.gca()
-        self.ax.set_aspect("equal")
-        self.ax.figure.canvas.mpl_connect('close_event', lambda event: self.max_speed())
+        if enabled:
+            plt.axis([0, self.width, 0, self.height])
+            self.ax = plt.gca()
+            self.ax.set_aspect("equal")
+            self.ax.figure.canvas.mpl_connect('close_event', lambda event: self.max_speed())
         self.machines = None
 
     def max_speed(self):
@@ -49,6 +52,8 @@ class ForceAlgorithmVisuals:
             self.progress_bar = tqdm.tqdm(total=iteration_limit)
         self.progress_bar.set_description(f'movement={movement:.3f} ')
         self.progress_bar.update()
+        if not enabled:
+            return
         self.ax.clear()
         self.ax.set_xlim(0, self.width)
         self.ax.set_ylim(0, self.height)
@@ -93,5 +98,7 @@ class ForceAlgorithmVisuals:
     def close(self):
         if hasattr(self, 'progress_bar'):
             self.progress_bar.close()
+        if not enabled:
+            return
         print("Closing plot")
         plt.close()
