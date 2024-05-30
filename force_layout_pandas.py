@@ -87,19 +87,13 @@ def spring(
     def compute_edge_force():
         for machine_index, machine in enumerate(machines):
             # calculating how all other machines affect this machine
-            connections = machine.getConnections()
-            connections2 = machine.getUsers()
-            for other_machine in machines:
-                if machine == other_machine:
-                    continue
+            connections = set(machine.getConnections()) | set(machine.getUsers()) - set([machine])
+            for other_machine in connections:
 
                 distance = machine.distance_to(other_machine)
 
-                if other_machine in connections or other_machine in connections2:
-                    # Spring is an attracting force, positive values if far away
-                    spring_force = c1 * math.log(distance / c2)
-                else:
-                    spring_force = 0
+                # Spring is an attracting force, positive values if far away
+                spring_force = c1 * math.log(distance / c2)
 
                 repelling_force = 0 # computed in compute_node_repulsion
 
