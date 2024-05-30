@@ -57,6 +57,27 @@ def spring(
     node_pos = pd.DataFrame([machine_pos(m) for m in machines], columns=['x', 'y'])
     node_force = pd.DataFrame(((0.0, 0.0), ), index=np.arange(len(machines)), columns=['x', 'y'])
 
+    def node_connection_as_df():
+        '''Build a DataFrame representing connected nodes. 
+        This will be used for faster computation of edge force'''
+        # Store machine indexes in machines list
+        machine2index = {}
+        for machine_index, machine in enumerate(machines):
+            machine2index[machine] = machine_index
+
+        # Store connections between macines
+        m2m_connections = []
+        for machine_index, machine in enumerate(machines):
+            connections = machine.getConnections()
+            connections2 = machine.getUsers()
+            for other_machine in (set(connections) | set(connections2)) - set([machine]):
+                other_index = machine2index[other_machine]
+                m2m_connections.append((machine_index, other_index))
+
+        return pd.DataFrame(m2m_connections, columns=['inx_a', 'inx_b'])
+    
+    node_connection = node_connection_as_df()
+
     def accumulate_force(machine_index: int, force: Vector):
         '''Accumulate force for the specified machine.
         This function is intended for backwards compability while I convert the code
@@ -98,24 +119,36 @@ def spring(
         node_force['y'] += repulsion['y_force']
 
     def compute_edge_force():
-        for machine_index, machine in enumerate(machines):
-            # calculating how all other machines affect this machine
-            connections = set(machine.getConnections()) | set(machine.getUsers()) - set([machine])
-            for other_machine in connections:
+        ''' Performs the following calculation on all nodes
+            distance = machine.distance_to(other_machine)
+            spring_force = c1 * math.log(distance / c2)
+            force_vector = other_machine.direction_to(machine).normalize() * spring_force
+            node_force[machine_index] += force_vector
+        '''
+        # Build connected pairs by adding coordinates to connection list
+        node_pair = node_connection.merge(node_pos.add_suffix('_a'), how='left', 
+                                          left_on='inx_a', right_index=True)
+        node_pair = node_pair.merge(node_pos.add_suffix('_b'), how='left', 
+                                    left_on='inx_b', right_index=True)
+        #log.debug(f'node_pair =\n{node_pair}')
 
-                distance = machine.distance_to(other_machine)
+        # Compute distance
+        node_pair['x_d'] = node_pair['x_b'] - node_pair['x_a']
+        node_pair['y_d'] = node_pair['y_b'] - node_pair['y_a']
+        node_pair['distance_sq'] = np.square(node_pair['x_d']) + np.square(node_pair['y_d'])
+        node_pair['dist_norm'] = np.sqrt(node_pair['distance_sq'])
 
-                # Spring is an attracting force, positive values if far away
-                spring_force = c1 * math.log(distance / c2)
+        # Compute connection force, positive values if attracting
+        node_pair['force_mag'] = c1 * np.log(node_pair['dist_norm'] / c2)
+        node_pair['x_force'] = node_pair['x_d'] / node_pair['dist_norm'] * node_pair['force_mag']
+        node_pair['y_force'] = node_pair['y_d'] / node_pair['dist_norm'] * node_pair['force_mag']
 
-                repelling_force = 0 # computed in compute_node_repulsion
-
-                # Force is the force the other machine is excerting on this machine
-                # positive values means that the other machine is pushing this machine away.
-                force = repelling_force - spring_force
-                force_vector = other_machine.direction_to(machine).normalize() * force
-
-                accumulate_force(machine_index, force_vector)
+        # Add to node force
+        #log.debug('SELECT sum(x_force), sum(y_force) GROUP BY inx_a')
+        xy_force = ['x_force', 'y_force']
+        attraction = node_pair.groupby(['inx_a'])[xy_force].sum()
+        node_force['x'] += attraction['x_force']
+        node_force['y'] += attraction['y_force']
 
     def compute_border_repulsion():
         if borders is not None:
