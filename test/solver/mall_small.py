@@ -1,6 +1,7 @@
 # Test solver on a minimal mall
 
 import unittest
+import logging
 
 import factoriocalc as fc
 import factoriocalc.presets as fcc
@@ -9,6 +10,30 @@ import layout
 import solver
 from test.solver.visuals import ForceAlgorithmVisuals
 from test.astar.path_visuals import PathFindingVisuals
+
+#
+#  Logging
+#
+
+LOG_FILE = "fbg.log"
+
+
+def config_logging():
+    formatter = logging.Formatter(
+        style="{", fmt="{asctime} {module} {levelname} {message}"
+    )
+
+    handler = logging.FileHandler(filename=LOG_FILE, mode="w", encoding="utf-8")
+    handler.setFormatter(formatter)
+
+    root_log = logging.getLogger()
+    root_log.addHandler(handler)
+    root_log.setLevel(logging.DEBUG)
+    return root_log
+
+
+log = config_logging()
+log.info("unittest solver/mall_small.py")
 
 #
 #  Test
@@ -54,7 +79,7 @@ class TestSmallMall(unittest.TestCase):
         solver.machines_to_int(machines)
         spring_visuals = PathFindingVisuals(WIDTH, HEIGHT,site, fps=60)
         solver.place_on_site(site, machines, spring_visuals)
-        print(f'site dimensions: {site.size()}')
-        print(site)
+        log.debug(f'site dimensions: {site.size()}')
+        log.debug(site)
         #log.debug(f'site entity list (will be blueprint)\n{site.get_entity_list()}')
-        print(layout.site_as_blueprint_string(site, label='test of blueprint code'))
+        log.debug(layout.site_as_blueprint_string(site, label='test of blueprint code'))

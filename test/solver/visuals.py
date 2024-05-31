@@ -100,5 +100,4 @@ class ForceAlgorithmVisuals:
             self.progress_bar.close()
         if not enabled:
             return
-        print("Closing plot")
         plt.close()
