@@ -139,6 +139,7 @@ class FactoryNode:
 
 
 class FakeMachine(FactoryNode):
+    '''A FakeMachine is used to reserve some space on a ConstructionSite during testing of route finding. You can specify the size at construction'''
     def __init__(self, position, size):
         super().__init__(position)
         self.stored_size = size
@@ -246,7 +247,9 @@ def randomly_placed_machines(factory, site_size):
 def add_connections(machines: List[LocatedMachine]):
     """
     Connect machines such that input and output match.
-    Add ports when input or output is missing.
+    Add ports to the list when input or output is missing.
+
+    :param machines:  The machines that should be connected with each other. Any Ports neede will also be added to this list.
     """
     new_ports = []
     port_for = {}
@@ -453,7 +456,7 @@ def connect_machines(
     site: ConstructionSite,
     source: FactoryNode,
     target: FactoryNode,
-    visualizer = None,
+    visualizer=None,
     inserter="inserter",
     belt="transport-belt",
 ):
@@ -463,6 +466,7 @@ def connect_machines(
     :param site: The site to build on
     :param source: Source machine
     :param target: Target machine
+    :param visualizer: Path visualizer, forwarded to find_path
     :param inserter: Type of inserter to use
     :param belt: Type of belt to use
     """
@@ -534,13 +538,17 @@ def connect_machines(
 
 
 def find_path(
-    site: ConstructionSite, source: FactoryNode, target: FactoryNode, path_visualizer = None
+    site: ConstructionSite,
+    source: FactoryNode,
+    target: FactoryNode,
+    path_visualizer=None
 ) -> List[tuple]:
     """Generates a list of coordinates, to walk from one machine to the other
 
     :param site: The site knows which coordinates are already taken
     :param source: Source machine
     :param target: Target machine
+    :param path_visualizer: Visualizer forwarded to fac_finder.find_path
     :returns: a list of site coordinates between the two machines
     """
     #TODO - rewrite this, as we don't need an entire map anymore
