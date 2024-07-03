@@ -252,6 +252,26 @@ def export_blueprint_dict(bp_dict):
 
     return encodedString
 
+def import_blueprint_dict(exchangeString) -> dict:
+    '''Decodes a blueprint exchange string
+    :param exchangeString:  A blueprint exchange string
+    :return:  a dict representing the blueprint
+        https://wiki.factorio.com/Blueprint_string_format
+    '''
+
+    # This code is mostly copied from factoriolib.stringToJsonBytes
+    import base64
+    import json
+    import zlib
+    version_byte = exchangeString[0] # currently always zero
+    if not version_byte == '0':
+        raise ValueError('Exchange string version {VERSION} not supported')
+    payload = exchangeString[1:]
+    decodedString = base64.b64decode(payload)
+    decompressedData = zlib.decompress(decodedString)
+    jsonString = decompressedData.decode("utf-8")
+    bp_dict = json.loads(jsonString)
+    return bp_dict
 #
 #  Helper functions
 #
