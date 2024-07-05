@@ -1,9 +1,0 @@
-# Recipie calculation
-factoriocalc
-
-# Graph representation
-networkx
-
-# Fast computation
-numpy
-pandas
