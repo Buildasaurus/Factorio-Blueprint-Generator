@@ -7,5 +7,5 @@ class TextService(service_pb2_grpc.TextService):
     '''Expecting request to be a string'''
     def DoText(self, request, context):
         print(f"Received {request} as string")
-        result = request + " added text!"
+        result = request.text + " added text!"
         return service_pb2.TextThing(text=result)
