@@ -44,6 +44,11 @@ class TextServiceStub(object):
                 request_serializer=service__pb2.TextThing.SerializeToString,
                 response_deserializer=service__pb2.TextThing.FromString,
                 _registered_method=True)
+        self.GenerateBlueprint = channel.unary_unary(
+                '/TextService/GenerateBlueprint',
+                request_serializer=service__pb2.TextThing.SerializeToString,
+                response_deserializer=service__pb2.TextThing.FromString,
+                _registered_method=True)
 
 
 class TextServiceServicer(object):
@@ -55,11 +60,22 @@ class TextServiceServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def GenerateBlueprint(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_TextServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
             'DoText': grpc.unary_unary_rpc_method_handler(
                     servicer.DoText,
+                    request_deserializer=service__pb2.TextThing.FromString,
+                    response_serializer=service__pb2.TextThing.SerializeToString,
+            ),
+            'GenerateBlueprint': grpc.unary_unary_rpc_method_handler(
+                    servicer.GenerateBlueprint,
                     request_deserializer=service__pb2.TextThing.FromString,
                     response_serializer=service__pb2.TextThing.SerializeToString,
             ),
@@ -89,6 +105,33 @@ class TextService(object):
             request,
             target,
             '/TextService/DoText',
+            service__pb2.TextThing.SerializeToString,
+            service__pb2.TextThing.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def GenerateBlueprint(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/TextService/GenerateBlueprint',
             service__pb2.TextThing.SerializeToString,
             service__pb2.TextThing.FromString,
             options,

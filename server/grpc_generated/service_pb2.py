@@ -14,7 +14,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\rservice.proto\"\x19\n\tTextThing\x12\x0c\n\x04text\x18\x01 \x01(\t21\n\x0bTextService\x12\"\n\x06\x44oText\x12\n.TextThing\x1a\n.TextThing\"\x00\x62\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\rservice.proto\"\x19\n\tTextThing\x12\x0c\n\x04text\x18\x01 \x01(\t2`\n\x0bTextService\x12\"\n\x06\x44oText\x12\n.TextThing\x1a\n.TextThing\"\x00\x12-\n\x11GenerateBlueprint\x12\n.TextThing\x1a\n.TextThing\"\x00\x62\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -24,5 +24,5 @@ if not _descriptor._USE_C_DESCRIPTORS:
   _globals['_TEXTTHING']._serialized_start=17
   _globals['_TEXTTHING']._serialized_end=42
   _globals['_TEXTSERVICE']._serialized_start=44
-  _globals['_TEXTSERVICE']._serialized_end=93
+  _globals['_TEXTSERVICE']._serialized_end=140
 # @@protoc_insertion_point(module_scope)
