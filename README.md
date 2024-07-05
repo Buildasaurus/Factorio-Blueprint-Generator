@@ -24,6 +24,17 @@ pip install -r requirements-dev.txt
 python -m unittest
 ```
 
+## Regenerating server files
+See following link for specific details and setup:
+https://dev.to/maximsaplin/integrating-flutter-all-6-platforms-and-python-a-comprehensive-guide-4ipo
+
+Specifically these commands, from the root of the repository, will regenerate server files
+
+./starter-kit/prepare-sources.sh --proto service.proto --flutterDir app --pythonDir ./server/
+
+./starter-kit/bundle-python.sh --flutterDir ./app --pythonDir ./server
+
+
 ## Build documentation
 ```
 cd doc
