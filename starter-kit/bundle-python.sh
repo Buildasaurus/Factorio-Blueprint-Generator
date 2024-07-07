@@ -64,13 +64,14 @@ if [[ $nuitka == true ]]; then
 else
     $PYTHON -m PyInstaller --onefile --noconfirm --clean --log-level=WARN --name="$exeNameFull" --paths="./grpc_generated" --add-data "C:\Python312\Lib\site-packages\factoriocalc\game-info-normal.json;factoriocalc" server.py
 fi
+echo "Completed PyInstaller"
+
 cd $workingDir
 
 if [[ "$OSTYPE" == "msys" || "$OSTYPE" == "win32" ]]; then
     exeNameFull="$exeNameFull.exe"
 fi
 
-echo "Completed PyInstaller"
 
 mkdir -p $flutterDir/assets/
 cp $pythonDir/dist/$exeNameFull $flutterDir/assets/
