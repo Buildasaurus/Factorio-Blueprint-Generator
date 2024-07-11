@@ -12,7 +12,7 @@ This tool will then lay out the recipies to an acctual blueprint.
 
 ## Installation
 ```
-clone Factorio-Bklueprint-Genrator
+clone Factorio-Blueprint-Generator
 python -m venv .fbg
 .fbg\Scripts\activate.bat
 pip install -r requirements.txt
@@ -24,15 +24,22 @@ pip install -r requirements-dev.txt
 python -m unittest
 ```
 
-## Regenerating server files
-See following link for specific details and setup:
-https://dev.to/maximsaplin/integrating-flutter-all-6-platforms-and-python-a-comprehensive-guide-4ipo
+## Running server & UI
+To run the server, navigate to the ./server folder and run
+´´´
+py server.py
+´´´
 
-Specifically these commands, from the root of the repository, will regenerate server files
+The UI requires the Dart SDK and flutter to run. Follow the Dart SDK installation guide
+https://dart.dev/get-dart
 
-./starter-kit/prepare-sources.sh --proto service.proto --flutterDir app --pythonDir ./server/
+When installed the project can be built to your local machine with
+```
+flutter run
+```
+Or in vsc open the main.dart and press f5, or "Start" button.
 
-./starter-kit/bundle-python.sh --flutterDir ./app --pythonDir ./server
+The ui can run without the server, but won't be able to generate blueprints.
 
 
 ## Build documentation
