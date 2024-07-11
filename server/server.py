@@ -23,7 +23,7 @@ initialize_game()
 def GenerateBlueprint(blueprint_input):
     '''This is copied from the mall_small test'''
     def writeText(text):
-        with open("text_service_log.txt", "a") as f:
+        with open("text_service.log", "a") as f:
             f.write(str(text) + "\n")
 
     try:
