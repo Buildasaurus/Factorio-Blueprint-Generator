@@ -1,4 +1,4 @@
-name: FactorioBlueprintGenerator
+name: factorio_blueprint_generator
 description: "Generates a blueprint for factorio."
 publish_to: 'none'
 version: 0.1.0
