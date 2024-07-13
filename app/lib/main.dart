@@ -1,7 +1,13 @@
+import 'dart:io';
+
 import 'package:factorio_blueprint_generator/factorio_item_selector.dart';
+import 'package:factorio_blueprint_generator/inventory_model.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+
+//Taken from https://github.com/teoxoy/factorio-blueprint-editor/blob/master/packages/editor/src/core/factorioData.ts
+// and converted to dart by Chat-GPT
 
 void main() {
   runApp(const MyApp());
@@ -76,6 +82,11 @@ class _MyHomePageState extends State<MyHomePage> {
           child: const Text('Generate mall'),
         ),
         const SizedBox(height: 20),
+        ElevatedButton(
+          onPressed: () => loadJson(),
+          child: const Text('Load json'),
+        ),
+        const SizedBox(height: 20),
         SelectableText('Blueprint generator response: $_response'),
 
         //Item Selector
@@ -86,5 +97,16 @@ class _MyHomePageState extends State<MyHomePage> {
         )
       ],
     );
+  }
+
+  List<InventoryLayoutGroup> loadJson() {
+    String jsonString =  File("InventoryStrucutre.json").readAsStringSync();
+    // Deserialize JSON to Dart object
+    List<dynamic> jsonMap = jsonDecode(jsonString);
+    List<InventoryLayoutGroup> list = [];
+    for (dynamic a in jsonMap) {
+      list.add(InventoryLayoutGroup.fromJson(a));
+    }
+    return list;
   }
 }
