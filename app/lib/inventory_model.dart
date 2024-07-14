@@ -1,7 +1,7 @@
 class InventoryLayoutGroup {
   String name;
   String icon;
-  List<Icon>? icons;
+  List<IconInfo>? icons;
   int? iconSize;
   int? iconMipMaps;
   String order;
@@ -26,7 +26,7 @@ class InventoryLayoutGroup {
         .toList();
 
     List<dynamic>? iconsList = json['icons'];
-    List<Icon>? icons = iconsList?.map((iconJson) => Icon.fromJson(iconJson)).toList();
+    List<IconInfo>? icons = iconsList?.map((iconJson) => IconInfo.fromJson(iconJson)).toList();
 
     return InventoryLayoutGroup(
       name: json['name'],
@@ -98,7 +98,7 @@ class InventoryLayoutSubgroup {
 class InventoryLayoutItem {
   String name;
   String? icon;
-  List<Icon>? icons;
+  List<IconInfo>? icons;
   String order;
 
   InventoryLayoutItem({
@@ -110,7 +110,7 @@ class InventoryLayoutItem {
 
   factory InventoryLayoutItem.fromJson(Map<String, dynamic> json) {
     List<dynamic>? iconsList = json['icons'];
-    List<Icon>? icons = iconsList?.map((iconJson) => Icon.fromJson(iconJson)).toList();
+    List<IconInfo>? icons = iconsList?.map((iconJson) => IconInfo.fromJson(iconJson)).toList();
 
     return InventoryLayoutItem(
       name: json['name'],
@@ -133,7 +133,7 @@ class InventoryLayoutItem {
   }
 }
 
-class Icon {
+class IconInfo {
   String icon;
   int? iconSize;
   int? iconMimmaps;
@@ -142,7 +142,7 @@ class Icon {
   double? scale;
   List<int>? shift;
 
-  Icon({
+  IconInfo({
     required this.icon,
     this.iconSize,
     this.iconMimmaps,
@@ -152,8 +152,8 @@ class Icon {
     this.shift,
   });
 
-  factory Icon.fromJson(Map<String, dynamic> json) {
-    return Icon(
+  factory IconInfo.fromJson(Map<String, dynamic> json) {
+    return IconInfo(
       icon: json['icon'],
       iconSize: json['icon_size'],
       iconMimmaps: json['icon_mipmaps'],

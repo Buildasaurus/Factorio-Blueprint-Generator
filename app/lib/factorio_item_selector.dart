@@ -5,7 +5,6 @@ import 'package:factorio_blueprint_generator/Resources.dart';
 import 'package:factorio_blueprint_generator/inventory_model.dart';
 import 'package:flutter/material.dart';
 
-
 class FactorioItemSelector extends StatelessWidget {
   final int inventoryIndex;
   const FactorioItemSelector({super.key, required this.inventoryIndex});
@@ -24,14 +23,34 @@ class FactorioItemSelector extends StatelessWidget {
       ),
       itemCount: columnCount * rowCount,
       itemBuilder: (context, index) {
-        String? iconPath = imageNames.subgroups.length > index ~/ columnCount &&
-                imageNames.subgroups[index ~/ columnCount].items.length > index % columnCount
-            ? imageNames.subgroups[index ~/ columnCount].items[index % columnCount].icon
-            : null;
-        if (iconPath != null) {
+        if (index > 26 && inventoryIndex == 2) {
+          debugPrint("$index");
+        }
+        List<String>? iconPaths = [];
+        if (imageNames.subgroups.length > index ~/ columnCount &&
+            imageNames.subgroups[index ~/ columnCount].items.length >
+                index % columnCount)
+        // If there is an image on the given index
+        {
+          String? iconPath = imageNames
+              .subgroups[index ~/ columnCount].items[index % columnCount].icon;
+
+          //Path might be null, in which case there might be several icons.
+          if (iconPath != null) {
+            iconPaths.add(iconPath);
+          } else {
+            List<IconInfo>? a = imageNames.subgroups[index ~/ columnCount]
+                .items[index % columnCount].icons;
+            for (IconInfo b in a!) {
+              iconPaths.add(b.icon);
+            }
+          }
+        }
+
+        if (iconPaths.isNotEmpty) {
           return IconButton(
             style: ButtonStyle(
-              padding: WidgetStateProperty.all(EdgeInsets.zero),
+                padding: WidgetStateProperty.all(EdgeInsets.zero),
                 shape: WidgetStateProperty.all<RoundedRectangleBorder>(
                     const RoundedRectangleBorder(
                         borderRadius: BorderRadius.zero,
@@ -43,14 +62,15 @@ class FactorioItemSelector extends StatelessWidget {
                   height: 100,
                   width: 100,
                 ),
-                Image(
-                  image: Resources.instance.getImage(iconPath),
-                  height: 100,
-                  width: 100,
-                ),
+                for (String iconPath in iconPaths)
+                  Image(
+                    image: Resources.instance.getImage(iconPath),
+                    height: 100,
+                    width: 100,
+                  ),
               ],
             ),
-            onPressed: () => debugPrint(iconPath),
+            onPressed: () => debugPrint(iconPaths.toString()),
             hoverColor: Colors.black,
           );
         }
