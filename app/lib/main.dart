@@ -81,7 +81,6 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
         const SizedBox(height: 20),
         SelectableText('Blueprint generator response: $_response'),
-
         const Inventory(),
       ],
     );

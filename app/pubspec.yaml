@@ -21,3 +21,6 @@ flutter:
   assets:
     - assets/
     - assets/factorio_icons/
+    - assets/factorio_icons/fluid/
+    - assets/factorio_icons/fluid/barreling/
+    - assets/factorio_icons/signal/

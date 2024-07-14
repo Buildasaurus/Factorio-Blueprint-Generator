@@ -1,7 +1,7 @@
 [
     {
         "name": "logistics",
-        "icon": "__base__/graphics/item-group/logistics.png",
+        "icon": "logistics.png",
         "icon_size": 128,
         "icon_mipmaps": 2,
         "order": "a",
@@ -13,28 +13,28 @@
                 "items": [
                     {
                         "name": "wooden-chest",
-                        "icon": "__base__/graphics/icons/wooden-chest.png",
+                        "icon": "wooden-chest.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "a[items]-a[wooden-chest]"
                     },
                     {
                         "name": "iron-chest",
-                        "icon": "__base__/graphics/icons/iron-chest.png",
+                        "icon": "iron-chest.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "a[items]-b[iron-chest]"
                     },
                     {
                         "name": "steel-chest",
-                        "icon": "__base__/graphics/icons/steel-chest.png",
+                        "icon": "steel-chest.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "a[items]-c[steel-chest]"
                     },
                     {
                         "name": "storage-tank",
-                        "icon": "__base__/graphics/icons/storage-tank.png",
+                        "icon": "storage-tank.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "b[fluid]-a[storage-tank]"
@@ -48,63 +48,63 @@
                 "items": [
                     {
                         "name": "transport-belt",
-                        "icon": "__base__/graphics/icons/transport-belt.png",
+                        "icon": "transport-belt.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "a[transport-belt]-a[transport-belt]"
                     },
                     {
                         "name": "fast-transport-belt",
-                        "icon": "__base__/graphics/icons/fast-transport-belt.png",
+                        "icon": "fast-transport-belt.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "a[transport-belt]-b[fast-transport-belt]"
                     },
                     {
                         "name": "express-transport-belt",
-                        "icon": "__base__/graphics/icons/express-transport-belt.png",
+                        "icon": "express-transport-belt.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "a[transport-belt]-c[express-transport-belt]"
                     },
                     {
                         "name": "underground-belt",
-                        "icon": "__base__/graphics/icons/underground-belt.png",
+                        "icon": "underground-belt.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "b[underground-belt]-a[underground-belt]"
                     },
                     {
                         "name": "fast-underground-belt",
-                        "icon": "__base__/graphics/icons/fast-underground-belt.png",
+                        "icon": "fast-underground-belt.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "b[underground-belt]-b[fast-underground-belt]"
                     },
                     {
                         "name": "express-underground-belt",
-                        "icon": "__base__/graphics/icons/express-underground-belt.png",
+                        "icon": "express-underground-belt.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "b[underground-belt]-c[express-underground-belt]"
                     },
                     {
                         "name": "splitter",
-                        "icon": "__base__/graphics/icons/splitter.png",
+                        "icon": "splitter.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "c[splitter]-a[splitter]"
                     },
                     {
                         "name": "fast-splitter",
-                        "icon": "__base__/graphics/icons/fast-splitter.png",
+                        "icon": "fast-splitter.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "c[splitter]-b[fast-splitter]"
                     },
                     {
                         "name": "express-splitter",
-                        "icon": "__base__/graphics/icons/express-splitter.png",
+                        "icon": "express-splitter.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "c[splitter]-c[express-splitter]"
@@ -118,49 +118,49 @@
                 "items": [
                     {
                         "name": "burner-inserter",
-                        "icon": "__base__/graphics/icons/burner-inserter.png",
+                        "icon": "burner-inserter.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "a[burner-inserter]"
                     },
                     {
                         "name": "inserter",
-                        "icon": "__base__/graphics/icons/inserter.png",
+                        "icon": "inserter.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "b[inserter]"
                     },
                     {
                         "name": "long-handed-inserter",
-                        "icon": "__base__/graphics/icons/long-handed-inserter.png",
+                        "icon": "long-handed-inserter.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "c[long-handed-inserter]"
                     },
                     {
                         "name": "fast-inserter",
-                        "icon": "__base__/graphics/icons/fast-inserter.png",
+                        "icon": "fast-inserter.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "d[fast-inserter]"
                     },
                     {
                         "name": "filter-inserter",
-                        "icon": "__base__/graphics/icons/filter-inserter.png",
+                        "icon": "filter-inserter.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "e[filter-inserter]"
                     },
                     {
                         "name": "stack-inserter",
-                        "icon": "__base__/graphics/icons/stack-inserter.png",
+                        "icon": "stack-inserter.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "f[stack-inserter]"
                     },
                     {
                         "name": "stack-filter-inserter",
-                        "icon": "__base__/graphics/icons/stack-filter-inserter.png",
+                        "icon": "stack-filter-inserter.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "g[stack-filter-inserter]"
@@ -174,49 +174,49 @@
                 "items": [
                     {
                         "name": "small-electric-pole",
-                        "icon": "__base__/graphics/icons/small-electric-pole.png",
+                        "icon": "small-electric-pole.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "a[energy]-a[small-electric-pole]"
                     },
                     {
                         "name": "medium-electric-pole",
-                        "icon": "__base__/graphics/icons/medium-electric-pole.png",
+                        "icon": "medium-electric-pole.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "a[energy]-b[medium-electric-pole]"
                     },
                     {
                         "name": "big-electric-pole",
-                        "icon": "__base__/graphics/icons/big-electric-pole.png",
+                        "icon": "big-electric-pole.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "a[energy]-c[big-electric-pole]"
                     },
                     {
                         "name": "substation",
-                        "icon": "__base__/graphics/icons/substation.png",
+                        "icon": "substation.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "a[energy]-d[substation]"
                     },
                     {
                         "name": "pipe",
-                        "icon": "__base__/graphics/icons/pipe.png",
+                        "icon": "pipe.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "a[pipe]-a[pipe]"
                     },
                     {
                         "name": "pipe-to-ground",
-                        "icon": "__base__/graphics/icons/pipe-to-ground.png",
+                        "icon": "pipe-to-ground.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "a[pipe]-b[pipe-to-ground]"
                     },
                     {
                         "name": "pump",
-                        "icon": "__base__/graphics/icons/pump.png",
+                        "icon": "pump.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "b[pipe]-c[pump]"
@@ -230,56 +230,56 @@
                 "items": [
                     {
                         "name": "rail",
-                        "icon": "__base__/graphics/icons/rail.png",
+                        "icon": "rail.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "a[train-system]-a[rail]"
                     },
                     {
                         "name": "train-stop",
-                        "icon": "__base__/graphics/icons/train-stop.png",
+                        "icon": "train-stop.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "a[train-system]-c[train-stop]"
                     },
                     {
                         "name": "rail-signal",
-                        "icon": "__base__/graphics/icons/rail-signal.png",
+                        "icon": "rail-signal.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "a[train-system]-d[rail-signal]"
                     },
                     {
                         "name": "rail-chain-signal",
-                        "icon": "__base__/graphics/icons/rail-chain-signal.png",
+                        "icon": "rail-chain-signal.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "a[train-system]-e[rail-signal-chain]"
                     },
                     {
                         "name": "locomotive",
-                        "icon": "__base__/graphics/icons/locomotive.png",
+                        "icon": "locomotive.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "a[train-system]-f[locomotive]"
                     },
                     {
                         "name": "cargo-wagon",
-                        "icon": "__base__/graphics/icons/cargo-wagon.png",
+                        "icon": "cargo-wagon.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "a[train-system]-g[cargo-wagon]"
                     },
                     {
                         "name": "fluid-wagon",
-                        "icon": "__base__/graphics/icons/fluid-wagon.png",
+                        "icon": "fluid-wagon.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "a[train-system]-h[fluid-wagon]"
                     },
                     {
                         "name": "artillery-wagon",
-                        "icon": "__base__/graphics/icons/artillery-wagon.png",
+                        "icon": "artillery-wagon.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "a[train-system]-i[artillery-wagon]"
@@ -293,28 +293,28 @@
                 "items": [
                     {
                         "name": "car",
-                        "icon": "__base__/graphics/icons/car.png",
+                        "icon": "car.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "b[personal-transport]-a[car]"
                     },
                     {
                         "name": "tank",
-                        "icon": "__base__/graphics/icons/tank.png",
+                        "icon": "tank.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "b[personal-transport]-b[tank]"
                     },
                     {
                         "name": "spidertron",
-                        "icon": "__base__/graphics/icons/spidertron.png",
+                        "icon": "spidertron.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "b[personal-transport]-c[spidertron]-a[spider]"
                     },
                     {
                         "name": "spidertron-remote",
-                        "icon": "__base__/graphics/icons/spidertron-remote.png",
+                        "icon": "spidertron-remote.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "b[personal-transport]-c[spidertron]-b[remote]"
@@ -328,56 +328,56 @@
                 "items": [
                     {
                         "name": "logistic-robot",
-                        "icon": "__base__/graphics/icons/logistic-robot.png",
+                        "icon": "logistic-robot.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "a[robot]-a[logistic-robot]"
                     },
                     {
                         "name": "construction-robot",
-                        "icon": "__base__/graphics/icons/construction-robot.png",
+                        "icon": "construction-robot.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "a[robot]-b[construction-robot]"
                     },
                     {
                         "name": "logistic-chest-active-provider",
-                        "icon": "__base__/graphics/icons/logistic-chest-active-provider.png",
+                        "icon": "logistic-chest-active-provider.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "b[storage]-c[logistic-chest-active-provider]"
                     },
                     {
                         "name": "logistic-chest-passive-provider",
-                        "icon": "__base__/graphics/icons/logistic-chest-passive-provider.png",
+                        "icon": "logistic-chest-passive-provider.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "b[storage]-c[logistic-chest-passive-provider]"
                     },
                     {
                         "name": "logistic-chest-storage",
-                        "icon": "__base__/graphics/icons/logistic-chest-storage.png",
+                        "icon": "logistic-chest-storage.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "b[storage]-c[logistic-chest-storage]"
                     },
                     {
                         "name": "logistic-chest-buffer",
-                        "icon": "__base__/graphics/icons/logistic-chest-buffer.png",
+                        "icon": "logistic-chest-buffer.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "b[storage]-d[logistic-chest-buffer]"
                     },
                     {
                         "name": "logistic-chest-requester",
-                        "icon": "__base__/graphics/icons/logistic-chest-requester.png",
+                        "icon": "logistic-chest-requester.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "b[storage]-e[logistic-chest-requester]"
                     },
                     {
                         "name": "roboport",
-                        "icon": "__base__/graphics/icons/roboport.png",
+                        "icon": "roboport.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "c[signal]-a[roboport]"
@@ -391,56 +391,56 @@
                 "items": [
                     {
                         "name": "small-lamp",
-                        "icon": "__base__/graphics/icons/small-lamp.png",
+                        "icon": "small-lamp.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "a[light]-a[small-lamp]"
                     },
                     {
                         "name": "red-wire",
-                        "icon": "__base__/graphics/icons/red-wire.png",
+                        "icon": "red-wire.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "b[wires]-a[red-wire]"
                     },
                     {
                         "name": "green-wire",
-                        "icon": "__base__/graphics/icons/green-wire.png",
+                        "icon": "green-wire.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "b[wires]-b[green-wire]"
                     },
                     {
                         "name": "arithmetic-combinator",
-                        "icon": "__base__/graphics/icons/arithmetic-combinator.png",
+                        "icon": "arithmetic-combinator.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "c[combinators]-a[arithmetic-combinator]"
                     },
                     {
                         "name": "decider-combinator",
-                        "icon": "__base__/graphics/icons/decider-combinator.png",
+                        "icon": "decider-combinator.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "c[combinators]-b[decider-combinator]"
                     },
                     {
                         "name": "constant-combinator",
-                        "icon": "__base__/graphics/icons/constant-combinator.png",
+                        "icon": "constant-combinator.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "c[combinators]-c[constant-combinator]"
                     },
                     {
                         "name": "power-switch",
-                        "icon": "__base__/graphics/icons/power-switch.png",
+                        "icon": "power-switch.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "d[other]-a[power-switch]"
                     },
                     {
                         "name": "programmable-speaker",
-                        "icon": "__base__/graphics/icons/programmable-speaker.png",
+                        "icon": "programmable-speaker.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "d[other]-b[programmable-speaker]"
@@ -454,49 +454,49 @@
                 "items": [
                     {
                         "name": "stone-brick",
-                        "icon": "__base__/graphics/icons/stone-brick.png",
+                        "icon": "stone-brick.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "a[stone-brick]"
                     },
                     {
                         "name": "concrete",
-                        "icon": "__base__/graphics/icons/concrete.png",
+                        "icon": "concrete.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "b[concrete]-a[plain]"
                     },
                     {
                         "name": "hazard-concrete",
-                        "icon": "__base__/graphics/icons/hazard-concrete.png",
+                        "icon": "hazard-concrete.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "b[concrete]-b[hazard]"
                     },
                     {
                         "name": "refined-concrete",
-                        "icon": "__base__/graphics/icons/refined-concrete.png",
+                        "icon": "refined-concrete.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "b[concrete]-c[refined]"
                     },
                     {
                         "name": "refined-hazard-concrete",
-                        "icon": "__base__/graphics/icons/refined-hazard-concrete.png",
+                        "icon": "refined-hazard-concrete.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "b[concrete]-d[refined-hazard]"
                     },
                     {
                         "name": "landfill",
-                        "icon": "__base__/graphics/icons/landfill.png",
+                        "icon": "landfill.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "c[landfill]-a[dirt]"
                     },
                     {
                         "name": "cliff-explosives",
-                        "icon": "__base__/graphics/icons/cliff-explosives.png",
+                        "icon": "cliff-explosives.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "d[cliff-explosives]"
@@ -508,7 +508,7 @@
     },
     {
         "name": "production",
-        "icon": "__base__/graphics/item-group/production.png",
+        "icon": "production.png",
         "icon_size": 128,
         "icon_mipmaps": 2,
         "order": "b",
@@ -520,35 +520,35 @@
                 "items": [
                     {
                         "name": "repair-pack",
-                        "icon": "__base__/graphics/icons/repair-pack.png",
+                        "icon": "repair-pack.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "b[repair]-a[repair-pack]"
                     },
                     {
                         "name": "blueprint",
-                        "icon": "__base__/graphics/icons/blueprint.png",
+                        "icon": "blueprint.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "c[automated-construction]-a[blueprint]"
                     },
                     {
                         "name": "deconstruction-planner",
-                        "icon": "__base__/graphics/icons/deconstruction-planner.png",
+                        "icon": "deconstruction-planner.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "c[automated-construction]-b[deconstruction-planner]"
                     },
                     {
                         "name": "upgrade-planner",
-                        "icon": "__base__/graphics/icons/upgrade-planner.png",
+                        "icon": "upgrade-planner.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "c[automated-construction]-c[upgrade-planner]"
                     },
                     {
                         "name": "blueprint-book",
-                        "icon": "__base__/graphics/icons/blueprint-book.png",
+                        "icon": "blueprint-book.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "c[automated-construction]-d[blueprint-book]"
@@ -562,56 +562,56 @@
                 "items": [
                     {
                         "name": "boiler",
-                        "icon": "__base__/graphics/icons/boiler.png",
+                        "icon": "boiler.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "b[steam-power]-a[boiler]"
                     },
                     {
                         "name": "steam-engine",
-                        "icon": "__base__/graphics/icons/steam-engine.png",
+                        "icon": "steam-engine.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "b[steam-power]-b[steam-engine]"
                     },
                     {
                         "name": "solar-panel",
-                        "icon": "__base__/graphics/icons/solar-panel.png",
+                        "icon": "solar-panel.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "d[solar-panel]-a[solar-panel]"
                     },
                     {
                         "name": "accumulator",
-                        "icon": "__base__/graphics/icons/accumulator.png",
+                        "icon": "accumulator.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "e[accumulator]-a[accumulator]"
                     },
                     {
                         "name": "nuclear-reactor",
-                        "icon": "__base__/graphics/icons/nuclear-reactor.png",
+                        "icon": "nuclear-reactor.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "f[nuclear-energy]-a[reactor]"
                     },
                     {
                         "name": "heat-pipe",
-                        "icon": "__base__/graphics/icons/heat-pipe.png",
+                        "icon": "heat-pipe.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "f[nuclear-energy]-b[heat-pipe]"
                     },
                     {
                         "name": "heat-exchanger",
-                        "icon": "__base__/graphics/icons/heat-boiler.png",
+                        "icon": "heat-boiler.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "f[nuclear-energy]-c[heat-exchanger]"
                     },
                     {
                         "name": "steam-turbine",
-                        "icon": "__base__/graphics/icons/steam-turbine.png",
+                        "icon": "steam-turbine.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "f[nuclear-energy]-d[steam-turbine]"
@@ -625,28 +625,28 @@
                 "items": [
                     {
                         "name": "burner-mining-drill",
-                        "icon": "__base__/graphics/icons/burner-mining-drill.png",
+                        "icon": "burner-mining-drill.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "a[items]-a[burner-mining-drill]"
                     },
                     {
                         "name": "electric-mining-drill",
-                        "icon": "__base__/graphics/icons/electric-mining-drill.png",
+                        "icon": "electric-mining-drill.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "a[items]-b[electric-mining-drill]"
                     },
                     {
                         "name": "offshore-pump",
-                        "icon": "__base__/graphics/icons/offshore-pump.png",
+                        "icon": "offshore-pump.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "b[fluids]-a[offshore-pump]"
                     },
                     {
                         "name": "pumpjack",
-                        "icon": "__base__/graphics/icons/pumpjack.png",
+                        "icon": "pumpjack.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "b[fluids]-b[pumpjack]"
@@ -660,21 +660,21 @@
                 "items": [
                     {
                         "name": "stone-furnace",
-                        "icon": "__base__/graphics/icons/stone-furnace.png",
+                        "icon": "stone-furnace.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "a[stone-furnace]"
                     },
                     {
                         "name": "steel-furnace",
-                        "icon": "__base__/graphics/icons/steel-furnace.png",
+                        "icon": "steel-furnace.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "b[steel-furnace]"
                     },
                     {
                         "name": "electric-furnace",
-                        "icon": "__base__/graphics/icons/electric-furnace.png",
+                        "icon": "electric-furnace.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "c[electric-furnace]"
@@ -688,49 +688,49 @@
                 "items": [
                     {
                         "name": "assembling-machine-1",
-                        "icon": "__base__/graphics/icons/assembling-machine-1.png",
+                        "icon": "assembling-machine-1.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "a[assembling-machine-1]"
                     },
                     {
                         "name": "assembling-machine-2",
-                        "icon": "__base__/graphics/icons/assembling-machine-2.png",
+                        "icon": "assembling-machine-2.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "b[assembling-machine-2]"
                     },
                     {
                         "name": "assembling-machine-3",
-                        "icon": "__base__/graphics/icons/assembling-machine-3.png",
+                        "icon": "assembling-machine-3.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "c[assembling-machine-3]"
                     },
                     {
                         "name": "oil-refinery",
-                        "icon": "__base__/graphics/icons/oil-refinery.png",
+                        "icon": "oil-refinery.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "d[refinery]"
                     },
                     {
                         "name": "chemical-plant",
-                        "icon": "__base__/graphics/icons/chemical-plant.png",
+                        "icon": "chemical-plant.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "e[chemical-plant]"
                     },
                     {
                         "name": "centrifuge",
-                        "icon": "__base__/graphics/icons/centrifuge.png",
+                        "icon": "centrifuge.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "g[centrifuge]"
                     },
                     {
                         "name": "lab",
-                        "icon": "__base__/graphics/icons/lab.png",
+                        "icon": "lab.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "g[lab]"
@@ -744,70 +744,70 @@
                 "items": [
                     {
                         "name": "beacon",
-                        "icon": "__base__/graphics/icons/beacon.png",
+                        "icon": "beacon.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "a[beacon]"
                     },
                     {
                         "name": "speed-module",
-                        "icon": "__base__/graphics/icons/speed-module.png",
+                        "icon": "speed-module.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "a[speed]-a[speed-module-1]"
                     },
                     {
                         "name": "speed-module-2",
-                        "icon": "__base__/graphics/icons/speed-module-2.png",
+                        "icon": "speed-module-2.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "a[speed]-b[speed-module-2]"
                     },
                     {
                         "name": "speed-module-3",
-                        "icon": "__base__/graphics/icons/speed-module-3.png",
+                        "icon": "speed-module-3.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "a[speed]-c[speed-module-3]"
                     },
                     {
                         "name": "effectivity-module",
-                        "icon": "__base__/graphics/icons/effectivity-module.png",
+                        "icon": "effectivity-module.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "c[effectivity]-a[effectivity-module-1]"
                     },
                     {
                         "name": "effectivity-module-2",
-                        "icon": "__base__/graphics/icons/effectivity-module-2.png",
+                        "icon": "effectivity-module-2.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "c[effectivity]-b[effectivity-module-2]"
                     },
                     {
                         "name": "effectivity-module-3",
-                        "icon": "__base__/graphics/icons/effectivity-module-3.png",
+                        "icon": "effectivity-module-3.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "c[effectivity]-c[effectivity-module-3]"
                     },
                     {
                         "name": "productivity-module",
-                        "icon": "__base__/graphics/icons/productivity-module.png",
+                        "icon": "productivity-module.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "c[productivity]-a[productivity-module-1]"
                     },
                     {
                         "name": "productivity-module-2",
-                        "icon": "__base__/graphics/icons/productivity-module-2.png",
+                        "icon": "productivity-module-2.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "c[productivity]-b[productivity-module-2]"
                     },
                     {
                         "name": "productivity-module-3",
-                        "icon": "__base__/graphics/icons/productivity-module-3.png",
+                        "icon": "productivity-module-3.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "c[productivity]-c[productivity-module-3]"
@@ -821,14 +821,14 @@
                 "items": [
                     {
                         "name": "rocket-silo",
-                        "icon": "__base__/graphics/icons/rocket-silo.png",
+                        "icon": "rocket-silo.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "e[rocket-silo]"
                     },
                     {
                         "name": "satellite",
-                        "icon": "__base__/graphics/icons/satellite.png",
+                        "icon": "satellite.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "m[satellite]"
@@ -840,7 +840,7 @@
     },
     {
         "name": "intermediate-products",
-        "icon": "__base__/graphics/item-group/intermediate-products.png",
+        "icon": "intermediate-products.png",
         "icon_size": 128,
         "icon_mipmaps": 2,
         "order": "c",
@@ -852,56 +852,56 @@
                 "items": [
                     {
                         "name": "basic-oil-processing",
-                        "icon": "__base__/graphics/icons/fluid/basic-oil-processing.png",
+                        "icon": "fluid/basic-oil-processing.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "a[oil-processing]-a[basic-oil-processing]"
                     },
                     {
                         "name": "advanced-oil-processing",
-                        "icon": "__base__/graphics/icons/fluid/advanced-oil-processing.png",
+                        "icon": "fluid/advanced-oil-processing.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "a[oil-processing]-b[advanced-oil-processing]"
                     },
                     {
                         "name": "coal-liquefaction",
-                        "icon": "__base__/graphics/icons/fluid/coal-liquefaction.png",
+                        "icon": "fluid/coal-liquefaction.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "a[oil-processing]-c[coal-liquefaction]"
                     },
                     {
                         "name": "heavy-oil-cracking",
-                        "icon": "__base__/graphics/icons/fluid/heavy-oil-cracking.png",
+                        "icon": "fluid/heavy-oil-cracking.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "b[fluid-chemistry]-a[heavy-oil-cracking]"
                     },
                     {
                         "name": "light-oil-cracking",
-                        "icon": "__base__/graphics/icons/fluid/light-oil-cracking.png",
+                        "icon": "fluid/light-oil-cracking.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "b[fluid-chemistry]-b[light-oil-cracking]"
                     },
                     {
                         "name": "solid-fuel-from-light-oil",
-                        "icon": "__base__/graphics/icons/solid-fuel-from-light-oil.png",
+                        "icon": "solid-fuel-from-light-oil.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "b[fluid-chemistry]-c[solid-fuel-from-light-oil]"
                     },
                     {
                         "name": "solid-fuel-from-petroleum-gas",
-                        "icon": "__base__/graphics/icons/solid-fuel-from-petroleum-gas.png",
+                        "icon": "solid-fuel-from-petroleum-gas.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "b[fluid-chemistry]-d[solid-fuel-from-petroleum-gas]"
                     },
                     {
                         "name": "solid-fuel-from-heavy-oil",
-                        "icon": "__base__/graphics/icons/solid-fuel-from-heavy-oil.png",
+                        "icon": "solid-fuel-from-heavy-oil.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "b[fluid-chemistry]-e[solid-fuel-from-heavy-oil]"
@@ -915,49 +915,49 @@
                 "items": [
                     {
                         "name": "wood",
-                        "icon": "__base__/graphics/icons/wood.png",
+                        "icon": "wood.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "a[wood]"
                     },
                     {
                         "name": "coal",
-                        "icon": "__base__/graphics/icons/coal.png",
+                        "icon": "coal.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "b[coal]"
                     },
                     {
                         "name": "stone",
-                        "icon": "__base__/graphics/icons/stone.png",
+                        "icon": "stone.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "d[stone]"
                     },
                     {
                         "name": "iron-ore",
-                        "icon": "__base__/graphics/icons/iron-ore.png",
+                        "icon": "iron-ore.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "e[iron-ore]"
                     },
                     {
                         "name": "copper-ore",
-                        "icon": "__base__/graphics/icons/copper-ore.png",
+                        "icon": "copper-ore.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "f[copper-ore]"
                     },
                     {
                         "name": "uranium-ore",
-                        "icon": "__base__/graphics/icons/uranium-ore.png",
+                        "icon": "uranium-ore.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "g[uranium-ore]"
                     },
                     {
                         "name": "raw-fish",
-                        "icon": "__base__/graphics/icons/fish.png",
+                        "icon": "fish.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "h[raw-fish]"
@@ -971,63 +971,63 @@
                 "items": [
                     {
                         "name": "iron-plate",
-                        "icon": "__base__/graphics/icons/iron-plate.png",
+                        "icon": "iron-plate.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "b[iron-plate]"
                     },
                     {
                         "name": "copper-plate",
-                        "icon": "__base__/graphics/icons/copper-plate.png",
+                        "icon": "copper-plate.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "c[copper-plate]"
                     },
                     {
                         "name": "solid-fuel",
-                        "icon": "__base__/graphics/icons/solid-fuel.png",
+                        "icon": "solid-fuel.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "c[solid-fuel]"
                     },
                     {
                         "name": "steel-plate",
-                        "icon": "__base__/graphics/icons/steel-plate.png",
+                        "icon": "steel-plate.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "d[steel-plate]"
                     },
                     {
                         "name": "plastic-bar",
-                        "icon": "__base__/graphics/icons/plastic-bar.png",
+                        "icon": "plastic-bar.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "f[plastic-bar]"
                     },
                     {
                         "name": "sulfur",
-                        "icon": "__base__/graphics/icons/sulfur.png",
+                        "icon": "sulfur.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "g[sulfur]"
                     },
                     {
                         "name": "battery",
-                        "icon": "__base__/graphics/icons/battery.png",
+                        "icon": "battery.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "h[battery]"
                     },
                     {
                         "name": "explosives",
-                        "icon": "__base__/graphics/icons/explosives.png",
+                        "icon": "explosives.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "j[explosives]"
                     },
                     {
                         "name": "uranium-processing",
-                        "icon": "__base__/graphics/icons/uranium-processing.png",
+                        "icon": "uranium-processing.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "k[uranium-processing]"
@@ -1043,12 +1043,12 @@
                         "name": "crude-oil-barrel",
                         "icons": [
                             {
-                                "icon": "__base__/graphics/icons/fluid/barreling/empty-barrel.png",
+                                "icon": "fluid/barreling/empty-barrel.png",
                                 "icon_size": 64,
                                 "icon_mipmaps": 4
                             },
                             {
-                                "icon": "__base__/graphics/icons/fluid/barreling/barrel-side-mask.png",
+                                "icon": "fluid/barreling/barrel-side-mask.png",
                                 "icon_size": 64,
                                 "icon_mipmaps": 4,
                                 "tint": {
@@ -1059,7 +1059,7 @@
                                 }
                             },
                             {
-                                "icon": "__base__/graphics/icons/fluid/barreling/barrel-hoop-top-mask.png",
+                                "icon": "fluid/barreling/barrel-hoop-top-mask.png",
                                 "icon_size": 64,
                                 "icon_mipmaps": 4,
                                 "tint": {
@@ -1078,12 +1078,12 @@
                         "name": "heavy-oil-barrel",
                         "icons": [
                             {
-                                "icon": "__base__/graphics/icons/fluid/barreling/empty-barrel.png",
+                                "icon": "fluid/barreling/empty-barrel.png",
                                 "icon_size": 64,
                                 "icon_mipmaps": 4
                             },
                             {
-                                "icon": "__base__/graphics/icons/fluid/barreling/barrel-side-mask.png",
+                                "icon": "fluid/barreling/barrel-side-mask.png",
                                 "icon_size": 64,
                                 "icon_mipmaps": 4,
                                 "tint": {
@@ -1094,7 +1094,7 @@
                                 }
                             },
                             {
-                                "icon": "__base__/graphics/icons/fluid/barreling/barrel-hoop-top-mask.png",
+                                "icon": "fluid/barreling/barrel-hoop-top-mask.png",
                                 "icon_size": 64,
                                 "icon_mipmaps": 4,
                                 "tint": {
@@ -1113,12 +1113,12 @@
                         "name": "light-oil-barrel",
                         "icons": [
                             {
-                                "icon": "__base__/graphics/icons/fluid/barreling/empty-barrel.png",
+                                "icon": "fluid/barreling/empty-barrel.png",
                                 "icon_size": 64,
                                 "icon_mipmaps": 4
                             },
                             {
-                                "icon": "__base__/graphics/icons/fluid/barreling/barrel-side-mask.png",
+                                "icon": "fluid/barreling/barrel-side-mask.png",
                                 "icon_size": 64,
                                 "icon_mipmaps": 4,
                                 "tint": {
@@ -1129,7 +1129,7 @@
                                 }
                             },
                             {
-                                "icon": "__base__/graphics/icons/fluid/barreling/barrel-hoop-top-mask.png",
+                                "icon": "fluid/barreling/barrel-hoop-top-mask.png",
                                 "icon_size": 64,
                                 "icon_mipmaps": 4,
                                 "tint": {
@@ -1148,12 +1148,12 @@
                         "name": "lubricant-barrel",
                         "icons": [
                             {
-                                "icon": "__base__/graphics/icons/fluid/barreling/empty-barrel.png",
+                                "icon": "fluid/barreling/empty-barrel.png",
                                 "icon_size": 64,
                                 "icon_mipmaps": 4
                             },
                             {
-                                "icon": "__base__/graphics/icons/fluid/barreling/barrel-side-mask.png",
+                                "icon": "fluid/barreling/barrel-side-mask.png",
                                 "icon_size": 64,
                                 "icon_mipmaps": 4,
                                 "tint": {
@@ -1164,7 +1164,7 @@
                                 }
                             },
                             {
-                                "icon": "__base__/graphics/icons/fluid/barreling/barrel-hoop-top-mask.png",
+                                "icon": "fluid/barreling/barrel-hoop-top-mask.png",
                                 "icon_size": 64,
                                 "icon_mipmaps": 4,
                                 "tint": {
@@ -1183,12 +1183,12 @@
                         "name": "petroleum-gas-barrel",
                         "icons": [
                             {
-                                "icon": "__base__/graphics/icons/fluid/barreling/empty-barrel.png",
+                                "icon": "fluid/barreling/empty-barrel.png",
                                 "icon_size": 64,
                                 "icon_mipmaps": 4
                             },
                             {
-                                "icon": "__base__/graphics/icons/fluid/barreling/barrel-side-mask.png",
+                                "icon": "fluid/barreling/barrel-side-mask.png",
                                 "icon_size": 64,
                                 "icon_mipmaps": 4,
                                 "tint": {
@@ -1199,7 +1199,7 @@
                                 }
                             },
                             {
-                                "icon": "__base__/graphics/icons/fluid/barreling/barrel-hoop-top-mask.png",
+                                "icon": "fluid/barreling/barrel-hoop-top-mask.png",
                                 "icon_size": 64,
                                 "icon_mipmaps": 4,
                                 "tint": {
@@ -1218,12 +1218,12 @@
                         "name": "sulfuric-acid-barrel",
                         "icons": [
                             {
-                                "icon": "__base__/graphics/icons/fluid/barreling/empty-barrel.png",
+                                "icon": "fluid/barreling/empty-barrel.png",
                                 "icon_size": 64,
                                 "icon_mipmaps": 4
                             },
                             {
-                                "icon": "__base__/graphics/icons/fluid/barreling/barrel-side-mask.png",
+                                "icon": "fluid/barreling/barrel-side-mask.png",
                                 "icon_size": 64,
                                 "icon_mipmaps": 4,
                                 "tint": {
@@ -1234,7 +1234,7 @@
                                 }
                             },
                             {
-                                "icon": "__base__/graphics/icons/fluid/barreling/barrel-hoop-top-mask.png",
+                                "icon": "fluid/barreling/barrel-hoop-top-mask.png",
                                 "icon_size": 64,
                                 "icon_mipmaps": 4,
                                 "tint": {
@@ -1253,12 +1253,12 @@
                         "name": "water-barrel",
                         "icons": [
                             {
-                                "icon": "__base__/graphics/icons/fluid/barreling/empty-barrel.png",
+                                "icon": "fluid/barreling/empty-barrel.png",
                                 "icon_size": 64,
                                 "icon_mipmaps": 4
                             },
                             {
-                                "icon": "__base__/graphics/icons/fluid/barreling/barrel-side-mask.png",
+                                "icon": "fluid/barreling/barrel-side-mask.png",
                                 "icon_size": 64,
                                 "icon_mipmaps": 4,
                                 "tint": {
@@ -1269,7 +1269,7 @@
                                 }
                             },
                             {
-                                "icon": "__base__/graphics/icons/fluid/barreling/barrel-hoop-top-mask.png",
+                                "icon": "fluid/barreling/barrel-hoop-top-mask.png",
                                 "icon_size": 64,
                                 "icon_mipmaps": 4,
                                 "tint": {
@@ -1295,12 +1295,12 @@
                         "name": "fill-crude-oil-barrel",
                         "icons": [
                             {
-                                "icon": "__base__/graphics/icons/fluid/barreling/barrel-fill.png",
+                                "icon": "fluid/barreling/barrel-fill.png",
                                 "icon_size": 64,
                                 "icon_mipmaps": 4
                             },
                             {
-                                "icon": "__base__/graphics/icons/fluid/barreling/barrel-fill-side-mask.png",
+                                "icon": "fluid/barreling/barrel-fill-side-mask.png",
                                 "icon_size": 64,
                                 "icon_mipmaps": 4,
                                 "tint": {
@@ -1311,7 +1311,7 @@
                                 }
                             },
                             {
-                                "icon": "__base__/graphics/icons/fluid/barreling/barrel-fill-top-mask.png",
+                                "icon": "fluid/barreling/barrel-fill-top-mask.png",
                                 "icon_size": 64,
                                 "icon_mipmaps": 4,
                                 "tint": {
@@ -1322,7 +1322,7 @@
                                 }
                             },
                             {
-                                "icon": "__base__/graphics/icons/fluid/crude-oil.png",
+                                "icon": "fluid/crude-oil.png",
                                 "icon_size": 64,
                                 "icon_mipmaps": 4,
                                 "scale": 0.25,
@@ -1340,12 +1340,12 @@
                         "name": "fill-heavy-oil-barrel",
                         "icons": [
                             {
-                                "icon": "__base__/graphics/icons/fluid/barreling/barrel-fill.png",
+                                "icon": "fluid/barreling/barrel-fill.png",
                                 "icon_size": 64,
                                 "icon_mipmaps": 4
                             },
                             {
-                                "icon": "__base__/graphics/icons/fluid/barreling/barrel-fill-side-mask.png",
+                                "icon": "fluid/barreling/barrel-fill-side-mask.png",
                                 "icon_size": 64,
                                 "icon_mipmaps": 4,
                                 "tint": {
@@ -1356,7 +1356,7 @@
                                 }
                             },
                             {
-                                "icon": "__base__/graphics/icons/fluid/barreling/barrel-fill-top-mask.png",
+                                "icon": "fluid/barreling/barrel-fill-top-mask.png",
                                 "icon_size": 64,
                                 "icon_mipmaps": 4,
                                 "tint": {
@@ -1367,7 +1367,7 @@
                                 }
                             },
                             {
-                                "icon": "__base__/graphics/icons/fluid/heavy-oil.png",
+                                "icon": "fluid/heavy-oil.png",
                                 "icon_size": 64,
                                 "icon_mipmaps": 4,
                                 "scale": 0.25,
@@ -1385,12 +1385,12 @@
                         "name": "fill-light-oil-barrel",
                         "icons": [
                             {
-                                "icon": "__base__/graphics/icons/fluid/barreling/barrel-fill.png",
+                                "icon": "fluid/barreling/barrel-fill.png",
                                 "icon_size": 64,
                                 "icon_mipmaps": 4
                             },
                             {
-                                "icon": "__base__/graphics/icons/fluid/barreling/barrel-fill-side-mask.png",
+                                "icon": "fluid/barreling/barrel-fill-side-mask.png",
                                 "icon_size": 64,
                                 "icon_mipmaps": 4,
                                 "tint": {
@@ -1401,7 +1401,7 @@
                                 }
                             },
                             {
-                                "icon": "__base__/graphics/icons/fluid/barreling/barrel-fill-top-mask.png",
+                                "icon": "fluid/barreling/barrel-fill-top-mask.png",
                                 "icon_size": 64,
                                 "icon_mipmaps": 4,
                                 "tint": {
@@ -1412,7 +1412,7 @@
                                 }
                             },
                             {
-                                "icon": "__base__/graphics/icons/fluid/light-oil.png",
+                                "icon": "fluid/light-oil.png",
                                 "icon_size": 64,
                                 "icon_mipmaps": 4,
                                 "scale": 0.25,
@@ -1430,12 +1430,12 @@
                         "name": "fill-lubricant-barrel",
                         "icons": [
                             {
-                                "icon": "__base__/graphics/icons/fluid/barreling/barrel-fill.png",
+                                "icon": "fluid/barreling/barrel-fill.png",
                                 "icon_size": 64,
                                 "icon_mipmaps": 4
                             },
                             {
-                                "icon": "__base__/graphics/icons/fluid/barreling/barrel-fill-side-mask.png",
+                                "icon": "fluid/barreling/barrel-fill-side-mask.png",
                                 "icon_size": 64,
                                 "icon_mipmaps": 4,
                                 "tint": {
@@ -1446,7 +1446,7 @@
                                 }
                             },
                             {
-                                "icon": "__base__/graphics/icons/fluid/barreling/barrel-fill-top-mask.png",
+                                "icon": "fluid/barreling/barrel-fill-top-mask.png",
                                 "icon_size": 64,
                                 "icon_mipmaps": 4,
                                 "tint": {
@@ -1457,7 +1457,7 @@
                                 }
                             },
                             {
-                                "icon": "__base__/graphics/icons/fluid/lubricant.png",
+                                "icon": "fluid/lubricant.png",
                                 "icon_size": 64,
                                 "icon_mipmaps": 4,
                                 "scale": 0.25,
@@ -1475,12 +1475,12 @@
                         "name": "fill-petroleum-gas-barrel",
                         "icons": [
                             {
-                                "icon": "__base__/graphics/icons/fluid/barreling/barrel-fill.png",
+                                "icon": "fluid/barreling/barrel-fill.png",
                                 "icon_size": 64,
                                 "icon_mipmaps": 4
                             },
                             {
-                                "icon": "__base__/graphics/icons/fluid/barreling/barrel-fill-side-mask.png",
+                                "icon": "fluid/barreling/barrel-fill-side-mask.png",
                                 "icon_size": 64,
                                 "icon_mipmaps": 4,
                                 "tint": {
@@ -1491,7 +1491,7 @@
                                 }
                             },
                             {
-                                "icon": "__base__/graphics/icons/fluid/barreling/barrel-fill-top-mask.png",
+                                "icon": "fluid/barreling/barrel-fill-top-mask.png",
                                 "icon_size": 64,
                                 "icon_mipmaps": 4,
                                 "tint": {
@@ -1502,7 +1502,7 @@
                                 }
                             },
                             {
-                                "icon": "__base__/graphics/icons/fluid/petroleum-gas.png",
+                                "icon": "fluid/petroleum-gas.png",
                                 "icon_size": 64,
                                 "icon_mipmaps": 4,
                                 "scale": 0.25,
@@ -1520,12 +1520,12 @@
                         "name": "fill-sulfuric-acid-barrel",
                         "icons": [
                             {
-                                "icon": "__base__/graphics/icons/fluid/barreling/barrel-fill.png",
+                                "icon": "fluid/barreling/barrel-fill.png",
                                 "icon_size": 64,
                                 "icon_mipmaps": 4
                             },
                             {
-                                "icon": "__base__/graphics/icons/fluid/barreling/barrel-fill-side-mask.png",
+                                "icon": "fluid/barreling/barrel-fill-side-mask.png",
                                 "icon_size": 64,
                                 "icon_mipmaps": 4,
                                 "tint": {
@@ -1536,7 +1536,7 @@
                                 }
                             },
                             {
-                                "icon": "__base__/graphics/icons/fluid/barreling/barrel-fill-top-mask.png",
+                                "icon": "fluid/barreling/barrel-fill-top-mask.png",
                                 "icon_size": 64,
                                 "icon_mipmaps": 4,
                                 "tint": {
@@ -1547,7 +1547,7 @@
                                 }
                             },
                             {
-                                "icon": "__base__/graphics/icons/fluid/sulfuric-acid.png",
+                                "icon": "fluid/sulfuric-acid.png",
                                 "icon_size": 64,
                                 "icon_mipmaps": 4,
                                 "scale": 0.25,
@@ -1565,12 +1565,12 @@
                         "name": "fill-water-barrel",
                         "icons": [
                             {
-                                "icon": "__base__/graphics/icons/fluid/barreling/barrel-fill.png",
+                                "icon": "fluid/barreling/barrel-fill.png",
                                 "icon_size": 64,
                                 "icon_mipmaps": 4
                             },
                             {
-                                "icon": "__base__/graphics/icons/fluid/barreling/barrel-fill-side-mask.png",
+                                "icon": "fluid/barreling/barrel-fill-side-mask.png",
                                 "icon_size": 64,
                                 "icon_mipmaps": 4,
                                 "tint": {
@@ -1581,7 +1581,7 @@
                                 }
                             },
                             {
-                                "icon": "__base__/graphics/icons/fluid/barreling/barrel-fill-top-mask.png",
+                                "icon": "fluid/barreling/barrel-fill-top-mask.png",
                                 "icon_size": 64,
                                 "icon_mipmaps": 4,
                                 "tint": {
@@ -1592,7 +1592,7 @@
                                 }
                             },
                             {
-                                "icon": "__base__/graphics/icons/fluid/water.png",
+                                "icon": "fluid/water.png",
                                 "icon_size": 64,
                                 "icon_mipmaps": 4,
                                 "scale": 0.25,
@@ -1617,12 +1617,12 @@
                         "name": "empty-crude-oil-barrel",
                         "icons": [
                             {
-                                "icon": "__base__/graphics/icons/fluid/barreling/barrel-empty.png",
+                                "icon": "fluid/barreling/barrel-empty.png",
                                 "icon_size": 64,
                                 "icon_mipmaps": 4
                             },
                             {
-                                "icon": "__base__/graphics/icons/fluid/barreling/barrel-empty-side-mask.png",
+                                "icon": "fluid/barreling/barrel-empty-side-mask.png",
                                 "icon_size": 64,
                                 "icon_mipmaps": 4,
                                 "tint": {
@@ -1633,7 +1633,7 @@
                                 }
                             },
                             {
-                                "icon": "__base__/graphics/icons/fluid/barreling/barrel-empty-top-mask.png",
+                                "icon": "fluid/barreling/barrel-empty-top-mask.png",
                                 "icon_size": 64,
                                 "icon_mipmaps": 4,
                                 "tint": {
@@ -1644,7 +1644,7 @@
                                 }
                             },
                             {
-                                "icon": "__base__/graphics/icons/fluid/crude-oil.png",
+                                "icon": "fluid/crude-oil.png",
                                 "icon_size": 64,
                                 "icon_mipmaps": 4,
                                 "scale": 0.25,
@@ -1662,12 +1662,12 @@
                         "name": "empty-heavy-oil-barrel",
                         "icons": [
                             {
-                                "icon": "__base__/graphics/icons/fluid/barreling/barrel-empty.png",
+                                "icon": "fluid/barreling/barrel-empty.png",
                                 "icon_size": 64,
                                 "icon_mipmaps": 4
                             },
                             {
-                                "icon": "__base__/graphics/icons/fluid/barreling/barrel-empty-side-mask.png",
+                                "icon": "fluid/barreling/barrel-empty-side-mask.png",
                                 "icon_size": 64,
                                 "icon_mipmaps": 4,
                                 "tint": {
@@ -1678,7 +1678,7 @@
                                 }
                             },
                             {
-                                "icon": "__base__/graphics/icons/fluid/barreling/barrel-empty-top-mask.png",
+                                "icon": "fluid/barreling/barrel-empty-top-mask.png",
                                 "icon_size": 64,
                                 "icon_mipmaps": 4,
                                 "tint": {
@@ -1689,7 +1689,7 @@
                                 }
                             },
                             {
-                                "icon": "__base__/graphics/icons/fluid/heavy-oil.png",
+                                "icon": "fluid/heavy-oil.png",
                                 "icon_size": 64,
                                 "icon_mipmaps": 4,
                                 "scale": 0.25,
@@ -1707,12 +1707,12 @@
                         "name": "empty-light-oil-barrel",
                         "icons": [
                             {
-                                "icon": "__base__/graphics/icons/fluid/barreling/barrel-empty.png",
+                                "icon": "fluid/barreling/barrel-empty.png",
                                 "icon_size": 64,
                                 "icon_mipmaps": 4
                             },
                             {
-                                "icon": "__base__/graphics/icons/fluid/barreling/barrel-empty-side-mask.png",
+                                "icon": "fluid/barreling/barrel-empty-side-mask.png",
                                 "icon_size": 64,
                                 "icon_mipmaps": 4,
                                 "tint": {
@@ -1723,7 +1723,7 @@
                                 }
                             },
                             {
-                                "icon": "__base__/graphics/icons/fluid/barreling/barrel-empty-top-mask.png",
+                                "icon": "fluid/barreling/barrel-empty-top-mask.png",
                                 "icon_size": 64,
                                 "icon_mipmaps": 4,
                                 "tint": {
@@ -1734,7 +1734,7 @@
                                 }
                             },
                             {
-                                "icon": "__base__/graphics/icons/fluid/light-oil.png",
+                                "icon": "fluid/light-oil.png",
                                 "icon_size": 64,
                                 "icon_mipmaps": 4,
                                 "scale": 0.25,
@@ -1752,12 +1752,12 @@
                         "name": "empty-lubricant-barrel",
                         "icons": [
                             {
-                                "icon": "__base__/graphics/icons/fluid/barreling/barrel-empty.png",
+                                "icon": "fluid/barreling/barrel-empty.png",
                                 "icon_size": 64,
                                 "icon_mipmaps": 4
                             },
                             {
-                                "icon": "__base__/graphics/icons/fluid/barreling/barrel-empty-side-mask.png",
+                                "icon": "fluid/barreling/barrel-empty-side-mask.png",
                                 "icon_size": 64,
                                 "icon_mipmaps": 4,
                                 "tint": {
@@ -1768,7 +1768,7 @@
                                 }
                             },
                             {
-                                "icon": "__base__/graphics/icons/fluid/barreling/barrel-empty-top-mask.png",
+                                "icon": "fluid/barreling/barrel-empty-top-mask.png",
                                 "icon_size": 64,
                                 "icon_mipmaps": 4,
                                 "tint": {
@@ -1779,7 +1779,7 @@
                                 }
                             },
                             {
-                                "icon": "__base__/graphics/icons/fluid/lubricant.png",
+                                "icon": "fluid/lubricant.png",
                                 "icon_size": 64,
                                 "icon_mipmaps": 4,
                                 "scale": 0.25,
@@ -1797,12 +1797,12 @@
                         "name": "empty-petroleum-gas-barrel",
                         "icons": [
                             {
-                                "icon": "__base__/graphics/icons/fluid/barreling/barrel-empty.png",
+                                "icon": "fluid/barreling/barrel-empty.png",
                                 "icon_size": 64,
                                 "icon_mipmaps": 4
                             },
                             {
-                                "icon": "__base__/graphics/icons/fluid/barreling/barrel-empty-side-mask.png",
+                                "icon": "fluid/barreling/barrel-empty-side-mask.png",
                                 "icon_size": 64,
                                 "icon_mipmaps": 4,
                                 "tint": {
@@ -1813,7 +1813,7 @@
                                 }
                             },
                             {
-                                "icon": "__base__/graphics/icons/fluid/barreling/barrel-empty-top-mask.png",
+                                "icon": "fluid/barreling/barrel-empty-top-mask.png",
                                 "icon_size": 64,
                                 "icon_mipmaps": 4,
                                 "tint": {
@@ -1824,7 +1824,7 @@
                                 }
                             },
                             {
-                                "icon": "__base__/graphics/icons/fluid/petroleum-gas.png",
+                                "icon": "fluid/petroleum-gas.png",
                                 "icon_size": 64,
                                 "icon_mipmaps": 4,
                                 "scale": 0.25,
@@ -1842,12 +1842,12 @@
                         "name": "empty-sulfuric-acid-barrel",
                         "icons": [
                             {
-                                "icon": "__base__/graphics/icons/fluid/barreling/barrel-empty.png",
+                                "icon": "fluid/barreling/barrel-empty.png",
                                 "icon_size": 64,
                                 "icon_mipmaps": 4
                             },
                             {
-                                "icon": "__base__/graphics/icons/fluid/barreling/barrel-empty-side-mask.png",
+                                "icon": "fluid/barreling/barrel-empty-side-mask.png",
                                 "icon_size": 64,
                                 "icon_mipmaps": 4,
                                 "tint": {
@@ -1858,7 +1858,7 @@
                                 }
                             },
                             {
-                                "icon": "__base__/graphics/icons/fluid/barreling/barrel-empty-top-mask.png",
+                                "icon": "fluid/barreling/barrel-empty-top-mask.png",
                                 "icon_size": 64,
                                 "icon_mipmaps": 4,
                                 "tint": {
@@ -1869,7 +1869,7 @@
                                 }
                             },
                             {
-                                "icon": "__base__/graphics/icons/fluid/sulfuric-acid.png",
+                                "icon": "fluid/sulfuric-acid.png",
                                 "icon_size": 64,
                                 "icon_mipmaps": 4,
                                 "scale": 0.25,
@@ -1887,12 +1887,12 @@
                         "name": "empty-water-barrel",
                         "icons": [
                             {
-                                "icon": "__base__/graphics/icons/fluid/barreling/barrel-empty.png",
+                                "icon": "fluid/barreling/barrel-empty.png",
                                 "icon_size": 64,
                                 "icon_mipmaps": 4
                             },
                             {
-                                "icon": "__base__/graphics/icons/fluid/barreling/barrel-empty-side-mask.png",
+                                "icon": "fluid/barreling/barrel-empty-side-mask.png",
                                 "icon_size": 64,
                                 "icon_mipmaps": 4,
                                 "tint": {
@@ -1903,7 +1903,7 @@
                                 }
                             },
                             {
-                                "icon": "__base__/graphics/icons/fluid/barreling/barrel-empty-top-mask.png",
+                                "icon": "fluid/barreling/barrel-empty-top-mask.png",
                                 "icon_size": 64,
                                 "icon_mipmaps": 4,
                                 "tint": {
@@ -1914,7 +1914,7 @@
                                 }
                             },
                             {
-                                "icon": "__base__/graphics/icons/fluid/water.png",
+                                "icon": "fluid/water.png",
                                 "icon_size": 64,
                                 "icon_mipmaps": 4,
                                 "scale": 0.25,
@@ -1937,140 +1937,140 @@
                 "items": [
                     {
                         "name": "copper-cable",
-                        "icon": "__base__/graphics/icons/copper-cable.png",
+                        "icon": "copper-cable.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "a[copper-cable]"
                     },
                     {
                         "name": "iron-stick",
-                        "icon": "__base__/graphics/icons/iron-stick.png",
+                        "icon": "iron-stick.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "b[iron-stick]"
                     },
                     {
                         "name": "iron-gear-wheel",
-                        "icon": "__base__/graphics/icons/iron-gear-wheel.png",
+                        "icon": "iron-gear-wheel.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "c[iron-gear-wheel]"
                     },
                     {
                         "name": "empty-barrel",
-                        "icon": "__base__/graphics/icons/fluid/barreling/empty-barrel.png",
+                        "icon": "fluid/barreling/empty-barrel.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "d[empty-barrel]"
                     },
                     {
                         "name": "electronic-circuit",
-                        "icon": "__base__/graphics/icons/electronic-circuit.png",
+                        "icon": "electronic-circuit.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "e[electronic-circuit]"
                     },
                     {
                         "name": "advanced-circuit",
-                        "icon": "__base__/graphics/icons/advanced-circuit.png",
+                        "icon": "advanced-circuit.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "f[advanced-circuit]"
                     },
                     {
                         "name": "processing-unit",
-                        "icon": "__base__/graphics/icons/processing-unit.png",
+                        "icon": "processing-unit.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "g[processing-unit]"
                     },
                     {
                         "name": "engine-unit",
-                        "icon": "__base__/graphics/icons/engine-unit.png",
+                        "icon": "engine-unit.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "h[engine-unit]"
                     },
                     {
                         "name": "electric-engine-unit",
-                        "icon": "__base__/graphics/icons/electric-engine-unit.png",
+                        "icon": "electric-engine-unit.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "i[electric-engine-unit]"
                     },
                     {
                         "name": "flying-robot-frame",
-                        "icon": "__base__/graphics/icons/flying-robot-frame.png",
+                        "icon": "flying-robot-frame.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "l[flying-robot-frame]"
                     },
                     {
                         "name": "rocket-control-unit",
-                        "icon": "__base__/graphics/icons/rocket-control-unit.png",
+                        "icon": "rocket-control-unit.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "n[rocket-control-unit]"
                     },
                     {
                         "name": "low-density-structure",
-                        "icon": "__base__/graphics/icons/low-density-structure.png",
+                        "icon": "low-density-structure.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "o[low-density-structure]"
                     },
                     {
                         "name": "rocket-fuel",
-                        "icon": "__base__/graphics/icons/rocket-fuel.png",
+                        "icon": "rocket-fuel.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "p[rocket-fuel]"
                     },
                     {
                         "name": "nuclear-fuel",
-                        "icon": "__base__/graphics/icons/nuclear-fuel.png",
+                        "icon": "nuclear-fuel.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "q[uranium-rocket-fuel]"
                     },
                     {
                         "name": "uranium-235",
-                        "icon": "__base__/graphics/icons/uranium-235.png",
+                        "icon": "uranium-235.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "r[uranium-235]"
                     },
                     {
                         "name": "uranium-238",
-                        "icon": "__base__/graphics/icons/uranium-238.png",
+                        "icon": "uranium-238.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "r[uranium-238]"
                     },
                     {
                         "name": "uranium-fuel-cell",
-                        "icon": "__base__/graphics/icons/uranium-fuel-cell.png",
+                        "icon": "uranium-fuel-cell.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "r[uranium-processing]-a[uranium-fuel-cell]"
                     },
                     {
                         "name": "nuclear-fuel-reprocessing",
-                        "icon": "__base__/graphics/icons/nuclear-fuel-reprocessing.png",
+                        "icon": "nuclear-fuel-reprocessing.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "r[uranium-processing]-b[nuclear-fuel-reprocessing]"
                     },
                     {
                         "name": "kovarex-enrichment-process",
-                        "icon": "__base__/graphics/icons/kovarex-enrichment-process.png",
+                        "icon": "kovarex-enrichment-process.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "r[uranium-processing]-c[kovarex-enrichment-process]"
                     },
                     {
                         "name": "used-up-uranium-fuel-cell",
-                        "icon": "__base__/graphics/icons/used-up-uranium-fuel-cell.png",
+                        "icon": "used-up-uranium-fuel-cell.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "r[used-up-uranium-fuel-cell]"
@@ -2084,49 +2084,49 @@
                 "items": [
                     {
                         "name": "automation-science-pack",
-                        "icon": "__base__/graphics/icons/automation-science-pack.png",
+                        "icon": "automation-science-pack.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "a[automation-science-pack]"
                     },
                     {
                         "name": "logistic-science-pack",
-                        "icon": "__base__/graphics/icons/logistic-science-pack.png",
+                        "icon": "logistic-science-pack.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "b[logistic-science-pack]"
                     },
                     {
                         "name": "military-science-pack",
-                        "icon": "__base__/graphics/icons/military-science-pack.png",
+                        "icon": "military-science-pack.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "c[military-science-pack]"
                     },
                     {
                         "name": "chemical-science-pack",
-                        "icon": "__base__/graphics/icons/chemical-science-pack.png",
+                        "icon": "chemical-science-pack.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "d[chemical-science-pack]"
                     },
                     {
                         "name": "production-science-pack",
-                        "icon": "__base__/graphics/icons/production-science-pack.png",
+                        "icon": "production-science-pack.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "e[production-science-pack]"
                     },
                     {
                         "name": "utility-science-pack",
-                        "icon": "__base__/graphics/icons/utility-science-pack.png",
+                        "icon": "utility-science-pack.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "f[utility-science-pack]"
                     },
                     {
                         "name": "space-science-pack",
-                        "icon": "__base__/graphics/icons/space-science-pack.png",
+                        "icon": "space-science-pack.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "g[space-science-pack]"
@@ -2138,7 +2138,7 @@
     },
     {
         "name": "combat",
-        "icon": "__base__/graphics/item-group/military.png",
+        "icon": "military.png",
         "icon_size": 128,
         "icon_mipmaps": 2,
         "order": "d",
@@ -2150,49 +2150,49 @@
                 "items": [
                     {
                         "name": "pistol",
-                        "icon": "__base__/graphics/icons/pistol.png",
+                        "icon": "pistol.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "a[basic-clips]-a[pistol]"
                     },
                     {
                         "name": "submachine-gun",
-                        "icon": "__base__/graphics/icons/submachine-gun.png",
+                        "icon": "submachine-gun.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "a[basic-clips]-b[submachine-gun]"
                     },
                     {
                         "name": "shotgun",
-                        "icon": "__base__/graphics/icons/shotgun.png",
+                        "icon": "shotgun.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "b[shotgun]-a[basic]"
                     },
                     {
                         "name": "combat-shotgun",
-                        "icon": "__base__/graphics/icons/combat-shotgun.png",
+                        "icon": "combat-shotgun.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "b[shotgun]-a[combat]"
                     },
                     {
                         "name": "rocket-launcher",
-                        "icon": "__base__/graphics/icons/rocket-launcher.png",
+                        "icon": "rocket-launcher.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "d[rocket-launcher]"
                     },
                     {
                         "name": "flamethrower",
-                        "icon": "__base__/graphics/icons/flamethrower.png",
+                        "icon": "flamethrower.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "e[flamethrower]"
                     },
                     {
                         "name": "land-mine",
-                        "icon": "__base__/graphics/icons/land-mine.png",
+                        "icon": "land-mine.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "f[land-mine]"
@@ -2206,98 +2206,98 @@
                 "items": [
                     {
                         "name": "firearm-magazine",
-                        "icon": "__base__/graphics/icons/firearm-magazine.png",
+                        "icon": "firearm-magazine.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "a[basic-clips]-a[firearm-magazine]"
                     },
                     {
                         "name": "piercing-rounds-magazine",
-                        "icon": "__base__/graphics/icons/piercing-rounds-magazine.png",
+                        "icon": "piercing-rounds-magazine.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "a[basic-clips]-b[piercing-rounds-magazine]"
                     },
                     {
                         "name": "uranium-rounds-magazine",
-                        "icon": "__base__/graphics/icons/uranium-rounds-magazine.png",
+                        "icon": "uranium-rounds-magazine.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "a[basic-clips]-c[uranium-rounds-magazine]"
                     },
                     {
                         "name": "shotgun-shell",
-                        "icon": "__base__/graphics/icons/shotgun-shell.png",
+                        "icon": "shotgun-shell.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "b[shotgun]-a[basic]"
                     },
                     {
                         "name": "piercing-shotgun-shell",
-                        "icon": "__base__/graphics/icons/piercing-shotgun-shell.png",
+                        "icon": "piercing-shotgun-shell.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "b[shotgun]-b[piercing]"
                     },
                     {
                         "name": "cannon-shell",
-                        "icon": "__base__/graphics/icons/cannon-shell.png",
+                        "icon": "cannon-shell.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "d[cannon-shell]-a[basic]"
                     },
                     {
                         "name": "explosive-cannon-shell",
-                        "icon": "__base__/graphics/icons/explosive-cannon-shell.png",
+                        "icon": "explosive-cannon-shell.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "d[cannon-shell]-c[explosive]"
                     },
                     {
                         "name": "uranium-cannon-shell",
-                        "icon": "__base__/graphics/icons/uranium-cannon-shell.png",
+                        "icon": "uranium-cannon-shell.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "d[cannon-shell]-c[uranium]"
                     },
                     {
                         "name": "explosive-uranium-cannon-shell",
-                        "icon": "__base__/graphics/icons/explosive-uranium-cannon-shell.png",
+                        "icon": "explosive-uranium-cannon-shell.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "d[explosive-cannon-shell]-c[uranium]"
                     },
                     {
                         "name": "artillery-shell",
-                        "icon": "__base__/graphics/icons/artillery-shell.png",
+                        "icon": "artillery-shell.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "d[explosive-cannon-shell]-d[artillery]"
                     },
                     {
                         "name": "rocket",
-                        "icon": "__base__/graphics/icons/rocket.png",
+                        "icon": "rocket.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "d[rocket-launcher]-a[basic]"
                     },
                     {
                         "name": "explosive-rocket",
-                        "icon": "__base__/graphics/icons/explosive-rocket.png",
+                        "icon": "explosive-rocket.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "d[rocket-launcher]-b[explosive]"
                     },
                     {
                         "name": "atomic-bomb",
-                        "icon": "__base__/graphics/icons/atomic-bomb.png",
+                        "icon": "atomic-bomb.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "d[rocket-launcher]-c[atomic-bomb]"
                     },
                     {
                         "name": "flamethrower-ammo",
-                        "icon": "__base__/graphics/icons/flamethrower-ammo.png",
+                        "icon": "flamethrower-ammo.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "e[flamethrower]"
@@ -2311,49 +2311,49 @@
                 "items": [
                     {
                         "name": "grenade",
-                        "icon": "__base__/graphics/icons/grenade.png",
+                        "icon": "grenade.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "a[grenade]-a[normal]"
                     },
                     {
                         "name": "cluster-grenade",
-                        "icon": "__base__/graphics/icons/cluster-grenade.png",
+                        "icon": "cluster-grenade.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "a[grenade]-b[cluster]"
                     },
                     {
                         "name": "poison-capsule",
-                        "icon": "__base__/graphics/icons/poison-capsule.png",
+                        "icon": "poison-capsule.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "b[poison-capsule]"
                     },
                     {
                         "name": "slowdown-capsule",
-                        "icon": "__base__/graphics/icons/slowdown-capsule.png",
+                        "icon": "slowdown-capsule.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "c[slowdown-capsule]"
                     },
                     {
                         "name": "defender-capsule",
-                        "icon": "__base__/graphics/icons/defender.png",
+                        "icon": "defender.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "d[defender-capsule]"
                     },
                     {
                         "name": "distractor-capsule",
-                        "icon": "__base__/graphics/icons/distractor.png",
+                        "icon": "distractor.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "e[defender-capsule]"
                     },
                     {
                         "name": "destroyer-capsule",
-                        "icon": "__base__/graphics/icons/destroyer.png",
+                        "icon": "destroyer.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "f[destroyer-capsule]"
@@ -2367,35 +2367,35 @@
                 "items": [
                     {
                         "name": "light-armor",
-                        "icon": "__base__/graphics/icons/light-armor.png",
+                        "icon": "light-armor.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "a[light-armor]"
                     },
                     {
                         "name": "heavy-armor",
-                        "icon": "__base__/graphics/icons/heavy-armor.png",
+                        "icon": "heavy-armor.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "b[heavy-armor]"
                     },
                     {
                         "name": "modular-armor",
-                        "icon": "__base__/graphics/icons/modular-armor.png",
+                        "icon": "modular-armor.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "c[modular-armor]"
                     },
                     {
                         "name": "power-armor",
-                        "icon": "__base__/graphics/icons/power-armor.png",
+                        "icon": "power-armor.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "d[power-armor]"
                     },
                     {
                         "name": "power-armor-mk2",
-                        "icon": "__base__/graphics/icons/power-armor-mk2.png",
+                        "icon": "power-armor-mk2.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "e[power-armor-mk2]"
@@ -2409,63 +2409,63 @@
                 "items": [
                     {
                         "name": "solar-panel-equipment",
-                        "icon": "__base__/graphics/icons/solar-panel-equipment.png",
+                        "icon": "solar-panel-equipment.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "a[energy-source]-a[solar-panel]"
                     },
                     {
                         "name": "fusion-reactor-equipment",
-                        "icon": "__base__/graphics/icons/fusion-reactor-equipment.png",
+                        "icon": "fusion-reactor-equipment.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "a[energy-source]-b[fusion-reactor]"
                     },
                     {
                         "name": "battery-equipment",
-                        "icon": "__base__/graphics/icons/battery-equipment.png",
+                        "icon": "battery-equipment.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "b[battery]-a[battery-equipment]"
                     },
                     {
                         "name": "battery-mk2-equipment",
-                        "icon": "__base__/graphics/icons/battery-mk2-equipment.png",
+                        "icon": "battery-mk2-equipment.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "b[battery]-b[battery-equipment-mk2]"
                     },
                     {
                         "name": "belt-immunity-equipment",
-                        "icon": "__base__/graphics/icons/belt-immunity-equipment.png",
+                        "icon": "belt-immunity-equipment.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "c[belt-immunity]-a[belt-immunity]"
                     },
                     {
                         "name": "exoskeleton-equipment",
-                        "icon": "__base__/graphics/icons/exoskeleton-equipment.png",
+                        "icon": "exoskeleton-equipment.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "d[exoskeleton]-a[exoskeleton-equipment]"
                     },
                     {
                         "name": "personal-roboport-equipment",
-                        "icon": "__base__/graphics/icons/personal-roboport-equipment.png",
+                        "icon": "personal-roboport-equipment.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "e[robotics]-a[personal-roboport-equipment]"
                     },
                     {
                         "name": "personal-roboport-mk2-equipment",
-                        "icon": "__base__/graphics/icons/personal-roboport-mk2-equipment.png",
+                        "icon": "personal-roboport-mk2-equipment.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "e[robotics]-b[personal-roboport-mk2-equipment]"
                     },
                     {
                         "name": "night-vision-equipment",
-                        "icon": "__base__/graphics/icons/night-vision-equipment.png",
+                        "icon": "night-vision-equipment.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "f[night-vision]-a[night-vision-equipment]"
@@ -2479,35 +2479,35 @@
                 "items": [
                     {
                         "name": "energy-shield-equipment",
-                        "icon": "__base__/graphics/icons/energy-shield-equipment.png",
+                        "icon": "energy-shield-equipment.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "a[shield]-a[energy-shield-equipment]"
                     },
                     {
                         "name": "energy-shield-mk2-equipment",
-                        "icon": "__base__/graphics/icons/energy-shield-mk2-equipment.png",
+                        "icon": "energy-shield-mk2-equipment.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "a[shield]-b[energy-shield-equipment-mk2]"
                     },
                     {
                         "name": "personal-laser-defense-equipment",
-                        "icon": "__base__/graphics/icons/personal-laser-defense-equipment.png",
+                        "icon": "personal-laser-defense-equipment.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "b[active-defense]-a[personal-laser-defense-equipment]"
                     },
                     {
                         "name": "discharge-defense-equipment",
-                        "icon": "__base__/graphics/icons/discharge-defense-equipment.png",
+                        "icon": "discharge-defense-equipment.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "b[active-defense]-b[discharge-defense-equipment]-a[equipment]"
                     },
                     {
                         "name": "discharge-defense-remote",
-                        "icon": "__base__/graphics/icons/discharge-defense-equipment-controller.png",
+                        "icon": "discharge-defense-equipment-controller.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "b[active-defense]-b[discharge-defense-equipment]-b[remote]"
@@ -2521,56 +2521,56 @@
                 "items": [
                     {
                         "name": "stone-wall",
-                        "icon": "__base__/graphics/icons/wall.png",
+                        "icon": "wall.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "a[stone-wall]-a[stone-wall]"
                     },
                     {
                         "name": "gate",
-                        "icon": "__base__/graphics/icons/gate.png",
+                        "icon": "gate.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "a[wall]-b[gate]"
                     },
                     {
                         "name": "gun-turret",
-                        "icon": "__base__/graphics/icons/gun-turret.png",
+                        "icon": "gun-turret.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "b[turret]-a[gun-turret]"
                     },
                     {
                         "name": "laser-turret",
-                        "icon": "__base__/graphics/icons/laser-turret.png",
+                        "icon": "laser-turret.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "b[turret]-b[laser-turret]"
                     },
                     {
                         "name": "flamethrower-turret",
-                        "icon": "__base__/graphics/icons/flamethrower-turret.png",
+                        "icon": "flamethrower-turret.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "b[turret]-c[flamethrower-turret]"
                     },
                     {
                         "name": "artillery-turret",
-                        "icon": "__base__/graphics/icons/artillery-turret.png",
+                        "icon": "artillery-turret.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "b[turret]-d[artillery-turret]-a[turret]"
                     },
                     {
                         "name": "artillery-targeting-remote",
-                        "icon": "__base__/graphics/icons/artillery-targeting-remote.png",
+                        "icon": "artillery-targeting-remote.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "b[turret]-d[artillery-turret]-b[remote]"
                     },
                     {
                         "name": "radar",
-                        "icon": "__base__/graphics/icons/radar.png",
+                        "icon": "radar.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "d[radar]-a[radar]"
@@ -2582,7 +2582,7 @@
     },
     {
         "name": "fluids",
-        "icon": "__base__/graphics/item-group/fluids.png",
+        "icon": "fluids.png",
         "icon_size": 128,
         "icon_mipmaps": 2,
         "order": "e",
@@ -2594,56 +2594,56 @@
                 "items": [
                     {
                         "name": "water",
-                        "icon": "__base__/graphics/icons/fluid/water.png",
+                        "icon": "fluid/water.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "a[fluid]-a[water]"
                     },
                     {
                         "name": "crude-oil",
-                        "icon": "__base__/graphics/icons/fluid/crude-oil.png",
+                        "icon": "fluid/crude-oil.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "a[fluid]-b[crude-oil]"
                     },
                     {
                         "name": "steam",
-                        "icon": "__base__/graphics/icons/fluid/steam.png",
+                        "icon": "fluid/steam.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "a[fluid]-b[steam]"
                     },
                     {
                         "name": "heavy-oil",
-                        "icon": "__base__/graphics/icons/fluid/heavy-oil.png",
+                        "icon": "fluid/heavy-oil.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "a[fluid]-c[heavy-oil]"
                     },
                     {
                         "name": "light-oil",
-                        "icon": "__base__/graphics/icons/fluid/light-oil.png",
+                        "icon": "fluid/light-oil.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "a[fluid]-d[light-oil]"
                     },
                     {
                         "name": "petroleum-gas",
-                        "icon": "__base__/graphics/icons/fluid/petroleum-gas.png",
+                        "icon": "fluid/petroleum-gas.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "a[fluid]-e[petroleum-gas]"
                     },
                     {
                         "name": "sulfuric-acid",
-                        "icon": "__base__/graphics/icons/fluid/sulfuric-acid.png",
+                        "icon": "fluid/sulfuric-acid.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "a[fluid]-f[sulfuric-acid]"
                     },
                     {
                         "name": "lubricant",
-                        "icon": "__base__/graphics/icons/fluid/lubricant.png",
+                        "icon": "fluid/lubricant.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "e[lubricant]"
@@ -2655,7 +2655,7 @@
     },
     {
         "name": "signals",
-        "icon": "__base__/graphics/item-group/signals.png",
+        "icon": "signals.png",
         "icon_size": 128,
         "icon_mipmaps": 2,
         "order": "f",
@@ -2667,21 +2667,21 @@
                 "items": [
                     {
                         "name": "signal-everything",
-                        "icon": "__base__/graphics/icons/signal/signal_everything.png",
+                        "icon": "signal/signal_everything.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "a[special]-[1everything]"
                     },
                     {
                         "name": "signal-anything",
-                        "icon": "__base__/graphics/icons/signal/signal_anything.png",
+                        "icon": "signal/signal_anything.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "a[special]-[2anything]"
                     },
                     {
                         "name": "signal-each",
-                        "icon": "__base__/graphics/icons/signal/signal_each.png",
+                        "icon": "signal/signal_each.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "a[special]-[3each]"
@@ -2695,70 +2695,70 @@
                 "items": [
                     {
                         "name": "signal-0",
-                        "icon": "__base__/graphics/icons/signal/signal_0.png",
+                        "icon": "signal/signal_0.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "b[numbers]-[0]"
                     },
                     {
                         "name": "signal-1",
-                        "icon": "__base__/graphics/icons/signal/signal_1.png",
+                        "icon": "signal/signal_1.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "b[numbers]-[1]"
                     },
                     {
                         "name": "signal-2",
-                        "icon": "__base__/graphics/icons/signal/signal_2.png",
+                        "icon": "signal/signal_2.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "b[numbers]-[2]"
                     },
                     {
                         "name": "signal-3",
-                        "icon": "__base__/graphics/icons/signal/signal_3.png",
+                        "icon": "signal/signal_3.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "b[numbers]-[3]"
                     },
                     {
                         "name": "signal-4",
-                        "icon": "__base__/graphics/icons/signal/signal_4.png",
+                        "icon": "signal/signal_4.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "b[numbers]-[4]"
                     },
                     {
                         "name": "signal-5",
-                        "icon": "__base__/graphics/icons/signal/signal_5.png",
+                        "icon": "signal/signal_5.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "b[numbers]-[5]"
                     },
                     {
                         "name": "signal-6",
-                        "icon": "__base__/graphics/icons/signal/signal_6.png",
+                        "icon": "signal/signal_6.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "b[numbers]-[6]"
                     },
                     {
                         "name": "signal-7",
-                        "icon": "__base__/graphics/icons/signal/signal_7.png",
+                        "icon": "signal/signal_7.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "b[numbers]-[7]"
                     },
                     {
                         "name": "signal-8",
-                        "icon": "__base__/graphics/icons/signal/signal_8.png",
+                        "icon": "signal/signal_8.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "b[numbers]-[8]"
                     },
                     {
                         "name": "signal-9",
-                        "icon": "__base__/graphics/icons/signal/signal_9.png",
+                        "icon": "signal/signal_9.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "b[numbers]-[9]"
@@ -2772,182 +2772,182 @@
                 "items": [
                     {
                         "name": "signal-A",
-                        "icon": "__base__/graphics/icons/signal/signal_A.png",
+                        "icon": "signal/signal_A.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "c[letters]-[A]"
                     },
                     {
                         "name": "signal-B",
-                        "icon": "__base__/graphics/icons/signal/signal_B.png",
+                        "icon": "signal/signal_B.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "c[letters]-[B]"
                     },
                     {
                         "name": "signal-C",
-                        "icon": "__base__/graphics/icons/signal/signal_C.png",
+                        "icon": "signal/signal_C.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "c[letters]-[C]"
                     },
                     {
                         "name": "signal-D",
-                        "icon": "__base__/graphics/icons/signal/signal_D.png",
+                        "icon": "signal/signal_D.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "c[letters]-[D]"
                     },
                     {
                         "name": "signal-E",
-                        "icon": "__base__/graphics/icons/signal/signal_E.png",
+                        "icon": "signal/signal_E.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "c[letters]-[E]"
                     },
                     {
                         "name": "signal-F",
-                        "icon": "__base__/graphics/icons/signal/signal_F.png",
+                        "icon": "signal/signal_F.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "c[letters]-[F]"
                     },
                     {
                         "name": "signal-G",
-                        "icon": "__base__/graphics/icons/signal/signal_G.png",
+                        "icon": "signal/signal_G.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "c[letters]-[G]"
                     },
                     {
                         "name": "signal-H",
-                        "icon": "__base__/graphics/icons/signal/signal_H.png",
+                        "icon": "signal/signal_H.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "c[letters]-[H]"
                     },
                     {
                         "name": "signal-I",
-                        "icon": "__base__/graphics/icons/signal/signal_I.png",
+                        "icon": "signal/signal_I.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "c[letters]-[I]"
                     },
                     {
                         "name": "signal-J",
-                        "icon": "__base__/graphics/icons/signal/signal_J.png",
+                        "icon": "signal/signal_J.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "c[letters]-[J]"
                     },
                     {
                         "name": "signal-K",
-                        "icon": "__base__/graphics/icons/signal/signal_K.png",
+                        "icon": "signal/signal_K.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "c[letters]-[K]"
                     },
                     {
                         "name": "signal-L",
-                        "icon": "__base__/graphics/icons/signal/signal_L.png",
+                        "icon": "signal/signal_L.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "c[letters]-[L]"
                     },
                     {
                         "name": "signal-M",
-                        "icon": "__base__/graphics/icons/signal/signal_M.png",
+                        "icon": "signal/signal_M.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "c[letters]-[M]"
                     },
                     {
                         "name": "signal-N",
-                        "icon": "__base__/graphics/icons/signal/signal_N.png",
+                        "icon": "signal/signal_N.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "c[letters]-[N]"
                     },
                     {
                         "name": "signal-O",
-                        "icon": "__base__/graphics/icons/signal/signal_O.png",
+                        "icon": "signal/signal_O.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "c[letters]-[O]"
                     },
                     {
                         "name": "signal-P",
-                        "icon": "__base__/graphics/icons/signal/signal_P.png",
+                        "icon": "signal/signal_P.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "c[letters]-[P]"
                     },
                     {
                         "name": "signal-Q",
-                        "icon": "__base__/graphics/icons/signal/signal_Q.png",
+                        "icon": "signal/signal_Q.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "c[letters]-[Q]"
                     },
                     {
                         "name": "signal-R",
-                        "icon": "__base__/graphics/icons/signal/signal_R.png",
+                        "icon": "signal/signal_R.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "c[letters]-[R]"
                     },
                     {
                         "name": "signal-S",
-                        "icon": "__base__/graphics/icons/signal/signal_S.png",
+                        "icon": "signal/signal_S.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "c[letters]-[S]"
                     },
                     {
                         "name": "signal-T",
-                        "icon": "__base__/graphics/icons/signal/signal_T.png",
+                        "icon": "signal/signal_T.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "c[letters]-[T]"
                     },
                     {
                         "name": "signal-U",
-                        "icon": "__base__/graphics/icons/signal/signal_U.png",
+                        "icon": "signal/signal_U.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "c[letters]-[U]"
                     },
                     {
                         "name": "signal-V",
-                        "icon": "__base__/graphics/icons/signal/signal_V.png",
+                        "icon": "signal/signal_V.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "c[letters]-[V]"
                     },
                     {
                         "name": "signal-W",
-                        "icon": "__base__/graphics/icons/signal/signal_W.png",
+                        "icon": "signal/signal_W.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "c[letters]-[W]"
                     },
                     {
                         "name": "signal-X",
-                        "icon": "__base__/graphics/icons/signal/signal_X.png",
+                        "icon": "signal/signal_X.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "c[letters]-[X]"
                     },
                     {
                         "name": "signal-Y",
-                        "icon": "__base__/graphics/icons/signal/signal_Y.png",
+                        "icon": "signal/signal_Y.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "c[letters]-[Y]"
                     },
                     {
                         "name": "signal-Z",
-                        "icon": "__base__/graphics/icons/signal/signal_Z.png",
+                        "icon": "signal/signal_Z.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "c[letters]-[Z]"
@@ -2961,63 +2961,63 @@
                 "items": [
                     {
                         "name": "signal-red",
-                        "icon": "__base__/graphics/icons/signal/signal_red.png",
+                        "icon": "signal/signal_red.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "d[colors]-[1red]"
                     },
                     {
                         "name": "signal-green",
-                        "icon": "__base__/graphics/icons/signal/signal_green.png",
+                        "icon": "signal/signal_green.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "d[colors]-[2green]"
                     },
                     {
                         "name": "signal-blue",
-                        "icon": "__base__/graphics/icons/signal/signal_blue.png",
+                        "icon": "signal/signal_blue.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "d[colors]-[3blue]"
                     },
                     {
                         "name": "signal-yellow",
-                        "icon": "__base__/graphics/icons/signal/signal_yellow.png",
+                        "icon": "signal/signal_yellow.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "d[colors]-[4yellow]"
                     },
                     {
                         "name": "signal-pink",
-                        "icon": "__base__/graphics/icons/signal/signal_pink.png",
+                        "icon": "signal/signal_pink.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "d[colors]-[5pink]"
                     },
                     {
                         "name": "signal-cyan",
-                        "icon": "__base__/graphics/icons/signal/signal_cyan.png",
+                        "icon": "signal/signal_cyan.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "d[colors]-[6cyan]"
                     },
                     {
                         "name": "signal-white",
-                        "icon": "__base__/graphics/icons/signal/signal_white.png",
+                        "icon": "signal/signal_white.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "d[colors]-[7white]"
                     },
                     {
                         "name": "signal-grey",
-                        "icon": "__base__/graphics/icons/signal/signal_grey.png",
+                        "icon": "signal/signal_grey.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "d[colors]-[8grey]"
                     },
                     {
                         "name": "signal-black",
-                        "icon": "__base__/graphics/icons/signal/signal_black.png",
+                        "icon": "signal/signal_black.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "d[colors]-[9black]"
@@ -3031,21 +3031,21 @@
                 "items": [
                     {
                         "name": "signal-check",
-                        "icon": "__base__/graphics/icons/checked-green.png",
+                        "icon": "checked-green.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "e[signal]-[1checked]"
                     },
                     {
                         "name": "signal-info",
-                        "icon": "__base__/graphics/icons/info.png",
+                        "icon": "info.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "e[signal]-[2info]"
                     },
                     {
                         "name": "signal-dot",
-                        "icon": "__base__/graphics/icons/list-dot.png",
+                        "icon": "list-dot.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "e[signal]-[3dot]"
@@ -3057,7 +3057,7 @@
     },
     {
         "name": "creative",
-        "icon": "__base__/graphics/icons/infinity-chest.png",
+        "icon": "infinity-chest.png",
         "icon_size": 64,
         "icon_mipmaps": 4,
         "order": "z",
@@ -3069,21 +3069,21 @@
                 "items": [
                     {
                         "name": "loader",
-                        "icon": "__base__/graphics/icons/loader.png",
+                        "icon": "loader.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "a"
                     },
                     {
                         "name": "fast-loader",
-                        "icon": "__base__/graphics/icons/fast-loader.png",
+                        "icon": "fast-loader.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "b"
                     },
                     {
                         "name": "express-loader",
-                        "icon": "__base__/graphics/icons/express-loader.png",
+                        "icon": "express-loader.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "c"
@@ -3092,7 +3092,7 @@
                         "name": "electric-energy-interface",
                         "icons": [
                             {
-                                "icon": "__base__/graphics/icons/accumulator.png",
+                                "icon": "accumulator.png",
                                 "tint": {
                                     "r": 1,
                                     "g": 0.8,
@@ -3107,14 +3107,14 @@
                     },
                     {
                         "name": "heat-interface",
-                        "icon": "__base__/graphics/icons/heat-interface.png",
+                        "icon": "heat-interface.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "e"
                     },
                     {
                         "name": "infinity-chest",
-                        "icon": "__base__/graphics/icons/infinity-chest.png",
+                        "icon": "infinity-chest.png",
                         "icon_size": 64,
                         "icon_mipmaps": 4,
                         "order": "f"
@@ -3123,7 +3123,7 @@
                         "name": "infinity-pipe",
                         "icons": [
                             {
-                                "icon": "__base__/graphics/icons/pipe.png",
+                                "icon": "pipe.png",
                                 "tint": {
                                     "r": 0.5,
                                     "g": 0.5,

@@ -14,22 +14,21 @@ class Resources{
 
   }
 
-  AssetImage getImage(String imageName) {
-    String path = "assets/factorio_icons/$imageName.png";
-    if (_loadedImages.containsKey(imageName)){
-      return _loadedImages[imageName]!;
+  AssetImage getImage(String imagePath) {
+    String path = "assets/factorio_icons/$imagePath";
+    if (_loadedImages.containsKey(imagePath)){
+      return _loadedImages[imagePath]!;
     }
     else{
       if(File(path).existsSync()){
         AssetImage image = AssetImage(path);
-        _loadedImages[imageName] = image;
+        _loadedImages[imagePath] = image;
         return image;
       }
       else{
-        debugPrint("The image \"$imageName\" could not be found");
+        debugPrint("The image \"$imagePath\" could not be found");
         return const AssetImage("assets/ImageNotFound.png");
       }
-
     }
   }
 

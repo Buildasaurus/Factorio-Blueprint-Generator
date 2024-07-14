@@ -21,11 +21,11 @@ class FactorioItemSelector extends StatelessWidget {
       ),
       itemCount: 9 * 8,
       itemBuilder: (context, index) {
-        String name = imageNames.subgroups.length > index ~/ 9 &&
+        String? iconPath = imageNames.subgroups.length > index ~/ 9 &&
                 imageNames.subgroups[index ~/ 9].items.length > index % 9
-            ? imageNames.subgroups[index ~/ 9].items[index % 9].name
-            : "";
-        if (name != "") {
+            ? imageNames.subgroups[index ~/ 9].items[index % 9].icon
+            : null;
+        if (iconPath != null) {
           return Stack(
             children: [
               const Image(
@@ -34,7 +34,7 @@ class FactorioItemSelector extends StatelessWidget {
                 width: 100,
               ),
               Image(
-                image: Resources.instance.getImage(name),
+                image: Resources.instance.getImage(iconPath),
                 height: 100,
                 width: 100,
               ),
