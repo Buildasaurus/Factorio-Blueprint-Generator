@@ -25,11 +25,23 @@ class FactorioItemSelector extends StatelessWidget {
                 imageNames.subgroups[index ~/ 9].items.length > index % 9
             ? imageNames.subgroups[index ~/ 9].items[index % 9].name
             : "";
-        return Image(
-          image: Resources.instance.getImage(name),
-          height: 100,
-          width: 100,
-        );
+        if (name != "") {
+          return Stack(
+            children: [
+              const Image(
+                image: AssetImage("assets/slot.png"),
+                height: 100,
+                width: 100,
+              ),
+              Image(
+                image: Resources.instance.getImage(name),
+                height: 100,
+                width: 100,
+              ),
+            ],
+          );
+        }
+        return Container();
       },
     );
   }
