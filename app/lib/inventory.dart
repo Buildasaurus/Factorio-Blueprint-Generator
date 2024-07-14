@@ -17,6 +17,8 @@ class _InventoryState extends State<Inventory> {
       children: [
         Wrap(
           spacing: 10, // Horizontal spacing between children
+          // first number of generate is how many. There are two hidden pages (5 and 6), that aren't
+          // shown as options, as these are the pages for signals, and infinity pipes/chests.
           children: List.generate(5, (index) {
             return ElevatedButton(
               child: Text(index.toString()),
