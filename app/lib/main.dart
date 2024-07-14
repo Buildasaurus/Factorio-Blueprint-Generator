@@ -82,11 +82,6 @@ class _MyHomePageState extends State<MyHomePage> {
           child: const Text('Generate mall'),
         ),
         const SizedBox(height: 20),
-        ElevatedButton(
-          onPressed: () => loadJson(),
-          child: const Text('Load json'),
-        ),
-        const SizedBox(height: 20),
         SelectableText('Blueprint generator response: $_response'),
 
         //Item Selector
@@ -97,16 +92,5 @@ class _MyHomePageState extends State<MyHomePage> {
         )
       ],
     );
-  }
-
-  List<InventoryLayoutGroup> loadJson() {
-    String jsonString =  File("InventoryStrucutre.json").readAsStringSync();
-    // Deserialize JSON to Dart object
-    List<dynamic> jsonMap = jsonDecode(jsonString);
-    List<InventoryLayoutGroup> list = [];
-    for (dynamic a in jsonMap) {
-      list.add(InventoryLayoutGroup.fromJson(a));
-    }
-    return list;
   }
 }

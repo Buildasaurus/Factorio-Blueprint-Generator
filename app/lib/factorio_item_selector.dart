@@ -1,4 +1,8 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:factorio_blueprint_generator/Resources.dart';
+import 'package:factorio_blueprint_generator/inventory_model.dart';
 import 'package:flutter/material.dart';
 
 class FactorioItemSelector extends StatelessWidget {
@@ -6,27 +10,38 @@ class FactorioItemSelector extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<String> imageNames = [
-      'assembling-machine-1',
-      'cat',
-      'boiler',
-      'morecat',
-    ];
+    final InventoryLayoutGroup imageNames = loadJson()[0];
 
     return GridView.builder(
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2, // Adjust the number of columns as needed
+        crossAxisCount: 9, // Adjust the number of columns as needed
         crossAxisSpacing: 8.0,
         mainAxisSpacing: 8.0,
       ),
-      itemCount: imageNames.length,
+      itemCount: 9 * 8,
       itemBuilder: (context, index) {
+        String name =
+            imageNames.subgroups[index ~/ 9].items.length > index % 9 &&
+                    imageNames.subgroups.length > index ~/ 9
+                ? imageNames.subgroups[index ~/ 9].items[index % 9].name
+                : "";
         return Image(
-          image: Resources.instance.getImage(imageNames[index]),
+          image: Resources.instance.getImage(name),
           height: 100,
           width: 100,
         );
       },
     );
+  }
+
+  List<InventoryLayoutGroup> loadJson() {
+    String jsonString = File("InventoryStrucutre.json").readAsStringSync();
+    // Deserialize JSON to Dart object
+    List<dynamic> jsonMap = jsonDecode(jsonString);
+    List<InventoryLayoutGroup> list = [];
+    for (dynamic a in jsonMap) {
+      list.add(InventoryLayoutGroup.fromJson(a));
+    }
+    return list;
   }
 }
