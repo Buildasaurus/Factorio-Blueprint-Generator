@@ -86,7 +86,7 @@ class _MyHomePageState extends State<MyHomePage> {
         const SizedBox(
           height: 400,
           width: 400,
-          child: FactorioItemSelector(inventoryIndex: 0,),
+          child: FactorioItemSelector(inventoryIndex: 2,),
         )
       ],
     );

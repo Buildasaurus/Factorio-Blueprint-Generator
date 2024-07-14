@@ -11,7 +11,7 @@ class FactorioItemSelector extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final InventoryLayoutGroup imageNames = loadJson()[0];
+    final InventoryLayoutGroup imageNames = loadJson()[inventoryIndex];
 
     return GridView.builder(
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
