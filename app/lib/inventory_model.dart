@@ -2,21 +2,21 @@ class InventoryLayoutGroup {
   String name;
   String icon;
   List<Icon>? icons;
-  int? icon_size;
-  int? icon_mipmaps;
+  int? iconSize;
+  int? iconMipMaps;
   String order;
   List<InventoryLayoutSubgroup> subgroups;
-  String localised_name;
+  String localisedName;
 
   InventoryLayoutGroup({
     required this.name,
     required this.icon,
     this.icons,
-    this.icon_size,
-    this.icon_mipmaps,
+    this.iconSize,
+    this.iconMipMaps,
     required this.order,
     required this.subgroups,
-    required this.localised_name,
+    required this.localisedName,
   });
 
   factory InventoryLayoutGroup.fromJson(Map<String, dynamic> json) {
@@ -32,11 +32,11 @@ class InventoryLayoutGroup {
       name: json['name'],
       icon: json['icon'],
       icons: icons,
-      icon_size: json['icon_size'],
-      icon_mipmaps: json['icon_mipmaps'],
+      iconSize: json['icon_size'],
+      iconMipMaps: json['icon_mipmaps'],
       order: json['order'],
       subgroups: subgroups,
-      localised_name: json['localised_name'],
+      localisedName: json['localised_name'],
     );
   }
 
@@ -51,11 +51,11 @@ class InventoryLayoutGroup {
       'name': name,
       'icon': icon,
       'icons': iconsJson,
-      'icon_size': icon_size,
-      'icon_mipmaps': icon_mipmaps,
+      'icon_size': iconSize,
+      'icon_mipmaps': iconMipMaps,
       'order': order,
       'subgroups': subgroupsJson,
-      'localised_name': localised_name,
+      'localised_name': localisedName,
     };
   }
 }
@@ -135,18 +135,18 @@ class InventoryLayoutItem {
 
 class Icon {
   String icon;
-  int? icon_size;
-  int? icon_mipmaps;
-  String? dark_background_icon;
+  int? iconSize;
+  int? iconMimmaps;
+  String? darkBackgroundIcon;
   ColorWithAlpha? tint;
   double? scale;
   List<int>? shift;
 
   Icon({
     required this.icon,
-    this.icon_size,
-    this.icon_mipmaps,
-    this.dark_background_icon,
+    this.iconSize,
+    this.iconMimmaps,
+    this.darkBackgroundIcon,
     this.tint,
     this.scale,
     this.shift,
@@ -155,9 +155,9 @@ class Icon {
   factory Icon.fromJson(Map<String, dynamic> json) {
     return Icon(
       icon: json['icon'],
-      icon_size: json['icon_size'],
-      icon_mipmaps: json['icon_mipmaps'],
-      dark_background_icon: json['dark_background_icon'],
+      iconSize: json['icon_size'],
+      iconMimmaps: json['icon_mipmaps'],
+      darkBackgroundIcon: json['dark_background_icon'],
       tint: json['tint'] != null ? ColorWithAlpha.fromJson(json['tint']) : null,
       scale: json['scale'],
       shift: json['shift']?.cast<int>(),
@@ -167,9 +167,9 @@ class Icon {
   Map<String, dynamic> toJson() {
     return {
       'icon': icon,
-      'icon_size': icon_size,
-      'icon_mipmaps': icon_mipmaps,
-      'dark_background_icon': dark_background_icon,
+      'icon_size': iconSize,
+      'icon_mipmaps': iconMimmaps,
+      'dark_background_icon': darkBackgroundIcon,
       'tint': tint?.toJson(),
       'scale': scale,
       'shift': shift,

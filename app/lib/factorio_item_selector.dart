@@ -6,7 +6,8 @@ import 'package:factorio_blueprint_generator/inventory_model.dart';
 import 'package:flutter/material.dart';
 
 class FactorioItemSelector extends StatelessWidget {
-  const FactorioItemSelector({super.key});
+  final int inventoryIndex;
+  const FactorioItemSelector({super.key, required this.inventoryIndex});
 
   @override
   Widget build(BuildContext context) {
