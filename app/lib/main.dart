@@ -1,5 +1,5 @@
 
-import 'package:factorio_blueprint_generator/factorio_item_selector.dart';
+import 'package:factorio_blueprint_generator/inventory.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -82,12 +82,7 @@ class _MyHomePageState extends State<MyHomePage> {
         const SizedBox(height: 20),
         SelectableText('Blueprint generator response: $_response'),
 
-        //Item Selector
-        const SizedBox(
-          height: 400,
-          width: 400,
-          child: FactorioItemSelector(inventoryIndex: 2,),
-        )
+        Inventory(),
       ],
     );
   }

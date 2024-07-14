@@ -21,11 +21,10 @@ class FactorioItemSelector extends StatelessWidget {
       ),
       itemCount: 9 * 8,
       itemBuilder: (context, index) {
-        String name =
-            imageNames.subgroups[index ~/ 9].items.length > index % 9 &&
-                    imageNames.subgroups.length > index ~/ 9
-                ? imageNames.subgroups[index ~/ 9].items[index % 9].name
-                : "";
+        String name = imageNames.subgroups.length > index ~/ 9 &&
+                imageNames.subgroups[index ~/ 9].items.length > index % 9
+            ? imageNames.subgroups[index ~/ 9].items[index % 9].name
+            : "";
         return Image(
           image: Resources.instance.getImage(name),
           height: 100,
