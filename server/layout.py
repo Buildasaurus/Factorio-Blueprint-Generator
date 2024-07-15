@@ -83,7 +83,7 @@ class ConstructionSite:
                 raise ValueError('"type" parameter is only valid for underground belt')
 
         # Place machine
-        for ofs in iter_entity_area(kind):
+        for ofs in iter_entity_area(kind, direction):
             self.reserve(pos[0] + ofs[0], pos[1] + ofs[1])
 
         # Remember machine information
@@ -142,19 +142,21 @@ def factoriocalc_entity_size(machine_name):
     machine_instance = machine_class()
     return machine_instance.width, machine_instance.height
 
-def entity_size(entity_name):
+def entity_size(entity_name, direc: Direction):
     size = factoriocalc_entity_size(entity_name)
-    return ENTITY_SIZE.get(entity_name) if size is None else size
+    size = ENTITY_SIZE.get(entity_name) if size is None else size
+    assert size is not None, f'Unknown entity {entity_name}'
+    if direc in [2, 6]:
+        # Switch x and y size
+        y, x = size
+        size = [x,y]
+    return size
 
 def center_position(entity_name, direc: Direction, top_left_pos):
     '''Factorio blueprint position are at the center of the entity,
     which has 1/2 grid resolution
     '''
-    size = entity_size(entity_name)
-    if direc in [2, 6]:
-        # Switch x and y size
-        y, x = size
-        size = [x,y]
+    size = entity_size(entity_name, direc)
     return [top_left_pos[i] + size[i]/2 for i in range(2)]
 
 def iter_area(size):
@@ -168,13 +170,16 @@ def iter_area(size):
         for x_ofs in range(size[0]):
             yield x_ofs, y_ofs
 
-def iter_entity_area(entity_name):
+def iter_entity_area(entity_name, direc: Direction):
     '''Compute all possible offset for the named entity.
     No offset is negative, so only right-down
 
     Note: This is not how Factorio blueprint works with offset
+
+    :param entity_name:  Kind of entity
+    :param direction:    Rotation of entity
     '''
-    size = entity_size(entity_name)
+    size = entity_size(entity_name, direc)
     if size is None:
         raise NotImplementedError(f'Unknown size of entity {entity_name}')
     return iter_area(size)
