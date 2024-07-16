@@ -8,6 +8,5 @@ networkx
 numpy
 pandas
 
-grpcio
-
-grpcio-health-checking
+# Web server
+flask
