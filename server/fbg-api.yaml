@@ -1,0 +1,44 @@
+openapi: 3.0.3
+info:
+  title: Factorio Blueprint Generator server API
+  description: |-
+    This api provides blueprint generation services for the FBG-app.
+  license:
+    name: MIT License
+    url: https://github.com/Buildasaurus/Factorio-Blueprint-Generator/blob/main/LICENSE
+  version: 0.0.1
+paths:
+  /process:
+    post:
+      summary: Process some input
+      description: Undefined behaviour on undefined input will somehow in the future genrate a blueprint
+      operationId: server.process_string
+      requestBody:
+        description: Tell server how to generate a blueprint
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BlueprintRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BlueprintResponse'
+        '400':
+          description: No input string provided
+
+components:
+  schemas:
+    BlueprintRequest:
+      type: object
+      properties:
+        input_string:
+          type: string
+    BlueprintResponse:
+      type: object
+      properties:
+        output_string:
+          type: string

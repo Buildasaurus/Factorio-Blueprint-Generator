@@ -10,3 +10,6 @@ pandas
 
 # Web server
 flask
+
+# OpenAPI middleware
+connexion[flask,uvicorn,swagger-ui]

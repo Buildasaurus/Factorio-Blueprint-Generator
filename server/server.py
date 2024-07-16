@@ -1,15 +1,21 @@
-from flask import Flask, request, jsonify
 import logging
+
+from flask import request, jsonify
+import connexion
 import factoriocalc as fc
 import factoriocalc.presets as fcc
+
 import layout
 import solver
-
-app = Flask(__name__)
 
 # Set up logging
 logging.basicConfig(filename='server.log', level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger()
+
+# Initialize server
+app = connexion.FlaskApp(__name__)
+app.add_api('fbg-api.yaml')
+
 
 def GenerateBlueprint(blueprint_input):
     '''This is copied from the mall_small test'''
@@ -58,7 +64,8 @@ def GenerateBlueprint(blueprint_input):
         logger.error(e)
         return f"failed to {e}"
 
-@app.route('/process', methods=['POST'])
+#@app.route('/process', methods=['POST'])
+# with Connexion, the fbg-api.yaml file specifies how to route endpoints to functions 
 def process_string():
     data = request.json
     input_string = data.get('input_string')
@@ -72,4 +79,4 @@ def process_string():
     return jsonify({'output_string': output_string})
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, threaded=False)
+    app.run(host='0.0.0.0', port=5000)
