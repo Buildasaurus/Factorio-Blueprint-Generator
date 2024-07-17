@@ -27,6 +27,7 @@ class FactorioItemSelector extends StatelessWidget {
           debugPrint("$index");
         }
         // Data about the path of the icon (String), and the color (Color)
+
         List<(String, Color)>? iconData = [];
         if (imageNames.subgroups.length > index ~/ columnCount &&
             imageNames.subgroups[index ~/ columnCount].items.length >
@@ -78,7 +79,8 @@ class FactorioItemSelector extends StatelessWidget {
                   ),
               ],
             ),
-            onPressed: () => debugPrint(iconData.toString()),
+            onPressed: () => debugPrint(
+                "${iconData.toString()} at ${imageNames.subgroups[index ~/ columnCount].items[index % columnCount].name}"),
             hoverColor: Colors.black,
           );
         }

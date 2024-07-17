@@ -183,19 +183,19 @@ class IconInfo {
 
   static Color colorFromJson(Map<String, dynamic> json) {
     return Color.fromARGB(
+        (json['a'] != null ? json['a'] * 255 : 255.0).round(),
         (json['r'] * 255).round(),
         (json['g'] * 255).round(),
-        (json['b'] * 255).round(),
-        (json['a'] != null ? json['a'] * 255 : 255.0).round());
+        (json['b'] * 255).round());
   }
 
   Map<String, dynamic>? colorToJson(Color? color) {
     if (color == null) return null;
     return {
-      'red': color.red/255,
-      'green': color.green/255,
-      'blue': color.blue/255,
-      'alpha': color.alpha/255,
+      'red': color.red / 255,
+      'green': color.green / 255,
+      'blue': color.blue / 255,
+      'alpha': color.alpha / 255,
     };
   }
 }
