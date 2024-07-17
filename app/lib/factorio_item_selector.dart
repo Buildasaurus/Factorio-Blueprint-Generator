@@ -26,28 +26,27 @@ class FactorioItemSelector extends StatelessWidget {
         if (index > 26 && inventoryIndex == 2) {
           debugPrint("$index");
         }
-        List<String>? iconPaths = [];
+        // Data about the path of the icon (String), and the color (Color)
+        List<(String, Color)>? iconData = [];
         if (imageNames.subgroups.length > index ~/ columnCount &&
             imageNames.subgroups[index ~/ columnCount].items.length >
-                index % columnCount)
-        // If there is an image on the given index
-        {
+                index % columnCount) {
+          // If there is an image on the given index
           String? iconPath = imageNames
               .subgroups[index ~/ columnCount].items[index % columnCount].icon;
 
-          //Path might be null, in which case there might be several icons.
+          // Path might be null, in which case there might be several icons.
           if (iconPath != null) {
-            iconPaths.add(iconPath);
+            iconData.add((iconPath, const Color.fromARGB(0, 255, 255, 255)));
           } else {
             List<IconInfo>? a = imageNames.subgroups[index ~/ columnCount]
                 .items[index % columnCount].icons;
             for (IconInfo b in a!) {
-              iconPaths.add(b.icon);
+              iconData.add((b.icon, b.tint ?? Colors.black));
             }
           }
         }
-
-        if (iconPaths.isNotEmpty) {
+        if (iconData.isNotEmpty) {
           return IconButton(
             style: ButtonStyle(
                 padding: WidgetStateProperty.all(EdgeInsets.zero),
@@ -62,15 +61,24 @@ class FactorioItemSelector extends StatelessWidget {
                   height: 100,
                   width: 100,
                 ),
-                for (String iconPath in iconPaths)
-                  Image(
-                    image: Resources.instance.getImage(iconPath),
-                    height: 100,
-                    width: 100,
+                for (final iconPath in iconData)
+                  ShaderMask(
+                    shaderCallback: (Rect bounds) {
+                      return LinearGradient(
+                        colors: [iconPath.$2, iconPath.$2],
+                        stops: [0.0, 1.0],
+                      ).createShader(bounds);
+                    },
+                    blendMode: BlendMode.srcATop,
+                    child: Image(
+                      image: Resources.instance.getImage(iconPath.$1),
+                      height: 100,
+                      width: 100,
+                    ),
                   ),
               ],
             ),
-            onPressed: () => debugPrint(iconPaths.toString()),
+            onPressed: () => debugPrint(iconData.toString()),
             hoverColor: Colors.black,
           );
         }

@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 class InventoryLayoutGroup {
   String name;
   String icon;
@@ -26,7 +28,8 @@ class InventoryLayoutGroup {
         .toList();
 
     List<dynamic>? iconsList = json['icons'];
-    List<IconInfo>? icons = iconsList?.map((iconJson) => IconInfo.fromJson(iconJson)).toList();
+    List<IconInfo>? icons =
+        iconsList?.map((iconJson) => IconInfo.fromJson(iconJson)).toList();
 
     return InventoryLayoutGroup(
       name: json['name'],
@@ -73,8 +76,9 @@ class InventoryLayoutSubgroup {
 
   factory InventoryLayoutSubgroup.fromJson(Map<String, dynamic> json) {
     List<dynamic> itemList = json['items'] ?? [];
-    List<InventoryLayoutItem> items =
-        itemList.map((itemJson) => InventoryLayoutItem.fromJson(itemJson)).toList();
+    List<InventoryLayoutItem> items = itemList
+        .map((itemJson) => InventoryLayoutItem.fromJson(itemJson))
+        .toList();
 
     return InventoryLayoutSubgroup(
       name: json['name'],
@@ -110,7 +114,8 @@ class InventoryLayoutItem {
 
   factory InventoryLayoutItem.fromJson(Map<String, dynamic> json) {
     List<dynamic>? iconsList = json['icons'];
-    List<IconInfo>? icons = iconsList?.map((iconJson) => IconInfo.fromJson(iconJson)).toList();
+    List<IconInfo>? icons =
+        iconsList?.map((iconJson) => IconInfo.fromJson(iconJson)).toList();
 
     return InventoryLayoutItem(
       name: json['name'],
@@ -138,7 +143,7 @@ class IconInfo {
   int? iconSize;
   int? iconMimmaps;
   String? darkBackgroundIcon;
-  ColorWithAlpha? tint;
+  Color? tint;
   double? scale;
   List<int>? shift;
 
@@ -158,7 +163,7 @@ class IconInfo {
       iconSize: json['icon_size'],
       iconMimmaps: json['icon_mipmaps'],
       darkBackgroundIcon: json['dark_background_icon'],
-      tint: json['tint'] != null ? ColorWithAlpha.fromJson(json['tint']) : null,
+      tint: json['tint'] != null ? colorFromJson(json['tint']) : null,
       scale: json['scale'],
       shift: json['shift']?.cast<int>(),
     );
@@ -170,41 +175,27 @@ class IconInfo {
       'icon_size': iconSize,
       'icon_mipmaps': iconMimmaps,
       'dark_background_icon': darkBackgroundIcon,
-      'tint': tint?.toJson(),
+      'tint': colorToJson(tint),
       'scale': scale,
       'shift': shift,
     };
   }
-}
 
-class ColorWithAlpha {
-  num red;
-  num green;
-  num blue;
-  num? alpha;
-
-  ColorWithAlpha({
-    required this.red,
-    required this.green,
-    required this.blue,
-    required this.alpha,
-  });
-
-  factory ColorWithAlpha.fromJson(Map<String, dynamic> json) {
-    return ColorWithAlpha(
-      red: json['r'],
-      green: json['g'],
-      blue: json['b'],
-      alpha: json['a'],
-    );
+  static Color colorFromJson(Map<String, dynamic> json) {
+    return Color.fromARGB(
+        (json['r'] * 255).round(),
+        (json['g'] * 255).round(),
+        (json['b'] * 255).round(),
+        (json['a'] != null ? json['a'] * 255 : 255.0).round());
   }
 
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic>? colorToJson(Color? color) {
+    if (color == null) return null;
     return {
-      'red': red,
-      'green': green,
-      'blue': blue,
-      'alpha': alpha,
+      'red': color.red/255,
+      'green': color.green/255,
+      'blue': color.blue/255,
+      'alpha': color.alpha/255,
     };
   }
 }
