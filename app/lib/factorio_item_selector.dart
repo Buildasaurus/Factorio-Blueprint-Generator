@@ -42,7 +42,7 @@ class FactorioItemSelector extends StatelessWidget {
             List<IconInfo>? a = imageNames.subgroups[index ~/ columnCount]
                 .items[index % columnCount].icons;
             for (IconInfo b in a!) {
-              iconData.add((b.icon, b.tint ?? Colors.black));
+              iconData.add((b.icon, b.tint ?? Colors.transparent));
             }
           }
         }
