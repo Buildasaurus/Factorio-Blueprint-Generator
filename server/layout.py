@@ -142,7 +142,7 @@ def factoriocalc_entity_size(machine_name):
     machine_instance = machine_class()
     return machine_instance.width, machine_instance.height
 
-def entity_size(entity_name, direc: Direction):
+def entity_size(entity_name, direc: Direction = 0):
     size = factoriocalc_entity_size(entity_name)
     size = ENTITY_SIZE.get(entity_name) if size is None else size
     assert size is not None, f'Unknown entity {entity_name}'
