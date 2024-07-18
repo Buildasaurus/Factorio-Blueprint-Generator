@@ -11,39 +11,55 @@ This tool will then lay out the recipies to an acctual blueprint.
 # Quick start
 
 ## Installation
+Download the source code
 ```
-clone Factorio-Blueprint-Generator
+git clone Factorio-Blueprint-Generator
+```
+
+To install the server execute the following steps:
+```
+cd server
 python -m venv .fbg
 .fbg\Scripts\activate.bat
 pip install -r requirements.txt
 ```
 
+The UI requires Dart SDK and flutter to run. Follow the Flutter
+installation guide, this will take care of both dependencies.
+
+https://docs.flutter.dev/get-started/install
+
 ## Run test
 ```
+cd server
 pip install -r requirements-dev.txt
 python -m unittest
 ```
 
 ## Running server & UI
-To run the server, navigate to the ./server folder and run
+To run the server:
 ´´´
-py server.py
+cd server
+python server.py
 ´´´
 
-The UI requires the Dart SDK and flutter to run. Follow the Dart SDK installation guide
-https://dart.dev/get-dart
+The ui can run without the server, but won't be able to generate blueprints.
 
-When installed the project can be built to your local machine with
+To run the app
 ```
+cd app
 flutter run
 ```
 Or in vsc open the main.dart and press f5, or "Start" button.
 
-The ui can run without the server, but won't be able to generate blueprints.
-
 
 ## Build documentation
+The documentation is built with Sphinx
 ```
 cd doc
 make clean html
 ```
+
+The server API is specified in OpenAPI file server/fbg-api.yaml
+If the server runs at port 5000 on localhost, the API documentation
+can be read at http://localhost:5000/ui
