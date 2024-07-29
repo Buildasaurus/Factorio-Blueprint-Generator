@@ -90,5 +90,22 @@ def process_string():
 
     return jsonify({'output_string': output_string})
 
+def find_blueprint_flow():
+    data = request.json
+    blueprint_export_string = data.get('input_string')
+    if not blueprint_export_string:
+        return jsonify({'error': 'No input string provided'}), 400
+    # TODO call analyze.extract_flow_from_blueprint(blueprint_export_string)
+    # Test result for an input area with a single assembling machine 1, with recipe inserter
+    result = {
+        'inputs':
+            [dict(kind='electronic-circuit', rate=1/60),
+             dict(kind='iron-gear-wheel', rate=1/60),
+             dict(kind='iron-plate', rate=1/60)],
+        'outputs':
+            [dict(kind='inserter', rate=1/60)],
+    }
+    return jsonify(result)
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)

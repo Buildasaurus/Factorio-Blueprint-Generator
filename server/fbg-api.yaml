@@ -29,6 +29,27 @@ paths:
                 $ref: '#/components/schemas/BlueprintResponse'
         '400':
           description: No input string provided
+  /compute-flow:
+    post:
+      summary: Compute max flow of a blueprint
+      description: Given a blueprint string, this function will compute the max flow scenario and return max output and required input.
+      operationId: server.find_blueprint_flow
+      requestBody:
+        description: Provide a blueprint that should be analyzed.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BlueprintRequest'
+        required: true
+      responses:
+        '200':
+          description: Computed max flow for blueprint.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NodeFlow'
+        '400':
+          description: No input string provided
 
 components:
   schemas:
@@ -42,3 +63,32 @@ components:
       properties:
         output_string:
           type: string
+    NodeFlow:
+      description: >
+        Flow in and out of some area. This can be a single machine as well
+        as a huge factory. Nodes can be set up in a hierarchy: You can
+        think of a group of nodes as a single node.
+      type: object
+      properties:
+        inputs:
+          $ref: '#/components/schemas/EdgeFlow'
+        outputs:
+          $ref: '#/components/schemas/EdgeFlow'
+    EdgeFlow:
+      description: Flow between two flow nodes.
+      type: array
+      items:
+        type: object
+        properties:
+          kind:
+            description: Factorio internal name of item
+            type: string
+          rate:
+            description: Flow speed in items per second
+            type: number
+            format: float
+        example:
+          kind:
+            fast-inserter
+          rate:
+            0.01666666666
