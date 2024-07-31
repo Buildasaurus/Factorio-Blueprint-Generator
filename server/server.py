@@ -96,7 +96,7 @@ def find_blueprint_flow():
     if not blueprint_export_string:
         return jsonify({'error': 'No input string provided'}), 400
     # TODO call analyze.extract_flow_from_blueprint(blueprint_export_string)
-    # Test result for an input area with a single assembling machine 1, with recipe inserter
+    # Mock result is for an input area with a single assembling machine 1, with recipe "inserter"
     result = {
         'inputs':
             [dict(kind='electronic-circuit', rate=1/60),
