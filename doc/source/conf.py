@@ -16,7 +16,7 @@ release = '0.1'
 
 extensions = ['sphinx.ext.autodoc']
 import sys
-sys.path.append('..')
+sys.path.append('../server')
 
 templates_path = ['_templates']
 exclude_patterns = []
