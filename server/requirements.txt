@@ -7,3 +7,9 @@ networkx
 # Fast computation
 numpy
 pandas
+
+# Web server
+starlette
+
+# OpenAPI middleware
+connexion[uvicorn,swagger-ui]
