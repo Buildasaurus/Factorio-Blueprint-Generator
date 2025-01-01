@@ -19,11 +19,11 @@ git clone Factorio-Blueprint-Generator
 ### With docker
 This installs both dev and non-dev requirements for now.
 ```
-docker build -t fbt .
+docker build -t fbg .
 ```
 To enter interactive environment
 ```
-docker run -it fbt
+docker run -it fbg
 ```
 
 ### Without docker
