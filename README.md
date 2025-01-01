@@ -16,6 +16,17 @@ Download the source code
 git clone Factorio-Blueprint-Generator
 ```
 
+### With docker
+This installs both dev and non-dev requirements for now.
+```
+docker build -t fbt .
+```
+To enter interactive environment
+```
+docker run -it fbt
+```
+
+### Without docker
 To install the server execute the following steps:
 ```
 cd server
@@ -29,12 +40,14 @@ installation guide, this will take care of both dependencies.
 
 https://docs.flutter.dev/get-started/install
 
+
 ## Run test
 ```
 cd server
 pip install -r requirements-dev.txt
 python -m unittest
 ```
+
 
 ## Running server & UI
 To run the server:
