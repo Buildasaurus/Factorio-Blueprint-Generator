@@ -344,9 +344,10 @@ class A_star:
                 ):
                     entrance_node = self.find_entrance_node(
                         node.parent, node
-                    )  # we are reversed, as we are traversing path backwards, so parent is start of path.
-                    path.append((entrance_node.position[0], entrance_node.position[1]))
+                    )
+                    # Append current node first, as we reverse path later.
                     path.append((node.position[0], node.position[1]))
+                    path.append((entrance_node.position[0], entrance_node.position[1]))
                     node = node.parent
                     continue
             path.append((node.position[0], node.position[1]))
