@@ -136,6 +136,11 @@ class A_star:
                 if can_return:
                     return backtraced
 
+            #TODO fix that closed list isn't a perfect list of nodes that can't be visited.
+            # This is because there might be two ways to get to the next node, and these two ways
+            # Result in different possible underground belt directions.
+            # If the wrong one is chosen, underground directions leading to the exit
+            # might be missed, resulting in no path found.
             neighbors = self.get_neighbors(current_node, closed_list)
             for neighbor in neighbors:
                 if neighbor in closed_list:
@@ -228,7 +233,6 @@ class A_star:
         i x n n n n n
         Desipite the last neigbour being too far away, since it then could reach it by placing a normal belt fist.
         """
-
         neighbors = []
         if node.is_underground_exit:
             direction = self.find_normalized_direction(node.parent, node)
