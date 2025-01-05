@@ -122,9 +122,19 @@ class A_star:
             open_list.remove(current_node)
             closed_list.append(current_node)
 
-            # If the current node is an end node, we've found a path
+            # If the current node is an end node and the inserter node to the exit node,
+            # isn't part of the the path to get here, we've found a valid path.
             if current_node.is_end_node:
-                return self.backtrace(current_node, path_visualizer=visualizer)
+                illegal_nodes = current_node.get_illegal_neighbors()
+                backtraced = self.backtrace(current_node, visualizer)
+                can_return = True
+                for illegal_node in illegal_nodes:
+                    if backtraced.__contains__(illegal_node):
+                        can_return = False
+                        break
+
+                if can_return:
+                    return backtraced
 
             neighbors = self.get_neighbors(current_node, closed_list)
             for neighbor in neighbors:
@@ -239,7 +249,7 @@ class A_star:
 
                     # Underground neighbors
                     # Requires that the adjacent neighbor is empty for underground entry
-                    # Also required taht the neighbor isn't the parent of the current node. Otherwise infinite loops
+                    # Also required that the neighbor isn't the parent of the current node. Otherwise infinite loops
                     # will be created as that node again now will be the child of this node, which will eat all your ram.
                     if (
                         self.underground_belts and not node.is_start_node
@@ -309,7 +319,7 @@ class A_star:
         # This could be done while finding them to save performance
         # but would require more work and code probably.
         if node.get_illegal_neighbors():
-            for i in range(len(neighbors) - 1, 0, -1):
+            for i in range(len(neighbors) - 1, -1, -1):
                 if node.get_illegal_neighbors().__contains__(neighbors[i].position):
                     del neighbors[i]
 

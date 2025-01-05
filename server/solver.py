@@ -556,6 +556,16 @@ def find_path(
     BLOCKED = 0
     NORMAL = 1
     EXPENSIVE = 2
+    # TODO - make inserter nodes expensive to hint at undergrounding under those, to
+    # enable that scenarioes like
+    # x x e o o x
+    # s o o o o x
+    # a a a x x x
+    # are possible - That is when you have to underground to have space for the inserter
+    # such that the only solution is found - (u is underground, i is inserter, b is belt)
+    # x x b b b x
+    # s u i u b x
+    # a a a x x x
     for r in range(site.size()[1]):
         row = []
         for c in range(site.size()[0]):
@@ -566,6 +576,10 @@ def find_path(
     # For each direction in the two dimensions, create starting squares
     # x and y are the inserter coordinates
     def add_entry_if_free(inserter_pos, step, entry_list, illegal_coordinate_dictionary: Dict['tuple',List['tuple']]):
+        '''Takes a position of an inserter, the direction the inserter takes items from,
+        an entry list and list of dictionaries. The entry list will be appended the square
+        where the inserter picks up from, and the illegal list the
+        square where the inserter is placed for this to be possible.'''
         x, y = inserter_pos
         if not is_in_bounds(x, y, map) or map[y][x] == BLOCKED:
             return
@@ -578,8 +592,12 @@ def find_path(
         else:
             illegal_coordinate_dictionary[(x,y)] = [inserter_pos]
 
+    #The lists with the source nodes and the target nodes.
     fac_coordinates = [[] for i in range(2)]
     illegal_coordinates_dicts = [{} for i in range(2)]
+
+    # On all sides of source and target, add possible start/end squares.
+    # TODO add support for longhanded inserters.
     for i, m in enumerate([source, target]):
         pos = m.position.as_int()
 
@@ -607,7 +625,9 @@ def find_path(
             y = pos[1] - 1
             add_entry_if_free((x, y), (0, -1), fac_coordinates[i], illegal_coordinates_dicts[i])
 
+        # If no start or end squares exist, no route can be made.
         if len(fac_coordinates[i]) == 0:
+            log.debug(f"Could not find any valid {'start' if i == 0 else 'end'} square")
             return None
 
     fac_finder = A_star(site,fac_coordinates[0],fac_coordinates[1], illegal_coordinates_dicts[0], illegal_coordinates_dicts[1])
