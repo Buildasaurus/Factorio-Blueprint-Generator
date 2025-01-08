@@ -150,7 +150,8 @@ def extract_flow_from_blueprint(bp_dict):
         'beacon', 
         # Robot infrastructure
         'roboport', 
-        'passive-provider-chest', 
+        'passive-provider-chest',
+        'requester-chest',
         # Circuit network
         'decider-combinator', 
     ])
