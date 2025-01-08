@@ -176,6 +176,13 @@ def center_position(entity_name, direc: Direction, top_left_pos):
     size = entity_size(entity_name, direc)
     return [top_left_pos[i] + size[i]/2 for i in range(2)]
 
+def top_left_pos(kind, direction, center_pos):
+    '''ConstructionSite position is at the top left of the entity'''
+    size = entity_size(kind, direction)
+    return [center_pos['x'] - size[0]/2,
+            center_pos['y'] - size[1]/2]
+
+
 def iter_area(size):
     '''Iterate over all possible offsets for a given entity size,
     relative to the upper left corner.
@@ -289,6 +296,40 @@ def import_blueprint_dict(exchangeString) -> dict:
     jsonString = decompressedData.decode("utf-8")
     bp_dict = json.loads(jsonString)
     return bp_dict
+
+def place_blueprint_on_site(site: ConstructionSite, bp_dict, offset=(0,0)):
+    '''Add objects from blueprint dict to construction site at the specified offset
+
+    :param site:  The ConstructionSite where the blueprint will be placed
+    :param bp_dict:  The blueprint that will be placed on the site
+    :param offset:  An (x,y) tuple that will be added to all blueprint
+        coordinates to find the site coordinate.
+    '''
+    x, y = offset
+    if not (
+        (isinstance(x, int) or x.is_integer())
+        and (isinstance(y, int) or y.is_integer())
+    ):
+        raise ValueError(f'Offset must be integer only. Was {offset}')
+
+    blueprint = bp_dict['blueprint']
+    for entity in blueprint['entities']:
+        kwarg = {
+            'kind': entity['name'],
+            'pos': top_left_pos(
+                entity['name'],
+                entity.get('direction', 0),
+                entity['position']
+            ),
+            'direction': 0, # Default - may be overwritten
+            **entity
+        }
+        del kwarg['entity_number']
+        del kwarg['name']
+        del kwarg['position']
+        print(f'Add entity {kwarg}')
+        site.add_entity(**kwarg)
+
 #
 #  Helper functions
 #
