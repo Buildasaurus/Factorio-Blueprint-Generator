@@ -13,3 +13,6 @@ starlette
 
 # OpenAPI middleware
 connexion[uvicorn,swagger-ui]
+
+# Command line interface
+click
