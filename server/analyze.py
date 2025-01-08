@@ -10,6 +10,84 @@ import flow
 
 
 
+# Categorize entity types
+# TODO: This should be removed once all types are supported
+SUPPORTED_ENTITY_TYPES = set(['transport-belt'])
+IGNORED_ENTITY_TYPES = set([
+    'se-electric-boiler', 'inserter', 'medium-electric-pole','aai-strongbox',
+    'electric-mining-drill',
+    # Ignored
+    'gate', 
+    'stone-wall', 
+    'gun-turret', 
+    'display-panel', 
+
+    # Item transport
+    'assembling-machine-1', 
+    'assembling-machine-2', 
+    'steel-furnace', 
+    'electric-furnace', 
+
+    'wooden-chest', 
+    'storage-chest', 
+    'iron-chest', 
+    'steel-chest', 
+
+    'burner-inserter', 
+    'bulk-inserter', 
+    'fast-inserter', 
+    'stack-inserter', 
+    'long-handed-inserter', 
+
+    'fast-transport-belt', 
+
+    'fast-underground-belt', 
+    'underground-belt', 
+
+    'splitter', 
+    'fast-splitter',
+
+    # Science
+    'lab', 
+    # Fluid (Water) infrastructure
+    'pipe', 
+    'pipe-to-ground', 
+    'offshore-pump', 
+    'pump', 
+    'boiler',
+    # Oil infrastructure
+    'storage-tank', 
+    'pumpjack', 
+    'oil-refinery', 
+    'chemical-plant',
+    # Rail infrastructure
+    'straight-rail', 
+    'curved-rail-a', 
+    'curved-rail-b', 
+    'half-diagonal-rail', 
+    'train-stop', 
+    'rail-signal',
+    'rail-chain-signal', 
+    # Electricity flow
+    'steam-engine', 
+    'small-electric-pole', 
+    'power-switch',
+    'solar-panel',
+    'substation', 
+    'accumulator', 
+    # Modules
+    'beacon', 
+    # Robot infrastructure
+    'roboport', 
+    'passive-provider-chest',
+    'requester-chest',
+    # Circuit network
+    'decider-combinator', 
+])
+
+
+
+
 def vec_from_xydict(xydict):
     '''Convert a blueprint position to a Vector'''
     return Vector(xydict['x'], xydict['y'])
@@ -83,78 +161,6 @@ def extract_flow_from_blueprint(bp_dict):
     entity_list = bp_dict['blueprint']['entities']
 
     # Validate entity types
-    SUPPORTED_ENTITY_TYPES = set(['transport-belt'])
-    IGNORED_ENTITY_TYPES = set([
-        'se-electric-boiler', 'inserter', 'medium-electric-pole','aai-strongbox',
-        'electric-mining-drill',
-        # Ignored
-        'gate', 
-        'stone-wall', 
-        'gun-turret', 
-        'display-panel', 
-
-        # Item transport
-        'assembling-machine-1', 
-        'assembling-machine-2', 
-        'steel-furnace', 
-        'electric-furnace', 
-
-        'wooden-chest', 
-        'storage-chest', 
-        'iron-chest', 
-        'steel-chest', 
-
-        'burner-inserter', 
-        'bulk-inserter', 
-        'fast-inserter', 
-        'stack-inserter', 
-        'long-handed-inserter', 
-
-        'fast-transport-belt', 
-
-        'fast-underground-belt', 
-        'underground-belt', 
-
-        'splitter', 
-        'fast-splitter',
-
-        # Science
-        'lab', 
-        # Fluid (Water) infrastructure
-        'pipe', 
-        'pipe-to-ground', 
-        'offshore-pump', 
-        'pump', 
-        'boiler',
-        # Oil infrastructure
-        'storage-tank', 
-        'pumpjack', 
-        'oil-refinery', 
-        'chemical-plant',
-        # Rail infrastructure
-        'straight-rail', 
-        'curved-rail-a', 
-        'curved-rail-b', 
-        'half-diagonal-rail', 
-        'train-stop', 
-        'rail-signal',
-        'rail-chain-signal', 
-        # Electricity flow
-        'steam-engine', 
-        'small-electric-pole', 
-        'power-switch',
-        'solar-panel',
-        'substation', 
-        'accumulator', 
-        # Modules
-        'beacon', 
-        # Robot infrastructure
-        'roboport', 
-        'passive-provider-chest',
-        'requester-chest',
-        # Circuit network
-        'decider-combinator', 
-    ])
     ALLOWED_ENTITY_TYPES = SUPPORTED_ENTITY_TYPES | IGNORED_ENTITY_TYPES
     found_entity_types = set([entity['name'] for entity in entity_list])
     invalid_entity_types = found_entity_types - ALLOWED_ENTITY_TYPES
