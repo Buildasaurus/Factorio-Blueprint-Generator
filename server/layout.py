@@ -49,7 +49,9 @@ class ConstructionSite:
             result.append('\n')
         return ''.join(result)
 
-    def add_entity(self, kind, pos, direction, recipe=None, type=None):
+    def add_entity(self, kind, pos, direction, recipe=None, type=None, recipe_quality=None, items=None, bar=None, control_behavior=None,
+            request_filters=None
+        ):
         '''Add an entity to the construction site
 
         :param kind:  Entity type name
@@ -57,7 +59,12 @@ class ConstructionSite:
             Note: This is different from how Factorio blueprints works
         :param direction:  Entity direction
         :param recipe:  What recipe should the machine produce
+        :param recipe_quality:  What quality should the machine produce
+        :param items:  Modules installed in machine
         :param type:  Must be set to "input" or "output" for underground belts.
+        :param bar:  ?? found on passive-provider-chest
+        :param control_behavior:  ?? found on logistic_condition
+        :param request_filters: ??
         '''
         x, y = pos
         if not (
@@ -90,8 +97,18 @@ class ConstructionSite:
         entity = dict(kind=kind, pos=pos[:], direction=direction)
         if recipe:
             entity['recipe'] = recipe
+        if recipe_quality:
+            entity['recipe_quality'] = recipe_quality
+        if items:
+            entity['items'] = items
         if type:
             entity['type'] = type
+        if bar:
+            entity['bar'] = bar
+        if control_behavior:
+            entity['control_behavior'] = control_behavior
+        if request_filters:
+            entity['request_filters'] = request_filters
         self.entities.append(entity)
 
     def get_entity_list(self):
