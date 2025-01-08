@@ -13,7 +13,7 @@ class ConstructionSite:
     '''Representation of the area to layout a factory'''
 
     def __init__(self, x_size, y_size):
-        # self.reserved is a sparce array, containing only those cells that
+        # self.reserved is a sparse array, containing only those cells that
         # have been reserved. This means it will work for very large
         # dimensions as long as they are not fully utilized.
         self.reserved = {}
