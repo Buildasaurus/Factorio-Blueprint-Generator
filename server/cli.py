@@ -18,7 +18,7 @@ def load_blueprint(filename):
     if list(bp_dict.keys()) != ['blueprint']:
         raise ValueError(f'Expected a blueprint, but root JSON keys are: {list(bp_dict.keys())}')
     blueprint = bp_dict['blueprint']
-    OPTIONAL_BLUEPRINT_KEYS = set(['item', 'label', 'description', 'entities', 'tiles', 'icons', 'schedules', 'version', 'wires'])
+    OPTIONAL_BLUEPRINT_KEYS = set(['item', 'label', 'description', 'entities', 'tiles', 'icons', 'schedules', 'stock_connections', 'version', 'wires'])
     MANDATORY_BLUEPRINT_KEYS = set(['item','entities', 'icons', 'version'])
     found_blueprint_keys = set(blueprint.keys())
     missing_keys = MANDATORY_BLUEPRINT_KEYS - found_blueprint_keys
