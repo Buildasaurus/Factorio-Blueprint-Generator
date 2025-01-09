@@ -92,14 +92,15 @@ IGNORED_ENTITY_TYPES = set([
 
 
 def vec_from_xydict(xydict):
-    '''Convert a blueprint position to a Vector'''
+    # Convert a blueprint position to a Vector
     return Vector(xydict['x'], xydict['y'])
 
 def vec_from_dir(dir):
     return Vector(1, 0)
 
-def extract_flow_from_site(site):
+def extract_flow_from_site(site) -> flow.Graph:
     '''Extract flow graph from construction site
+
     :param site: A construction site with machines and belts
 
     :return:  A flow.Graph with constraints set from entity prototype values. You can use this as input to flow.
@@ -150,8 +151,9 @@ def extract_flow_from_site(site):
     raise NotImplementedError()
     return G
 
-def extract_flow_from_blueprint(bp_dict):
+def extract_flow_from_blueprint(bp_dict) -> flow.Graph:
     '''Extract flow graph from blueprint
+
     :param bp_dict: A blueprint dict as exported from
     :return:  A flow.Graph with constraints set from entity prototype values. You can use this as input to flow.
     '''
