@@ -116,6 +116,15 @@ class ConstructionSite:
 
         center_pos = {i: center_position(e['kind'], e['direction'], e['pos'])
                       for i, e in enumerate(self.entities)}
+        EXPORT_KEYS = set([
+            'recipe',
+            'recipe_quality',
+            'items',
+            'type',
+            'bar',
+            'control_behavior',
+            'request_filters',
+        ])
         result = []
         for i, e in enumerate(self.entities):
             result.append(dict(
@@ -124,10 +133,8 @@ class ConstructionSite:
                 direction=e['direction'],
                 entity_number=i+1
             ))
-            if 'recipe' in e:
-                result[-1]['recipe'] = e['recipe']
-            if 'type' in e:
-                result[-1]['type'] = e['type']
+            for key in EXPORT_KEYS.intersection(e.keys()):
+                result[-1][key] = e[key]
         return result
 
 ENTITY_SIZE = {
