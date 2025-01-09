@@ -32,9 +32,61 @@ def load_blueprint(filename):
 
     return bp_dict
 
+def show_blueprint_stats(bp_dict):
+    blueprint = bp_dict['blueprint']
+    entities = blueprint['entities']
+
+    # Title
+    title = blueprint['label']
+    click.echo(f'Title: {title}')
+
+    # Version
+    version_string = layout.factorio_version_int_as_string(blueprint['version'])
+    click.echo(f'Factorio version: {version_string}')
+
+    # Dimensions
+    x_pos = [e['position']['x'] for e in entities]
+    x0 = min(x_pos)
+    x9 = max(x_pos)
+    y_pos = [e['position']['y'] for e in entities]
+    y0 = min(y_pos)
+    y9 = max(y_pos)
+    click.echo(f'Dimensions: ({x0}..{x9}, {y0}..{y9}) = {x9-x0} x {y9-y0}')
+
+    # Description
+    if 'description' not in blueprint:
+        click.echo('Description: missing')
+    else:
+        click.echo('Description:')
+        for line in blueprint['description'].split('\n'):
+            click.echo(f'  {line}')
+
+    # Entities
+    import collections
+    c = collections.Counter([
+        e['name'] for e in entities
+    ])
+    click.echo('Entities:')
+    for kind, count in c.most_common():
+        click.echo(f'  {c[kind]} {kind}')
+    click.echo(f'Total {c.total()}')
+
 @click.group
 def gerd():
     '''Command Line Interface access to some features of Gerd'''
+
+@gerd.command
+@click.argument('bp_file', type=click.types.Path(exists=True))
+def stats(bp_file):
+    '''Show some blueprint statistics
+
+    - Title, description
+    - Dimensions, snap grid
+    - Count entities per type
+    '''
+    click.echo(f'Loading blueprint from "{bp_file}"')
+    bp_dict = load_blueprint(bp_file)
+    show_blueprint_stats(bp_dict)
 
 @gerd.command
 @click.argument('bp_file', type=click.types.Path(exists=True))

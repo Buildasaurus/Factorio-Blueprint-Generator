@@ -219,6 +219,12 @@ def factorio_version_string_as_int():
             | factorio_patch_version << 16
             | factorio_dev_version)
 
+def factorio_version_int_as_string(version):
+    '''return string, corresponding to a a 64 bit integer version integer from a blueprint'''
+    version_hex = f'{version:016x}'
+    version_parts = [int(version_hex[4*a:4*a+4], base=16) for a in range(4)]
+    return '.'.join([str(p) for p in version_parts])
+
 def empty_blueprint_dict():
     '''Return a dict that has all the mandatory objects in a blueprint'''
     # As defined at https://wiki.factorio.com/Blueprint_string_format
