@@ -32,7 +32,7 @@ def load_blueprint(filename):
 
     return bp_dict
 
-def show_blueprint_stats(bp_dict):
+def show_blueprint_stats(bp_dict, show_entity_details):
     blueprint = bp_dict['blueprint']
     entities = blueprint['entities']
 
@@ -62,14 +62,17 @@ def show_blueprint_stats(bp_dict):
             click.echo(f'  {line}')
 
     # Entities
-    import collections
-    c = collections.Counter([
-        e['name'] for e in entities
-    ])
-    click.echo('Entities:')
-    for kind, count in c.most_common():
-        click.echo(f'  {c[kind]} {kind}')
-    click.echo(f'Total {c.total()}')
+    if not show_entity_details:
+        click.echo(f'Entities: {len(entities)}')
+    else:
+        import collections
+        c = collections.Counter([
+            e['name'] for e in entities
+        ])
+        click.echo('Entities:')
+        for kind, count in c.most_common():
+            click.echo(f'  {c[kind]} {kind}')
+        click.echo(f'Total {c.total()}')
 
 @click.group
 def gerd():
@@ -77,16 +80,12 @@ def gerd():
 
 @gerd.command
 @click.argument('bp_file', type=click.types.Path(exists=True))
-def stats(bp_file):
-    '''Show some blueprint statistics
-
-    - Title, description
-    - Dimensions, snap grid
-    - Count entities per type
-    '''
+@click.option('-v', '--entity-details/--no-entity-details', default=False, help='Show entity count per type')
+def stats(bp_file, entity_details):
+    '''Show some blueprint statistics'''
     click.echo(f'Loading blueprint from "{bp_file}"')
     bp_dict = load_blueprint(bp_file)
-    show_blueprint_stats(bp_dict)
+    show_blueprint_stats(bp_dict, entity_details)
 
 @gerd.command
 @click.argument('bp_file', type=click.types.Path(exists=True))
