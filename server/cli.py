@@ -7,6 +7,7 @@ import click
 
 import analyze
 import layout
+import flow
 
 # Set up logging
 logging.basicConfig(filename='cli.log', level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -103,6 +104,9 @@ def maxflow(bp_file):
 
     # Convert blueprint to flow graph
     G = analyze.extract_flow_from_blueprint(bp_dict)
+
+    # Reduce flow to reflect max flow
+    flow.compute_max_flow(G)
 
 if __name__ == '__main__':
     gerd()
