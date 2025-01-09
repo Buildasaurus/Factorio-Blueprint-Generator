@@ -2,12 +2,16 @@
 Functions related to placing machines on a grid.
 '''
 
+import logging
+
 from constants import Direction
 
 MACHINES_WITH_RECIPE = {
     'assembling-machine-1',
     'assembling-machine-2',
 }
+
+log = logging.getLogger(__name__)
 
 class ConstructionSite:
     '''Representation of the area to layout a factory'''
@@ -340,7 +344,7 @@ def place_blueprint_on_site(site: ConstructionSite, bp_dict, offset=(0,0)):
         del kwarg['entity_number']
         del kwarg['name']
         del kwarg['position']
-        print(f'Add entity {kwarg}')
+        log.debug(f'Add entity {kwarg}')
         site.add_entity(**kwarg)
 
 #

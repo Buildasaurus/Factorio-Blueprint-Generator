@@ -1,10 +1,16 @@
 '''This is a command line interface to the main functions found in the server.
 It can be used for testing, or simply for scripting access to GERD featuers'''
 
+import logging
+
 import click
 
 import analyze
 import layout
+
+# Set up logging
+logging.basicConfig(filename='cli.log', level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
+log = logging.getLogger()
 
 def load_blueprint(filename):
     '''Load and validate a string-encoded blueprint from a file.'''
