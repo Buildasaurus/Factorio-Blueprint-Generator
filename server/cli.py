@@ -10,7 +10,10 @@ import layout
 import flow
 
 # Set up logging
-logging.basicConfig(filename='cli.log', level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(
+    filename='cli.log', filemode='w',
+    level=logging.DEBUG,
+    format='%(asctime)s - %(levelname)s - %(message)s')
 log = logging.getLogger()
 
 def load_blueprint(filename):
