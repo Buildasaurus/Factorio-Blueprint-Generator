@@ -136,8 +136,20 @@ def extract_flow_from_site(site) -> flow.Graph:
             entity_kind_list[kind] = ekl
         ekl.append(enr)
 
+    BELT_NORMAL = {
+        'transport-belt',
+        'fast-transport-belt',
+        'express-transport-belt',
+    }
+
+    def all_entities_of_kind(kind_set):
+        return [entity_id
+            for kind in kind_set
+            for entity_id in entity_kind_list.get(kind, [])
+        ]
+
     # Link transport belts
-    for belt in entity_kind_list.get('transport-belt', []):
+    for belt in all_entities_of_kind(BELT_NORMAL):
         flow_dir = vec_from_dir(entity_dir[belt])
         next_pos = entity_center[belt] + flow_dir
         next_belt = center_entity.get(next_pos)
