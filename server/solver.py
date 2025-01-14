@@ -490,7 +490,6 @@ def connect_machines(
         else 'fast-underground-belt' if belt == 'fast-transport-belt'
         else 'express-underground-belt' if belt == 'express-transport-belt'
         else '<undefined-underground-belt>')
-    #underground_belt = 'express-underground-belt'
     from constants import max_underground_length
     def pos_distance(i,j):
         return ( abs(pos_list[j][0] - pos_list[i][0])
