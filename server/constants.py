@@ -9,10 +9,11 @@ from enum import IntEnum
 
 class Direction(IntEnum):
     """
-    Factorio direction enum. Encompasses all 8 cardinal directions and diagonals
+    Factorio direction enum. Encompasses all 16 cardinal directions and diagonals
     where north is 0 and increments clockwise.
 
     * ``NORTH`` (Default)
+    * ``NORTHNORTHEAST``
     * ``NORTHEAST``
     * ``EAST``
     * ``SOUTHEAST``
@@ -22,14 +23,23 @@ class Direction(IntEnum):
     * ``NORTHWEST``
     """
 
+    # Factorio 2.0 has 16 directions, before 2.0 there were 8
     NORTH = 0
-    NORTHEAST = 1
-    EAST = 2
-    SOUTHEAST = 3
-    SOUTH = 4
-    SOUTHWEST = 5
-    WEST = 6
-    NORTHWEST = 7
+    NORTHNORTHEAST = 1
+    NORTHEAST = 2
+    EASTNORTHEAST = 3
+    EAST = 4
+    EASTSOUTHEAST = 5
+    SOUTHEAST = 6
+    SOUTHSOUTHEAST = 7
+    SOUTH = 8
+    SOUTHSOUTHWEST = 9
+    SOUTHWEST = 10
+    WESTSOUTHWEST = 11
+    WEST = 12
+    WESTNORTHWEST = 13
+    NORTHWEST = 14
+    NORTHNORTHWEST = 15
 
 
 max_underground_length = {

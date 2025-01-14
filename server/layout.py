@@ -174,7 +174,7 @@ def entity_size(entity_name, direc: Direction = 0):
     size = factoriocalc_entity_size(entity_name)
     size = ENTITY_SIZE.get(entity_name) if size is None else size
     assert size is not None, f'Unknown entity {entity_name}'
-    if direc in [2, 6]:
+    if direc in [Direction.EAST, Direction.WEST]:
         # Switch x and y size
         y, x = size
         size = [x,y]
@@ -219,16 +219,19 @@ def iter_entity_area(entity_name, direc: Direction):
         raise NotImplementedError(f'Unknown size of entity {entity_name}')
     return iter_area(size)
 
-def factorio_version_string_as_int():
-    '''return a 64 bit integer, corresponding to a version string'''
-    factorio_major_version = 0
-    factorio_minor_version = 17
-    factorio_patch_version = 13
-    factorio_dev_version = 0xffef
-    return (factorio_major_version << 48
-            | factorio_minor_version << 32
-            | factorio_patch_version << 16
-            | factorio_dev_version)
+def factorio_version_string_as_int(version_string='0.17.13.65519'):
+    # 65519 = 0xffef = -17 in two's complement 16 bit
+    '''return a 64 bit integer, corresponding to a version string.'''
+    version_parts = [int(part) for part in version_string.split('.')]
+    if len(version_parts) > 4:
+        raise ValueError('Up to 4 parts accepted in version string')
+    version_int = 0
+    for part in version_parts:
+        if part < 0 or part > 0xffff:
+            raise ValueError('Each version string part must fit in 16 bit')
+        version_int = version_int << 16 | part
+    version_int <<= 16 * (4 - len(version_parts))
+    return version_int
 
 def factorio_version_int_as_string(version):
     '''return string, corresponding to a a 64 bit integer version integer from a blueprint'''
@@ -293,9 +296,10 @@ def export_blueprint_dict(bp_dict):
 
     return encodedString
 
-def import_blueprint_dict(exchangeString) -> dict:
+def import_blueprint_dict(exchangeString, auto_upgrade=True) -> dict:
     '''Decodes a blueprint exchange string
     :param exchangeString:  A blueprint exchange string
+    :param auto_upgrade:  Determine if blueprints before factorio 2.0 should be upgraded
     :return:  a dict representing the blueprint
         https://wiki.factorio.com/Blueprint_string_format
     '''
@@ -312,7 +316,22 @@ def import_blueprint_dict(exchangeString) -> dict:
     decompressedData = zlib.decompress(decodedString)
     jsonString = decompressedData.decode("utf-8")
     bp_dict = json.loads(jsonString)
+    if auto_upgrade:
+        upgrade_blueprint_version(bp_dict)
     return bp_dict
+
+def upgrade_blueprint_version(bp_dict) -> dict:
+    '''Upgrade blueprint version to the one supported.
+    A blueprint < 2.0 has only 8 directions, where as >= 2.0 have 16 directions'''
+    orig_version = bp_dict['blueprint']['version']
+    target_version = factorio_version_string_as_int('2.0.0.65535')
+    if orig_version < factorio_version_string_as_int('2.0'):
+        log.warning(f'Upgrading blueprint from version 0x{orig_version:016x} to 0x{target_version:016x}')
+        # 1.x has 8 directions, 2.x has 16 directions
+        for entity in bp_dict['blueprint']['entities']:
+            if 'direction' in entity:
+                entity['direction'] *= 2
+        bp_dict['blueprint']['version'] = target_version
 
 def place_blueprint_on_site(site: ConstructionSite, bp_dict, offset=(0,0)):
     '''Add objects from blueprint dict to construction site at the specified offset
