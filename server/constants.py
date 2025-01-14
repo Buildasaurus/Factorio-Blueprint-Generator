@@ -30,3 +30,10 @@ class Direction(IntEnum):
     SOUTHWEST = 5
     WEST = 6
     NORTHWEST = 7
+
+
+max_underground_length = {
+    'underground-belt': 4,
+    'fast-underground-belt': 6,
+    'express-underground-belt': 8,
+}
