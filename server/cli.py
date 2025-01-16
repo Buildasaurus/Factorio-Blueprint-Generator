@@ -90,6 +90,15 @@ def gerd():
 
 @gerd.command
 @click.argument('bp_file', type=click.types.Path(exists=True))
+def decode(bp_file):
+    '''Decode blueprint string as JSON'''
+    click.echo(f'Loading blueprint from "{bp_file}"')
+    bp_dict = load_blueprint(bp_file)
+    import json
+    print(json.dumps(bp_dict))
+
+@gerd.command
+@click.argument('bp_file', type=click.types.Path(exists=True))
 @click.option('-v', '--entity-details/--no-entity-details', default=False, help='Show entity count per type')
 def stats(bp_file, entity_details):
     '''Show some blueprint statistics'''
