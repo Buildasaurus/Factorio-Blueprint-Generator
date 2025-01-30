@@ -5,10 +5,13 @@ This module has a number of functions to analyse a blueprint
     - [TODO] expand flow graph for desired production
 '''
 
+import logging
+
 from vector import Vector
 import flow
 
 
+log = logging.getLogger(__name__)
 
 # Categorize entity types
 # TODO: This should be removed once all types are supported
@@ -89,14 +92,15 @@ IGNORED_ENTITY_TYPES = set([
 
 
 def vec_from_xydict(xydict):
-    '''Convert a blueprint position to a Vector'''
+    # Convert a blueprint position to a Vector
     return Vector(xydict['x'], xydict['y'])
 
 def vec_from_dir(dir):
     return Vector(1, 0)
 
-def extract_flow_from_site(site):
+def extract_flow_from_site(site) -> flow.Graph:
     '''Extract flow graph from construction site
+
     :param site: A construction site with machines and belts
 
     :return:  A flow.Graph with constraints set from entity prototype values. You can use this as input to flow.
@@ -119,9 +123,9 @@ def extract_flow_from_site(site):
         except KeyError as ex:
             raise ValueError(f'Entity is incomplete: {entity}') from ex
         except:
-            print(entity)
+            log.debug(entity)
             raise
-    print(G)
+    log.debug(G)
 
     # Group entities by type
     entity_kind_list = {}
@@ -132,30 +136,43 @@ def extract_flow_from_site(site):
             entity_kind_list[kind] = ekl
         ekl.append(enr)
 
+    BELT_NORMAL = {
+        'transport-belt',
+        'fast-transport-belt',
+        'express-transport-belt',
+    }
+
+    def all_entities_of_kind(kind_set):
+        return [entity_id
+            for kind in kind_set
+            for entity_id in entity_kind_list.get(kind, [])
+        ]
+
     # Link transport belts
-    for belt in entity_kind_list.get('transport-belt', []):
+    for belt in all_entities_of_kind(BELT_NORMAL):
         flow_dir = vec_from_dir(entity_dir[belt])
         next_pos = entity_center[belt] + flow_dir
         next_belt = center_entity.get(next_pos)
-        print(f'belt {belt} at {entity_center[belt]} reach for {next_pos}, found belt {next_belt}')
+        log.debug(f'belt {belt} at {entity_center[belt]} reach for {next_pos}, found belt {next_belt}')
         if next_belt:
             G.add_edge(belt, next_belt)
 
-    print('---- after belt linked up ----')
-    print(G)
+    log.debug('---- after belt linked up ----')
+    log.debug(G)
 
     raise NotImplementedError()
     return G
 
-def extract_flow_from_blueprint(bp_dict):
+def extract_flow_from_blueprint(bp_dict) -> flow.Graph:
     '''Extract flow graph from blueprint
+
     :param bp_dict: A blueprint dict as exported from
     :return:  A flow.Graph with constraints set from entity prototype values. You can use this as input to flow.
     '''
     assert isinstance(bp_dict, dict)
     if not 'blueprint' in bp_dict:
         raise ValueError('Dict does not contain a blueprint')
-    print(f'Blueprint content: {bp_dict["blueprint"].keys()}')
+    log.debug(f'Blueprint content: {bp_dict["blueprint"].keys()}')
     if not 'entities' in bp_dict['blueprint']:
         raise ValueError('Not a valid blueprint dict. No entities found')
     entity_list = bp_dict['blueprint']['entities']

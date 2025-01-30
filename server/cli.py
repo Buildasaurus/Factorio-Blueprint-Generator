@@ -1,10 +1,20 @@
 '''This is a command line interface to the main functions found in the server.
 It can be used for testing, or simply for scripting access to GERD featuers'''
 
+import logging
+
 import click
 
 import analyze
 import layout
+import flow
+
+# Set up logging
+logging.basicConfig(
+    filename='cli.log', filemode='w',
+    level=logging.DEBUG,
+    format='%(asctime)s - %(levelname)s - %(message)s')
+log = logging.getLogger()
 
 def load_blueprint(filename):
     '''Load and validate a string-encoded blueprint from a file.'''
@@ -80,6 +90,15 @@ def gerd():
 
 @gerd.command
 @click.argument('bp_file', type=click.types.Path(exists=True))
+def decode(bp_file):
+    '''Decode blueprint string as JSON'''
+    click.echo(f'Loading blueprint from "{bp_file}"')
+    bp_dict = load_blueprint(bp_file)
+    import json
+    print(json.dumps(bp_dict))
+
+@gerd.command
+@click.argument('bp_file', type=click.types.Path(exists=True))
 @click.option('-v', '--entity-details/--no-entity-details', default=False, help='Show entity count per type')
 def stats(bp_file, entity_details):
     '''Show some blueprint statistics'''
@@ -97,6 +116,9 @@ def maxflow(bp_file):
 
     # Convert blueprint to flow graph
     G = analyze.extract_flow_from_blueprint(bp_dict)
+
+    # Reduce flow to reflect max flow
+    flow.compute_max_flow(G)
 
 if __name__ == '__main__':
     gerd()
